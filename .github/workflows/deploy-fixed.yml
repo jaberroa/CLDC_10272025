@@ -69,6 +69,9 @@ jobs:
         # Copiar aplicación
         COPY . .
         
+        # Copiar configuración de PHP
+        COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+        
         # Configurar permisos
         RUN chown -R www-data:www-data storage bootstrap/cache \
             && chmod -R 775 storage bootstrap/cache
@@ -105,16 +108,13 @@ jobs:
         CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
         EOF
         
-        # Crear configuración de Elastic Beanstalk
-        cat > deploy-package/.ebextensions/01-php.config << 'EOF'
-        option_settings:
-          aws:elasticbeanstalk:container:php:phpini:
-            document_root: /var/www/html/public
-            memory_limit: 512M
-            max_execution_time: 300
-            upload_max_filesize: 40M
-            post_max_size: 40M
-            max_input_vars: 3000
+        # Crear configuración de PHP para Docker (no usar option_settings)
+        cat > deploy-package/php.ini << 'EOF'
+        memory_limit = 512M
+        max_execution_time = 300
+        upload_max_filesize = 40M
+        post_max_size = 40M
+        max_input_vars = 3000
         EOF
         
         # Configuración de logs
