@@ -143,19 +143,25 @@ jobs:
             RetentionInDays: 7
         EOF
         
-        # Configuración de migraciones
+        # Configuración de migraciones con mejor manejo de errores
         cat > deploy-package/.ebextensions/03-migrations.config << 'EOF'
         container_commands:
-          01_migrate:
-            command: "php artisan migrate --force"
+          01_check_env:
+            command: "echo 'Checking environment variables...' && env | grep -E '^(APP_|DB_)'"
             leader_only: true
-          02_cache_clear:
-            command: "php artisan config:clear && php artisan cache:clear"
+          02_config_cache:
+            command: "php artisan config:cache"
             leader_only: true
-          03_storage_link:
-            command: "php artisan storage:link"
+          03_migrate:
+            command: "php artisan migrate --force --verbose"
             leader_only: true
-          04_optimize:
+          04_cache_clear:
+            command: "php artisan cache:clear && php artisan view:clear"
+            leader_only: true
+          05_storage_link:
+            command: "php artisan storage:link || echo 'Storage link failed or already exists'"
+            leader_only: true
+          06_optimize:
             command: "php artisan optimize"
             leader_only: true
         EOF
