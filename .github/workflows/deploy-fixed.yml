@@ -1,4 +1,4 @@
-name: Deploy to AWS Elastic Beanstalk
+name: Deploy Laravel to AWS Elastic Beanstalk
 
 on:
   push:
@@ -33,18 +33,20 @@ jobs:
       
     - name: Create deployment package
       run: |
+        echo "🚀 Creando paquete de despliegue..."
+        
         # Crear directorio de despliegue
         mkdir -p deploy-package
         
         # Copiar archivos necesarios para Laravel
+        echo "📦 Copiando archivos de Laravel..."
         cp -r app bootstrap config database public resources routes storage vendor composer.json composer.lock artisan deploy-package/
         
-        # Las variables de entorno se manejan directamente en Elastic Beanstalk
-        # No se copia ningún archivo .env al paquete de despliegue
+        # NO copiar archivos .env - las variables se manejan en Elastic Beanstalk
         
         # Crear archivos de configuración de Elastic Beanstalk
+        echo "⚙️ Creando configuración de Elastic Beanstalk..."
         mkdir -p deploy-package/.ebextensions
-        mkdir -p deploy-package/.platform
         
         # Crear Dockerfile para Elastic Beanstalk
         cat > deploy-package/Dockerfile << 'EOF'
@@ -64,7 +66,7 @@ jobs:
         # Configurar directorio de trabajo
         WORKDIR /var/www/html
         
-        # Copiar aplicación (las dependencias ya están instaladas)
+        # Copiar aplicación
         COPY . .
         
         # Configurar permisos
@@ -152,25 +154,7 @@ jobs:
             leader_only: true
         EOF
         
-        # Crear archivo de configuración de Elastic Beanstalk
-        cat > deploy-package/.elasticbeanstalk/config.yml << 'EOF'
-        branch-defaults:
-          main:
-            environment: cldci-staging-env
-        global:
-          application_name: cldci-staging
-          default_platform: Docker running on 64bit Amazon Linux 2023
-          default_region: us-east-1
-          include_git_submodules: true
-          instance_profile: null
-          platform_name: null
-          platform_version: null
-          profile: eb-cli
-          sc: git
-          workspace_type: Application
-        EOF
-        
-        # Crear Dockerrun.aws.json para Docker en Elastic Beanstalk
+        # Crear Dockerrun.aws.json
         cat > deploy-package/Dockerrun.aws.json << 'EOF'
         {
           "AWSEBDockerrunVersion": "1",
@@ -194,7 +178,10 @@ jobs:
         EOF
         
         # Comprimir el paquete
+        echo "📦 Comprimiendo paquete de despliegue..."
         cd deploy-package && zip -r ../deployment-package.zip . && cd ..
+        
+        echo "✅ Paquete de despliegue creado exitosamente!"
         
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v20
