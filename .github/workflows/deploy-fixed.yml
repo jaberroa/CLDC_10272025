@@ -191,7 +191,7 @@ jobs:
         application_name: cldci-staging
         environment_name: cldci-staging-env
         region: us-east-1
-        version_label: ${{ github.sha }}
+        version_label: ${{ github.sha }}-${{ github.run_number }}
         deployment_package: deployment-package.zip
         wait_for_environment_recovery: 300
         
