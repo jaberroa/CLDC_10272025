@@ -39,8 +39,8 @@ jobs:
         # Copiar archivos necesarios para Laravel
         cp -r app bootstrap config database public resources routes storage vendor composer.json composer.lock artisan deploy-package/
         
-        # Copiar archivos de configuración específicos para staging
-        cp .env.staging deploy-package/.env
+        # Las variables de entorno se manejan directamente en Elastic Beanstalk
+        # No se copia ningún archivo .env al paquete de despliegue
         
         # Crear archivos de configuración de Elastic Beanstalk
         mkdir -p deploy-package/.ebextensions
@@ -61,13 +61,10 @@ jobs:
         RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
             && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
         
-        # Instalar Composer
-        COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-        
         # Configurar directorio de trabajo
         WORKDIR /var/www/html
         
-        # Copiar aplicación
+        # Copiar aplicación (las dependencias ya están instaladas)
         COPY . .
         
         # Configurar permisos
@@ -173,7 +170,7 @@ jobs:
           workspace_type: Application
         EOF
         
-        # Crear Dockerrun.aws.json
+        # Crear Dockerrun.aws.json para Docker en Elastic Beanstalk
         cat > deploy-package/Dockerrun.aws.json << 'EOF'
         {
           "AWSEBDockerrunVersion": "1",
@@ -191,7 +188,8 @@ jobs:
               "HostDirectory": "/var/app/current/storage",
               "ContainerDirectory": "/var/www/html/storage"
             }
-          ]
+          ],
+          "Logging": "/var/log/nginx"
         }
         EOF
         
