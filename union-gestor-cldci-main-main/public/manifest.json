@@ -1,0 +1,62 @@
+{
+  "name": "CLDCI - Sistema de Gestión Federativa",
+  "short_name": "CLDCI",
+  "description": "Plataforma del Círculo de Locutores Dominicanos Colegiado para gestión de miembros, seccionales, asambleas y elecciones.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f8fa",
+  "theme_color": "#4A90E2",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/lovable-uploads/b866c3ad-ac0d-4ecd-94bf-f90d153c49d5.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/lovable-uploads/b866c3ad-ac0d-4ecd-94bf-f90d153c49d5.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "/lovable-uploads/b866c3ad-ac0d-4ecd-94bf-f90d153c49d5.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Ver el panel principal",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "/lovable-uploads/b866c3ad-ac0d-4ecd-94bf-f90d153c49d5.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Miembros",
+      "short_name": "Miembros",
+      "description": "Gestionar miembros",
+      "url": "/miembros",
+      "icons": [
+        {
+          "src": "/lovable-uploads/b866c3ad-ac0d-4ecd-94bf-f90d153c49d5.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
+}

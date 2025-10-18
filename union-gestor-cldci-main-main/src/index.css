@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* CLDC Official Color Palette 2025 */
+    /* Azul Institucional #003049 */
+    --primary: 207 100% 15%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Azul Claro Digital #669BBC */
+    --primary-light: 202 38% 56%;
+    
+    /* Dorado Suave #F6AA1C - Prestigio y acento */
+    --accent: 38 91% 54%;
+    --accent-foreground: 0 0% 11%;
+    
+    /* Rojo Nacional #CE1126 - Acento patrio */
+    --danger: 351 84% 43%;
+    --danger-foreground: 0 0% 100%;
+    
+    /* Blanco #FFFFFF */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 11%;
+    
+    /* Gris Neutro #F0F4F8 - Tarjetas y paneles */
+    --card: 210 33% 96%;
+    --card-foreground: 0 0% 11%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 11%;
+    
+    /* Negro Humo #1C1C1C */
+    --secondary: 0 0% 11%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 210 33% 96%;
+    --muted-foreground: 215 16% 46%;
+    
+    --success: 142 70% 45%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    
+    --destructive: 351 84% 43%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 210 33% 88%;
+    --input: 210 33% 88%;
+    --ring: 207 100% 15%;
+    
+    --radius: 0.75rem;
+
+    /* Module colors - CLDC Design System */
+    --module-dashboard: 207 100% 15%;
+    --module-registro: 202 38% 56%;
+    --module-miembros: 142 70% 45%;
+    --module-elecciones: 38 91% 54%;
+    --module-asambleas: 351 84% 43%;
+    --module-reportes: 207 100% 15%;
+    --module-estadisticas: 202 38% 56%;
+    --module-integraciones: 0 0% 11%;
+
+    /* Gradients - CLDC Official */
+    --gradient-primary: linear-gradient(135deg, hsl(207 100% 15%), hsl(202 38% 56%));
+    --gradient-hero: linear-gradient(135deg, hsl(207 100% 15% / 0.9), hsl(202 38% 56% / 0.8));
+    --gradient-accent: linear-gradient(135deg, hsl(38 91% 54%), hsl(351 84% 43%));
+    
+    /* Shadows and effects */
+    --shadow-card: 0 4px 6px -1px rgba(0, 48, 73, 0.1), 0 2px 4px -1px rgba(0, 48, 73, 0.06);
+    --shadow-elevated: 0 10px 25px -5px rgba(0, 48, 73, 0.15), 0 4px 10px -2px rgba(0, 48, 73, 0.08);
+    --shadow-elev: 0 20px 40px -20px hsl(207 100% 15% / 0.25);
+    --shadow-accent: 0 10px 30px -10px hsl(38 91% 54% / 0.4);
+
+    /* Sidebar - CLDC */
+    --sidebar-background: 210 33% 96%;
+    --sidebar-foreground: 0 0% 11%;
+    --sidebar-primary: 207 100% 15%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 33% 96%;
+    --sidebar-accent-foreground: 207 100% 15%;
+    --sidebar-border: 210 33% 88%;
+    --sidebar-ring: 207 100% 15%;
+    
+    /* Typography - CLDC Official Fonts */
+    --font-headline: 'Poppins', -apple-system, sans-serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-ui: 'Rubik', -apple-system, sans-serif;
+  }
+
+  .dark {
+    /* Dark Mode - CLDC Official */
+    --background: 0 0% 11%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 100%;
+
+    /* Azul Claro Digital para dark mode */
+    --primary: 202 38% 56%;
+    --primary-foreground: 0 0% 11%;
+    
+    --primary-light: 202 38% 66%;
+
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 70%;
+
+    /* Dorado más brillante en dark mode */
+    --accent: 38 91% 64%;
+    --accent-foreground: 0 0% 11%;
+
+    --success: 142 70% 50%;
+    --success-foreground: 0 0% 11%;
+    
+    --warning: 38 92% 60%;
+    --warning-foreground: 0 0% 11%;
+
+    --destructive: 351 84% 53%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 202 38% 56%;
+
+    /* Dark mode module colors - CLDC */
+    --module-dashboard: 202 38% 56%;
+    --module-registro: 202 38% 66%;
+    --module-miembros: 142 70% 50%;
+    --module-elecciones: 38 91% 64%;
+    --module-asambleas: 351 84% 53%;
+    --module-reportes: 202 38% 56%;
+    --module-estadisticas: 202 38% 66%;
+    --module-integraciones: 0 0% 80%;
+
+    /* Dark gradients - CLDC */
+    --gradient-primary: linear-gradient(135deg, hsl(0 0% 15%), hsl(202 38% 56%));
+    --gradient-hero: linear-gradient(135deg, hsl(202 38% 56% / 0.2), hsl(38 91% 64% / 0.15));
+    --gradient-accent: linear-gradient(135deg, hsl(38 91% 64%), hsl(351 84% 53%));
+
+    --sidebar-background: 0 0% 11%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 202 38% 56%;
+    --sidebar-primary-foreground: 0 0% 11%;
+    --sidebar-accent: 0 0% 20%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 25%;
+    --sidebar-ring: 202 38% 56%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}

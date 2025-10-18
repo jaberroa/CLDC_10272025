@@ -1,0 +1,47 @@
+# Dependencies
+node_modules
+bun.lockb
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist
+build
+.vite
+.output
+.vercel
+.netlify
+
+# Generated files
+*.min.js
+*.min.css
+src/integrations/supabase/types.ts
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Logs
+*.log
+logs
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Supabase
+supabase/.branches
+supabase/.temp
+
+# Other
+coverage
+.env
+.env.local
+.env.*.local
