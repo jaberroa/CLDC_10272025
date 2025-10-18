@@ -34,6 +34,11 @@ jobs:
     - name: Create deployment package
       run: |
         echo "🚀 Creando paquete de despliegue..."
+        echo "📋 Información del deployment:"
+        echo "  - SHA: ${{ github.sha }}"
+        echo "  - Run Number: ${{ github.run_number }}"
+        echo "  - Branch: ${{ github.ref_name }}"
+        echo "  - Version Label: ${{ github.sha }}-${{ github.run_number }}-${{ github.ref_name }}"
         
         # Crear directorio de despliegue
         mkdir -p deploy-package
@@ -43,6 +48,18 @@ jobs:
         cp -r app bootstrap config database public resources routes storage vendor composer.json composer.lock artisan deploy-package/
         
         # NO copiar archivos .env - las variables se manejan en Elastic Beanstalk
+        
+        # Validar archivos críticos
+        echo "🔍 Validando archivos críticos..."
+        if [ ! -f "deploy-package/artisan" ]; then
+          echo "❌ Error: artisan no encontrado"
+          exit 1
+        fi
+        if [ ! -f "deploy-package/composer.json" ]; then
+          echo "❌ Error: composer.json no encontrado"
+          exit 1
+        fi
+        echo "✅ Archivos críticos validados correctamente"
         
         # Crear archivos de configuración de Elastic Beanstalk
         echo "⚙️ Creando configuración de Elastic Beanstalk..."
@@ -191,8 +208,9 @@ jobs:
         application_name: cldci-staging
         environment_name: cldci-staging-env-new
         region: us-east-1
-        version_label: ${{ github.sha }}-${{ github.run_number }}
+        version_label: ${{ github.sha }}-${{ github.run_number }}-${{ github.ref_name }}
         deployment_package: deployment-package.zip
+        use_existing_version_if_available: true
         wait_for_environment_recovery: 300
         
     - name: Deployment Success Notification
