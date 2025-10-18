@@ -189,7 +189,7 @@ jobs:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         application_name: cldci-staging
-        environment_name: cldci-staging-env
+        environment_name: cldci-staging-env-new
         region: us-east-1
         version_label: ${{ github.sha }}-${{ github.run_number }}
         deployment_package: deployment-package.zip
@@ -199,7 +199,7 @@ jobs:
       if: success()
       run: |
         echo "✅ Deployment completed successfully!"
-        echo "🚀 Application deployed to: http://cldci-staging-env.eba-xphp7eqe.us-east-1.elasticbeanstalk.com"
+        echo "🚀 Application deployed to: [URL will be generated after deployment]"
         
     - name: Deployment Failure Notification
       if: failure()
