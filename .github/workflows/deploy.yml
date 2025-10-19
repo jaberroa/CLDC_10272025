@@ -17,7 +17,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3'
-        extensions: mbstring, dom, fileinfo, mysql, zip, gd, pdo_mysql
+        extensions: mbstring, dom, fileinfo, mysql, zip
         coverage: none
         
     - name: Cache Composer dependencies
@@ -33,71 +33,46 @@ jobs:
       
     - name: Create deployment package
       run: |
-        echo "🚀 Creating optimized deployment package..."
+        echo "🚀 Creando paquete de despliegue optimizado..."
+        echo "📋 Información del deployment:"
+        echo "  - SHA: ${{ github.sha }}"
+        echo "  - Run Number: ${{ github.run_number }}"
+        echo "  - Branch: ${{ github.ref_name }}"
+        echo "  - Version Label: ${{ github.sha }}-${{ github.run_number }}-${{ github.ref_name }}"
         
-        # Create deployment directory
         mkdir -p deploy-package
         
-        # Copy Laravel application files
-        echo "📦 Copying Laravel files..."
-        cp -r app bootstrap config database public resources routes storage vendor composer.json composer.lock artisan deploy-package/
+        # Copiar archivos necesarios para Laravel
+        echo "📦 Copiando archivos de Laravel..."
+        cp -r app bootstrap config database public resources routes storage vendor composer.json composer.lock artisan Dockerfile php.ini deploy-package/
         
-        # Copy Dockerfile (use the real one from project)
-        echo "🐳 Copying Dockerfile..."
-        cp Dockerfile deploy-package/
-        
-        # Create .ebextensions directory
-        mkdir -p deploy-package/.ebextensions
-        
-        # Create logs configuration
-        cat > deploy-package/.ebextensions/02-logs.config << 'EOF'
-        option_settings:
-          aws:elasticbeanstalk:cloudwatch:logs:
-            StreamLogs: true
-            DeleteOnTerminate: false
-            RetentionInDays: 7
-        EOF
-        
-        # Create permissions configuration
-        cat > deploy-package/.ebextensions/03-permissions.config << 'EOF'
-        container_commands:
-          01_permissions:
-            command: "chmod -R 775 storage bootstrap/cache"
-            leader_only: true
-          02_ownership:
-            command: "chown -R www-data:www-data storage bootstrap/cache"
-            leader_only: true
-          03_storage_link:
-            command: "docker exec $(docker ps -q) bash -c 'cd /var/www/html && php artisan storage:link || true'"
-            leader_only: true
-        EOF
-        
-        # Create PHP configuration
-        cat > deploy-package/php.ini << 'EOF'
-        memory_limit = 512M
-        max_execution_time = 300
-        upload_max_filesize = 40M
-        post_max_size = 40M
-        max_input_vars = 3000
-        EOF
-        
-        # Validate critical files
-        echo "🔍 Validating critical files..."
+        # Validar archivos críticos
+        echo "🔍 Validando archivos críticos..."
         if [ ! -f "deploy-package/artisan" ]; then
-          echo "❌ Error: artisan not found"
+          echo "❌ Error: artisan no encontrado"
+          exit 1
+        fi
+        if [ ! -f "deploy-package/composer.json" ]; then
+          echo "❌ Error: composer.json no encontrado"
           exit 1
         fi
         if [ ! -f "deploy-package/Dockerfile" ]; then
-          echo "❌ Error: Dockerfile not found"
+          echo "❌ Error: Dockerfile no encontrado"
           exit 1
         fi
-        echo "✅ Critical files validated"
+        if [ ! -f "deploy-package/php.ini" ]; then
+          echo "❌ Error: php.ini no encontrado"
+          exit 1
+        fi
+        echo "✅ Archivos críticos validados correctamente"
         
-        # Create deployment package
-        echo "📦 Creating deployment package..."
+        # Comprimir el paquete
+        echo "📦 Comprimiendo paquete de despliegue..."
         cd deploy-package && zip -r ../deployment-package.zip . && cd ..
         
-        echo "✅ Deployment package created successfully!"
+        echo "✅ Paquete de despliegue creado exitosamente!"
+        echo "📊 Contenido del paquete:"
+        unzip -l deployment-package.zip | head -20
         
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v20
@@ -107,7 +82,7 @@ jobs:
         application_name: cldci-staging
         environment_name: cldci-staging-env-new
         region: us-east-1
-        version_label: ${{ github.sha }}-${{ github.run_number }}
+        version_label: ${{ github.sha }}-${{ github.run_number }}-${{ github.ref_name }}
         deployment_package: deployment-package.zip
         use_existing_version_if_available: true
         wait_for_environment_recovery: 300
@@ -116,7 +91,7 @@ jobs:
       if: success()
       run: |
         echo "✅ Deployment completed successfully!"
-        echo "🚀 Application deployed to AWS Elastic Beanstalk"
+        echo "🚀 Application deployed to: [URL will be generated after deployment]"
         
     - name: Deployment Failure Notification
       if: failure()
