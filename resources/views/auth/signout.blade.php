@@ -224,3 +224,4 @@ document.querySelector('form[action="{{ route('logout') }}"]').addEventListener(
 });
 </script>
 @endsection
+

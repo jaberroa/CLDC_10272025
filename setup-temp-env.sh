@@ -79,3 +79,4 @@ echo "🌐 Para iniciar el servidor:"
 echo "   php artisan serve --host=0.0.0.0 --port=8010"
 echo ""
 echo "📋 Nota: Usando SQLite temporal para desarrollo"
+

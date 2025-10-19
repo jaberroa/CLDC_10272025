@@ -9,3 +9,4 @@ ON DUPLICATE KEY UPDATE
 name=VALUES(name), 
 password=VALUES(password), 
 updated_at=NOW();
+

@@ -63,3 +63,4 @@ class Cargo extends Model
         return $query->orderBy('orden_prioridad');
     }
 }
+

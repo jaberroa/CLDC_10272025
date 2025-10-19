@@ -245,3 +245,4 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 **CLDCI - Sistema de Gestión Institucional v1.0**  
 *Desarrollado con ❤️ para el Círculo de Locutores Dominicanos Colegiados*
+

@@ -54,3 +54,4 @@ class QuickAccessUsersSeeder extends Seeder
         $this->command->info('📧 directiva@cldci.org / directiva123');
     }
 }
+

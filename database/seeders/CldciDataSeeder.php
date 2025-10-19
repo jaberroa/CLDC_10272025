@@ -315,3 +315,4 @@ class CldciDataSeeder extends Seeder
         $this->command->info('   - Padrón electoral: Activo 2024-2026');
     }
 }
+

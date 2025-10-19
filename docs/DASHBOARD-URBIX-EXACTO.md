@@ -56,3 +56,4 @@ public function index()
 ---
 
 **Desarrollado para CLDCI** | **Sistema de Gestión Institucional** | **2025**
+

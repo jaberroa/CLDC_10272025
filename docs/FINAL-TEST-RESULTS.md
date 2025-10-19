@@ -209,3 +209,4 @@ Los accesos rápidos no funcionaban porque:
 ---
 
 **Desarrollado para CLDCI** | **Sistema de Gestión Institucional** | **2025**
+

@@ -89,3 +89,4 @@ class Candidato extends Model
         return round(($this->votos_recibidos / $totalVotos) * 100, 2);
     }
 }
+

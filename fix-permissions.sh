@@ -24,3 +24,4 @@ echo "✅ Proceso completado"
 echo ""
 echo "🌐 Accede a: http://localhost:8001"
 echo "📋 Si hay errores, revisa los logs en storage/logs/"
+

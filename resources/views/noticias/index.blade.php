@@ -187,3 +187,4 @@
     <script src="assets/libs/gridjs/gridjs.umd.js" type="text/javascript"></script>
     <script src="assets/js/app.js"></script>
 @endsection
+

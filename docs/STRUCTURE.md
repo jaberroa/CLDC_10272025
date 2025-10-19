@@ -213,3 +213,4 @@ php artisan serve
 
 **CLDCI - Sistema de Gestión Institucional**  
 *Estructura organizada para facilitar el mantenimiento y escalabilidad*
+

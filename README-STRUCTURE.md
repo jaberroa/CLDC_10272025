@@ -276,3 +276,4 @@ php artisan serve
 
 **CLDCI - Sistema de Gestión Institucional**  
 *Estructura reorganizada siguiendo las mejores prácticas de Laravel*
+

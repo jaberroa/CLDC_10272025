@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 // Load authentication routes
 require_once __DIR__ . '/../routes/auth.php';
+

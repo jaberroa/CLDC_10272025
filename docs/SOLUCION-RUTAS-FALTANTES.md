@@ -195,3 +195,4 @@ php artisan route:list --name=profile
 ---
 
 **Desarrollado para CLDCI** | **Sistema de Gestión Institucional** | **2025**
+

@@ -186,3 +186,4 @@ setInterval(actualizarGraficos, 60000);
 ---
 
 **Desarrollado para CLDCI** | **Sistema de Gestión Institucional** | **2025**
+

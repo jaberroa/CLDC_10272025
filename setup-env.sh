@@ -93,3 +93,4 @@ echo "   php artisan serve --host=0.0.0.0 --port=8010"
 echo ""
 echo "📋 Si hay errores de permisos, ejecuta:"
 echo "   sudo chown -R jaberroa:jaberroa storage bootstrap/cache"
+

@@ -197,3 +197,4 @@ class Curso extends Model
         return $inscripcion;
     }
 }
+

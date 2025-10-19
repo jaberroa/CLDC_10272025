@@ -56,3 +56,4 @@ class InscripcionCurso extends Model
         return $query->whereIn('estado', ['inscrito', 'asistio', 'completo']);
     }
 }
+

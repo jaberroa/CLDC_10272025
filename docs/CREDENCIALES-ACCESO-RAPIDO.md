@@ -190,3 +190,4 @@ console.log(`🚀 Auto-enviando formulario para ${module}`);
 ---
 
 **Desarrollado para CLDCI** | **Sistema de Gestión Institucional** | **2025**
+

@@ -65,3 +65,4 @@ echo "   - 8 seccionales internacionales"
 echo "   - Cursos y asambleas programadas"
 echo ""
 echo "🎉 ¡Sistema CLDCI listo para usar!"
+

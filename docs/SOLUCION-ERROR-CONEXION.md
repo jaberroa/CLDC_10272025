@@ -153,3 +153,4 @@ docker exec cldc_mysql mysql -u cldc_user -pcldc_password cldc_database -e "SELE
 ---
 
 **Desarrollado para CLDCI** | **Sistema de Gestión Institucional** | **2025**
+

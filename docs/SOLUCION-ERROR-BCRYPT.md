@@ -114,3 +114,4 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:8010/login
 ---
 
 **Desarrollado para CLDCI** | **Sistema de Gestión Institucional** | **2025**
+

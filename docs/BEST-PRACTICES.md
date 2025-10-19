@@ -206,3 +206,4 @@ miembros/
 
 **CLDCI - Sistema de Gestión Institucional**  
 *Estructura organizada siguiendo las mejores prácticas de Laravel*
+

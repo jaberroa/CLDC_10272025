@@ -201,3 +201,4 @@ console.log(`✅ Redirección configurada para: ${module}`);
 ---
 
 **Desarrollado para CLDCI** | **Sistema de Gestión Institucional** | **2025**
+

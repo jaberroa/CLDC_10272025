@@ -208,3 +208,4 @@ class NoticiasController extends Controller
         // Implementar eliminación de noticia si es necesario
     }
 }
+

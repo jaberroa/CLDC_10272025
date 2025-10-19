@@ -210,3 +210,4 @@ console.log('✅ Toast eliminado del DOM');
 ---
 
 **Desarrollado para CLDCI** | **Sistema de Gestión Institucional** | **2025**
+
