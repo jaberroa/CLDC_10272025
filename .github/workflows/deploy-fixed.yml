@@ -143,36 +143,21 @@ jobs:
             RetentionInDays: 7
         EOF
         
-        # Configuración de migraciones con mejor manejo de errores
+        # Configuración simplificada - solo comandos esenciales
         cat > deploy-package/.ebextensions/03-migrations.config << 'EOF'
         container_commands:
-          01_check_env:
-            command: "echo 'Checking environment variables...' && env | grep -E '^(APP_|DB_)'"
+          01_permissions:
+            command: "chmod -R 775 storage bootstrap/cache"
             leader_only: true
-          02_config_cache:
-            command: "php artisan config:cache"
-            leader_only: true
-          03_migrate:
-            command: "php artisan migrate --force --verbose"
-            leader_only: true
-          04_cache_clear:
-            command: "php artisan cache:clear && php artisan view:clear"
-            leader_only: true
-          05_storage_link:
-            command: "php artisan storage:link || echo 'Storage link failed or already exists'"
-            leader_only: true
-          06_optimize:
-            command: "php artisan optimize"
+          02_storage_link:
+            command: "php artisan storage:link"
             leader_only: true
         EOF
         
-        # Configuración de permisos
+        # Configuración de permisos simplificada
         cat > deploy-package/.ebextensions/04-permissions.config << 'EOF'
         container_commands:
-          01_permissions:
-            command: "chmod -R 755 storage bootstrap/cache"
-            leader_only: true
-          02_ownership:
+          01_ownership:
             command: "chown -R webapp:webapp storage bootstrap/cache"
             leader_only: true
         EOF
