@@ -663,7 +663,7 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Notice Board</h4>
+                                        <h4>Avisos Importantes</h4>
                                         <div class="dropdown">
                                             <a href="javascript:void(0)" data-bs-toggle="dropdown" class="text-body" aria-expanded="false">
                                                 <i class="bi bi-three-dots"></i>

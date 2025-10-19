@@ -1,0 +1,122 @@
+# CLDCI - Estructura del Proyecto
+
+## 📁 Organización de Carpetas
+
+### **Vistas de Autenticación**
+- **Blade Templates**: `resources/views/auth/` (funcionales)
+- **HTML Estáticos**: `public/auth/` (referencia/demo)
+- **Rutas**: `routes/auth.php` (organizadas)
+
+### **Estructura Laravel**
+```
+app/
+├── Http/Controllers/Auth/     # Controladores de autenticación
+├── Models/                     # Modelos Eloquent
+├── Services/                   # Lógica de negocio
+└── Middleware/                 # Middleware personalizado
+
+resources/views/
+├── auth/                       # Vistas de autenticación
+├── partials/                   # Componentes reutilizables
+├── components/                 # Componentes Blade
+└── layouts/                    # Layouts principales
+
+public/
+├── assets/                     # Assets de Urbix
+├── auth/                       # Archivos HTML estáticos
+└── storage/                    # Archivos subidos
+
+routes/
+├── web.php                     # Rutas principales
+├── api.php                     # Rutas API
+└── auth.php                    # Rutas de autenticación
+```
+
+## 🎯 **Mejores Prácticas Implementadas**
+
+### **1. Separación de Responsabilidades**
+- ✅ Controladores solo para lógica de presentación
+- ✅ Servicios para lógica de negocio compleja
+- ✅ Modelos para relaciones y validaciones
+- ✅ Middleware para autenticación y autorización
+
+### **2. Organización de Vistas**
+- ✅ Layouts reutilizables en `partials/layouts/`
+- ✅ Componentes en `components/`
+- ✅ Vistas de autenticación en `auth/`
+- ✅ Archivos HTML estáticos en `public/auth/`
+
+### **3. Rutas Organizadas**
+- ✅ Rutas principales en `web.php`
+- ✅ Rutas de autenticación en `auth.php`
+- ✅ Rutas API en `api.php`
+- ✅ Rutas estáticas para referencia
+
+### **4. Assets Públicos**
+- ✅ Assets de Urbix en `public/assets/`
+- ✅ Archivos HTML de referencia en `public/auth/`
+- ✅ Storage organizado por módulo
+
+## 📋 **Estructura de Archivos por Módulo**
+
+### **Autenticación**
+```
+auth/
+├── Controllers/
+│   └── AuthenticatedSessionController.php
+├── Views/
+│   ├── signin.blade.php
+│   ├── signup.blade.php
+│   ├── forgot-password.blade.php
+│   ├── reset-password.blade.php
+│   ├── email-verify.blade.php
+│   └── signout.blade.php
+├── HTML Static/
+│   ├── auth-signin.html
+│   ├── auth-signup.html
+│   ├── auth-forgot-password.html
+│   ├── auth-reset-password.html
+│   ├── auth-email-verify.html
+│   └── auth-signout.html
+└── Routes/
+    └── auth.php
+```
+
+## 🔧 **Configuración de Desarrollo**
+
+### **Variables de Entorno**
+```env
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=cldc_database
+DB_USERNAME=cldc_user
+DB_PASSWORD=cldc_password
+```
+
+### **Comandos de Desarrollo**
+```bash
+# Iniciar contenedores
+docker-compose up -d
+
+# Ejecutar migraciones
+php artisan migrate
+
+# Ejecutar seeders
+php artisan db:seed
+
+# Iniciar servidor
+php artisan serve
+```
+
+## 📚 **Documentación**
+
+- [Estructura del Proyecto](docs/STRUCTURE.md)
+- [Guía de Desarrollo](docs/DEVELOPMENT.md)
+- [API Documentation](docs/API.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
+
+---
+
+**CLDCI - Sistema de Gestión Institucional**  
+*Estructura organizada para facilitar el mantenimiento y escalabilidad*

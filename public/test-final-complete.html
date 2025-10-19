@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Final Completo - Accesos Rápidos CLDCI</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .btn { padding: 12px 24px; margin: 8px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .result { margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #007bff; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .warning { border-left-color: #ffc107; background: #fff3cd; }
+        .form-group { margin: 15px 0; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .toast-notification { position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px; max-width: 400px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); opacity: 1; transform: translateX(0); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); border-radius: 8px; background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border-left: 4px solid #2196f3; color: #1565c0; padding: 15px; }
+        .toast-notification.fade-in { animation: slideInRight 0.3s ease-out; }
+        .toast-notification.fade-out { animation: slideOutRight 0.5s ease-in; opacity: 0; transform: translateX(100%); }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideOutRight { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(100%); } }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .status { display: inline-block; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: bold; }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.warning { background: #fff3cd; color: #856404; }
+        .log { background: #f8f9fa; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; }
+        .form-simulation { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Final Completo - Accesos Rápidos CLDCI</h1>
+        
+        <!-- Simular formulario de login exacto -->
+        <div class="form-simulation">
+            <h3>📝 Formulario de Login (Simulación)</h3>
+            <form id="loginForm" method="POST" action="http://localhost:8010/login">
+                <input type="hidden" name="_token" value="test-token">
+                <input type="hidden" id="redirect_module" name="redirect_module" value="">
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="test@test.com" value="test@test.com">
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="password" value="password">
+                </div>
+            </form>
+        </div>
+        
+        <!-- Test 1: Verificar estado de autenticación -->
+        <div class="test-section">
+            <h3>1. Verificar Estado de Autenticación</h3>
+            <button class="btn btn-warning" onclick="checkAuthStatus()">🔍 Verificar Estado de Auth</button>
+            <div id="authStatusResult"></div>
+        </div>
+        
+        <!-- Test 2: Test de accesos rápidos con lógica completa -->
+        <div class="test-section">
+            <h3>2. Test de Accesos Rápidos (Lógica Completa)</h3>
+            <button class="btn btn-primary" onclick="handleQuickAccess('Dashboard', '/dashboard')">
+                📊 Dashboard
+            </button>
+            <button class="btn btn-info" onclick="handleQuickAccess('Miembros', '/miembros')">
+                👥 Miembros
+            </button>
+            <button class="btn btn-success" onclick="handleQuickAccess('Directiva', '/directiva')">
+                🏛️ Directiva
+            </button>
+            <div id="quickAccessResult"></div>
+        </div>
+        
+        <!-- Test 3: Test de envío de formulario -->
+        <div class="test-section">
+            <h3>3. Test de Envío de Formulario</h3>
+            <button class="btn btn-warning" onclick="testFormSubmission()">📤 Simular Envío</button>
+            <div id="formResult"></div>
+        </div>
+        
+        <!-- Log de debug -->
+        <div class="test-section">
+            <h3>📋 Log de Debug</h3>
+            <div id="debugLog" class="log"></div>
+            <button class="btn btn-primary" onclick="clearLog()">Limpiar Log</button>
+        </div>
+        
+        <!-- Resultados -->
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let logCount = 0;
+        
+        // Función para agregar al log
+        function addLog(message, type = 'info') {
+            logCount++;
+            const logDiv = document.getElementById('debugLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `<strong>${logCount}.</strong> [${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        // Función para limpiar log
+        function clearLog() {
+            document.getElementById('debugLog').innerHTML = '';
+            logCount = 0;
+        }
+        
+        // Función para mostrar resultados
+        function showResult(message, type = 'info') {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong> - ${message}`;
+            resultsDiv.appendChild(resultDiv);
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Test 1: Verificar estado de autenticación
+        function checkAuthStatus() {
+            const authStatusResult = document.getElementById('authStatusResult');
+            authStatusResult.innerHTML = '<h4>Verificando estado de autenticación...</h4>';
+            
+            addLog('🔍 Verificando estado de autenticación');
+            
+            // Verificar múltiples endpoints
+            const endpoints = ['/dashboard', '/miembros', '/directiva'];
+            let authResults = [];
+            
+            endpoints.forEach(endpoint => {
+                fetch(endpoint, {
+                    method: 'GET',
+                    redirect: 'follow'
+                })
+                .then(response => {
+                    authResults.push({
+                        endpoint: endpoint,
+                        status: response.status,
+                        redirected: response.redirected,
+                        finalUrl: response.url
+                    });
+                    
+                    if (authResults.length === endpoints.length) {
+                        displayAuthResults(authResults);
+                    }
+                })
+                .catch(error => {
+                    authResults.push({
+                        endpoint: endpoint,
+                        error: error.message
+                    });
+                    
+                    if (authResults.length === endpoints.length) {
+                        displayAuthResults(authResults);
+                    }
+                });
+            });
+        }
+        
+        function displayAuthResults(results) {
+            const authStatusResult = document.getElementById('authStatusResult');
+            let html = '<h4>Resultado de Verificación de Autenticación:</h4>';
+            
+            let allRedirected = true;
+            let allAuthenticated = true;
+            
+            results.forEach(result => {
+                if (result.error) {
+                    html += `<p><strong>${result.endpoint}:</strong> <span class="status error">❌</span> Error: ${result.error}</p>`;
+                    allRedirected = false;
+                    allAuthenticated = false;
+                } else if (result.status === 200) {
+                    html += `<p><strong>${result.endpoint}:</strong> <span class="status success">✅</span> Autenticado (200)</p>`;
+                    allRedirected = false;
+                } else if (result.status === 302 || result.redirected) {
+                    html += `<p><strong>${result.endpoint}:</strong> <span class="status warning">⚠️</span> No autenticado (${result.status})</p>`;
+                    allAuthenticated = false;
+                } else {
+                    html += `<p><strong>${result.endpoint}:</strong> <span class="status error">❌</span> Error inesperado (${result.status})</p>`;
+                    allRedirected = false;
+                    allAuthenticated = false;
+                }
+            });
+            
+            if (allAuthenticated) {
+                html += '<p><span class="status success">✅</span> <strong>Usuario completamente autenticado</strong></p>';
+                html += '<p><strong>Comportamiento esperado:</strong> Redirección directa a todos los módulos</p>';
+                addLog('✅ Usuario completamente autenticado');
+                showResult('Usuario completamente autenticado', 'success');
+            } else if (allRedirected) {
+                html += '<p><span class="status warning">⚠️</span> <strong>Usuario no autenticado</strong></p>';
+                html += '<p><strong>Comportamiento esperado:</strong> Configurar redirección para después del login</p>';
+                addLog('⚠️ Usuario no autenticado');
+                showResult('Usuario no autenticado', 'warning');
+            } else {
+                html += '<p><span class="status error">❌</span> <strong>Estado mixto de autenticación</strong></p>';
+                html += '<p><strong>Comportamiento esperado:</strong> Configurar redirección para después del login</p>';
+                addLog('❌ Estado mixto de autenticación');
+                showResult('Estado mixto de autenticación', 'error');
+            }
+            
+            authStatusResult.innerHTML = html;
+        }
+        
+        // Test 2: Función para manejar accesos rápidos (lógica simplificada)
+        function handleQuickAccess(module, url) {
+            addLog(`🎯 Acceso rápido seleccionado: ${module}`);
+            
+            // Mostrar toast inmediatamente y configurar redirección
+            showQuickAccessToast(module, url);
+        }
+        
+        // Función para mostrar toast (copiada del login)
+        function showQuickAccessToast(module, url) {
+            addLog(`🎯 Configurando redirección para: ${module}`);
+            
+            // Verificar que los elementos existan
+            const redirectField = document.getElementById('redirect_module');
+            const emailField = document.getElementById('email');
+            
+            if (!redirectField) {
+                addLog('❌ Campo redirect_module no encontrado', 'error');
+                showResult('Error: Campo redirect_module no encontrado', 'error');
+                return;
+            }
+            
+            if (!emailField) {
+                addLog('❌ Campo email no encontrado', 'error');
+                showResult('Error: Campo email no encontrado', 'error');
+                return;
+            }
+            
+            // Crear toast con transición suave
+            const toastDiv = document.createElement('div');
+            toastDiv.className = 'alert alert-info alert-dismissible fade show position-fixed toast-notification fade-in';
+            toastDiv.innerHTML = `
+                <strong>Redirección Configurada</strong><br>
+                Serás redirigido al módulo ${module} después del login.
+                <button type="button" class="btn-close" onclick="closeToast(this)" style="float: right; background: none; border: none; font-size: 18px; cursor: pointer;">&times;</button>
+            `;
+            
+            // Agregar al DOM
+            document.body.appendChild(toastDiv);
+            addLog('✅ Toast agregado al DOM');
+            
+            // Configurar redirección después del login
+            redirectField.value = module;
+            addLog(`✅ Campo redirect_module configurado con: "${module}"`);
+            
+            // Enfocar el campo de email
+            emailField.focus();
+            addLog('✅ Campo email enfocado');
+            
+            // Mostrar resultado
+            const quickAccessResult = document.getElementById('quickAccessResult');
+            quickAccessResult.innerHTML = `
+                <h4>Resultado del Acceso Rápido:</h4>
+                <p><span class="status success">✅</span> Toast creado para ${module}</p>
+                <p><strong>Campo redirect_module:</strong> "${redirectField.value}"</p>
+                <p><strong>Campo email enfocado:</strong> ${emailField ? 'Sí' : 'No'}</p>
+                <p><strong>Comportamiento:</strong> Configurar redirección para después del login</p>
+            `;
+            
+            addLog(`✅ Redirección configurada para: ${module}`);
+            showResult(`Acceso rápido ${module} configurado correctamente`, 'success');
+            
+            // Transición de desvanecimiento después de 3 segundos
+            setTimeout(() => {
+                if (toastDiv.parentNode) {
+                    addLog('🔄 Iniciando transición de salida del toast');
+                    // Aplicar clase de salida
+                    toastDiv.classList.remove('fade-in');
+                    toastDiv.classList.add('fade-out');
+                    
+                    // Remover del DOM después de la transición
+                    setTimeout(() => {
+                        if (toastDiv.parentNode) {
+                            toastDiv.remove();
+                            addLog('✅ Toast eliminado del DOM');
+                        }
+                    }, 500);
+                }
+            }, 3000);
+        }
+        
+        // Test 3: Test de envío de formulario
+        function testFormSubmission() {
+            const formResult = document.getElementById('formResult');
+            const form = document.getElementById('loginForm');
+            const formData = new FormData(form);
+            
+            addLog('📤 Iniciando test de envío de formulario');
+            
+            let html = '<h4>Resultado del Test:</h4>';
+            html += '<table border="1" style="width: 100%; border-collapse: collapse;">';
+            html += '<tr><th>Campo</th><th>Valor</th></tr>';
+            
+            for (let [key, value] of formData.entries()) {
+                html += `<tr><td>${key}</td><td>${value}</td></tr>`;
+            }
+            
+            html += '</table>';
+            
+            // Verificar redirect_module
+            const redirectModule = formData.get('redirect_module');
+            if (redirectModule) {
+                html += `<p><span class="status success">✅</span> Redirección configurada: ${redirectModule}</p>`;
+                html += `<p><strong>El controlador recibiría:</strong> redirect_module = "${redirectModule}"</p>`;
+                
+                // Simular lógica del controlador
+                const redirectUrl = getRedirectUrl(redirectModule);
+                html += `<p><strong>Redirigiría a:</strong> ${redirectUrl}</p>`;
+                
+                addLog(`✅ Redirección configurada: ${redirectModule} → ${redirectUrl}`);
+                showResult(`Redirección configurada: ${redirectModule} → ${redirectUrl}`, 'success');
+            } else {
+                html += `<p><span class="status warning">⚠️</span> No hay redirección configurada</p>`;
+                html += `<p><strong>Redirigiría al dashboard por defecto</strong></p>`;
+                
+                addLog('⚠️ No hay redirección configurada');
+                showResult('No hay redirección configurada', 'warning');
+            }
+            
+            formResult.innerHTML = html;
+        }
+        
+        // Función para cerrar toast manualmente
+        function closeToast(button) {
+            const toastDiv = button.closest('.toast-notification');
+            if (toastDiv) {
+                toastDiv.classList.remove('fade-in');
+                toastDiv.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    if (toastDiv.parentNode) {
+                        toastDiv.remove();
+                        addLog('✅ Toast cerrado manualmente');
+                    }
+                }, 500);
+            }
+        }
+        
+        // Función auxiliar para obtener URL de redirección
+        function getRedirectUrl(module) {
+            const routes = {
+                'Dashboard': '/dashboard',
+                'Miembros': '/miembros', 
+                'Directiva': '/directiva'
+            };
+            return routes[module] || '/dashboard';
+        }
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('🚀 Test Final Completo de Accesos Rápidos CLDCI iniciado');
+            showResult('Test Final Completo iniciado - Verifica el estado de autenticación primero', 'success');
+        });
+    </script>
+</body>
+</html>

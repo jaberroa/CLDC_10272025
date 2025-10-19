@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Redirección Simple - Accesos Rápidos</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .btn { padding: 12px 24px; margin: 8px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .result { margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #007bff; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .warning { border-left-color: #ffc107; background: #fff3cd; }
+        .log { background: #f8f9fa; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Redirección Simple - Accesos Rápidos</h1>
+        
+        <!-- Test 1: Redirección directa -->
+        <div class="test-section">
+            <h3>1. Test de Redirección Directa</h3>
+            <button class="btn btn-primary" onclick="testDirectRedirect('/dashboard')">
+                📊 Redirección Directa Dashboard
+            </button>
+            <button class="btn btn-info" onclick="testDirectRedirect('/miembros')">
+                👥 Redirección Directa Miembros
+            </button>
+            <button class="btn btn-success" onclick="testDirectRedirect('/directiva')">
+                🏛️ Redirección Directa Directiva
+            </button>
+            <div id="directResult"></div>
+        </div>
+        
+        <!-- Test 2: Verificación de autenticación -->
+        <div class="test-section">
+            <h3>2. Test de Verificación de Autenticación</h3>
+            <button class="btn btn-warning" onclick="testAuthCheck('/dashboard')">
+                🔍 Verificar Auth Dashboard
+            </button>
+            <button class="btn btn-warning" onclick="testAuthCheck('/miembros')">
+                🔍 Verificar Auth Miembros
+            </button>
+            <button class="btn btn-warning" onclick="testAuthCheck('/directiva')">
+                🔍 Verificar Auth Directiva
+            </button>
+            <div id="authResult"></div>
+        </div>
+        
+        <!-- Test 3: Simulación completa -->
+        <div class="test-section">
+            <h3>3. Simulación Completa de Acceso Rápido</h3>
+            <button class="btn btn-primary" onclick="simulateQuickAccess('Dashboard', '/dashboard')">
+                📊 Simular Acceso Dashboard
+            </button>
+            <button class="btn btn-info" onclick="simulateQuickAccess('Miembros', '/miembros')">
+                👥 Simular Acceso Miembros
+            </button>
+            <button class="btn btn-success" onclick="simulateQuickAccess('Directiva', '/directiva')">
+                🏛️ Simular Acceso Directiva
+            </button>
+            <div id="simulationResult"></div>
+        </div>
+        
+        <!-- Log de debug -->
+        <div class="test-section">
+            <h3>📋 Log de Debug</h3>
+            <div id="debugLog" class="log"></div>
+            <button class="btn btn-primary" onclick="clearLog()">Limpiar Log</button>
+        </div>
+        
+        <!-- Resultados -->
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let logCount = 0;
+        
+        // Función para agregar al log
+        function addLog(message, type = 'info') {
+            logCount++;
+            const logDiv = document.getElementById('debugLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `<strong>${logCount}.</strong> [${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        // Función para limpiar log
+        function clearLog() {
+            document.getElementById('debugLog').innerHTML = '';
+            logCount = 0;
+        }
+        
+        // Función para mostrar resultados
+        function showResult(message, type = 'info') {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong> - ${message}`;
+            resultsDiv.appendChild(resultDiv);
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Test 1: Redirección directa
+        function testDirectRedirect(url) {
+            const directResult = document.getElementById('directResult');
+            directResult.innerHTML = '<h4>Probando redirección directa...</h4>';
+            
+            addLog(`🔗 Probando redirección directa a: ${url}`);
+            
+            // Simular redirección directa
+            setTimeout(() => {
+                addLog(`🚀 Ejecutando redirección directa a: ${url}`);
+                showResult(`Redirección directa a: ${url}`, 'success');
+                
+                // Comentado para testing - descomenta para probar redirección real
+                // window.location.href = url;
+                
+                directResult.innerHTML = `
+                    <h4>Resultado de Redirección Directa:</h4>
+                    <p><strong>URL:</strong> ${url}</p>
+                    <p><span class="status success">✅</span> Redirección directa ejecutada</p>
+                    <p><strong>Comportamiento:</strong> window.location.href = '${url}'</p>
+                `;
+            }, 1000);
+        }
+        
+        // Test 2: Verificación de autenticación
+        function testAuthCheck(url) {
+            const authResult = document.getElementById('authResult');
+            authResult.innerHTML = '<h4>Verificando autenticación...</h4>';
+            
+            addLog(`🔍 Verificando autenticación para: ${url}`);
+            
+            fetch(url, {
+                method: 'GET',
+                redirect: 'follow'
+            })
+                .then(response => {
+                    let html = '<h4>Resultado de Verificación de Autenticación:</h4>';
+                    html += `<p><strong>URL:</strong> ${url}</p>`;
+                    html += `<p><strong>Código de respuesta:</strong> ${response.status}</p>`;
+                    html += `<p><strong>URL final:</strong> ${response.url}</p>`;
+                    html += `<p><strong>Redirigida:</strong> ${response.redirected ? 'Sí' : 'No'}</p>`;
+                    
+                    if (response.status === 200) {
+                        html += '<p><span class="status success">✅</span> Usuario autenticado (200)</p>';
+                        html += '<p><strong>Comportamiento:</strong> Redirección directa funcionaría</p>';
+                        addLog(`✅ Usuario autenticado: ${url} (200)`);
+                        showResult(`Usuario autenticado: ${url} (200)`, 'success');
+                    } else if (response.status === 302 || response.redirected) {
+                        html += '<p><span class="status warning">⚠️</span> Usuario no autenticado (302/redirigida)</p>';
+                        html += '<p><strong>Comportamiento:</strong> Configuraría redirección para después del login</p>';
+                        addLog(`⚠️ Usuario no autenticado: ${url} (${response.status})`);
+                        showResult(`Usuario no autenticado: ${url} (${response.status})`, 'warning');
+                    } else {
+                        html += '<p><span class="status error">❌</span> Error inesperado</p>';
+                        addLog(`❌ Error inesperado: ${url} (${response.status})`);
+                        showResult(`Error inesperado: ${url} (${response.status})`, 'error');
+                    }
+                    
+                    authResult.innerHTML = html;
+                })
+                .catch(error => {
+                    authResult.innerHTML = `<h4>Error:</h4><p><span class="status error">❌</span> ${error.message}</p>`;
+                    addLog(`❌ Error en verificación: ${error.message}`);
+                    showResult(`Error en verificación: ${error.message}`, 'error');
+                });
+        }
+        
+        // Test 3: Simulación completa de acceso rápido
+        function simulateQuickAccess(module, url) {
+            const simulationResult = document.getElementById('simulationResult');
+            simulationResult.innerHTML = '<h4>Simulando acceso rápido...</h4>';
+            
+            addLog(`🎯 Simulando acceso rápido: ${module} → ${url}`);
+            
+            // Simular la lógica completa
+            fetch(url, {
+                method: 'GET',
+                redirect: 'follow'
+            })
+                .then(response => {
+                    addLog(`📡 Respuesta del servidor: ${response.status} - ${response.url}`);
+                    
+                    let html = '<h4>Resultado de Simulación:</h4>';
+                    html += `<p><strong>Módulo:</strong> ${module}</p>`;
+                    html += `<p><strong>URL:</strong> ${url}</p>`;
+                    html += `<p><strong>Código de respuesta:</strong> ${response.status}</p>`;
+                    html += `<p><strong>URL final:</strong> ${response.url}</p>`;
+                    html += `<p><strong>Redirigida:</strong> ${response.redirected ? 'Sí' : 'No'}</p>`;
+                    
+                    if (response.status === 200) {
+                        html += '<p><span class="status success">✅</span> Usuario autenticado (200)</p>';
+                        html += '<p><strong>Acción:</strong> Redirección directa ejecutada</p>';
+                        html += '<p><strong>Comportamiento:</strong> window.location.href = "' + url + '"</p>';
+                        
+                        addLog(`✅ Usuario autenticado, redirigiendo directamente a: ${url}`);
+                        showResult(`Usuario autenticado, redirigiendo a: ${url}`, 'success');
+                        
+                        // Simular redirección (comentado para testing)
+                        // window.location.href = url;
+                        
+                    } else if (response.status === 302 || response.redirected) {
+                        html += '<p><span class="status warning">⚠️</span> Usuario no autenticado (302/redirigida)</p>';
+                        html += '<p><strong>Acción:</strong> Configurar redirección para después del login</p>';
+                        html += '<p><strong>Comportamiento:</strong> Mostrar toast + llenar campo redirect_module</p>';
+                        
+                        addLog(`⚠️ Usuario no autenticado, configurando redirección para después del login`);
+                        showResult(`Usuario no autenticado, configurando redirección para: ${module}`, 'warning');
+                    } else {
+                        html += '<p><span class="status error">❌</span> Error inesperado</p>';
+                        html += '<p><strong>Acción:</strong> Configurar redirección para después del login</p>';
+                        
+                        addLog(`❌ Error inesperado: ${response.status}`);
+                        showResult(`Error inesperado: ${response.status}`, 'error');
+                    }
+                    
+                    simulationResult.innerHTML = html;
+                })
+                .catch(error => {
+                    simulationResult.innerHTML = `<h4>Error:</h4><p><span class="status error">❌</span> ${error.message}</p>`;
+                    addLog(`❌ Error en simulación: ${error.message}`);
+                    showResult(`Error en simulación: ${error.message}`, 'error');
+                });
+        }
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('🚀 Test Redirección Simple iniciado');
+            showResult('Test Redirección Simple iniciado - Prueba cada funcionalidad', 'success');
+        });
+    </script>
+</body>
+</html>

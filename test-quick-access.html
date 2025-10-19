@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Accesos Rápidos</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .btn { padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .result { margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Test de Accesos Rápidos CLDCI</h1>
+    
+    <div class="test-section">
+        <h3>1. Test de JavaScript</h3>
+        <button class="btn btn-primary" onclick="testToast('Dashboard')">Test Dashboard</button>
+        <button class="btn btn-info" onclick="testToast('Miembros')">Test Miembros</button>
+        <button class="btn btn-success" onclick="testToast('Directiva')">Test Directiva</button>
+        <div id="result1" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>2. Test de Redirección</h3>
+        <button class="btn btn-primary" onclick="testRedirect('/dashboard')">Test /dashboard</button>
+        <button class="btn btn-info" onclick="testRedirect('/miembros')">Test /miembros</button>
+        <button class="btn btn-success" onclick="testRedirect('/directiva')">Test /directiva</button>
+        <div id="result2" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>3. Test de Formulario</h3>
+        <form id="testForm" method="POST" action="http://localhost:8010/login">
+            <input type="hidden" id="redirect_module" name="redirect_module" value="">
+            <input type="email" id="email" name="email" placeholder="Email" value="test@test.com" style="width: 200px; padding: 5px; margin: 5px;">
+            <input type="password" id="password" name="password" placeholder="Password" value="password" style="width: 200px; padding: 5px; margin: 5px;">
+            <button type="submit" class="btn btn-primary">Test Login</button>
+        </form>
+        <div id="result3" class="result"></div>
+    </div>
+
+    <script>
+        // Simular la función del login
+        function testToast(module) {
+            const result = document.getElementById('result1');
+            result.innerHTML = `Toast para ${module} - Campo redirect_module se llenaría con: "${module}"`;
+            
+            // Simular llenar el campo
+            document.getElementById('redirect_module').value = module;
+            
+            // Mostrar el valor
+            setTimeout(() => {
+                result.innerHTML += `<br>Valor actual del campo: "${document.getElementById('redirect_module').value}"`;
+            }, 1000);
+        }
+        
+        function testRedirect(url) {
+            const result = document.getElementById('result2');
+            result.innerHTML = `Intentando redirigir a: ${url}`;
+            
+            // Hacer petición para ver el código de respuesta
+            fetch(url)
+                .then(response => {
+                    result.innerHTML += `<br>Código de respuesta: ${response.status}`;
+                    if (response.status === 302) {
+                        result.innerHTML += `<br>✅ Redirección correcta (requiere autenticación)`;
+                    } else {
+                        result.innerHTML += `<br>❌ Error inesperado`;
+                    }
+                })
+                .catch(error => {
+                    result.innerHTML += `<br>❌ Error: ${error.message}`;
+                });
+        }
+        
+        // Test del formulario
+        document.getElementById('testForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const result = document.getElementById('result3');
+            const redirectModule = document.getElementById('redirect_module').value;
+            
+            result.innerHTML = `Formulario enviado con redirect_module: "${redirectModule}"`;
+            
+            // Simular envío
+            setTimeout(() => {
+                result.innerHTML += `<br>✅ El controlador recibiría: redirect_module = "${redirectModule}"`;
+                if (redirectModule) {
+                    result.innerHTML += `<br>✅ Redirigiría a: ${getRedirectUrl(redirectModule)}`;
+                } else {
+                    result.innerHTML += `<br>✅ Redirigiría al dashboard por defecto`;
+                }
+            }, 1000);
+        });
+        
+        function getRedirectUrl(module) {
+            const routes = {
+                'Dashboard': '/dashboard',
+                'Miembros': '/miembros', 
+                'Directiva': '/directiva'
+            };
+            return routes[module] || '/dashboard';
+        }
+    </script>
+</body>
+</html>

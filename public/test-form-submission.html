@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Form Submission - Accesos Rápidos</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .btn { padding: 12px 24px; margin: 8px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .result { margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #007bff; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .warning { border-left-color: #ffc107; background: #fff3cd; }
+        .form-group { margin: 15px 0; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .toast-notification { position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px; max-width: 400px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); opacity: 1; transform: translateX(0); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); border-radius: 8px; background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border-left: 4px solid #2196f3; color: #1565c0; padding: 15px; }
+        .toast-notification.fade-in { animation: slideInRight 0.3s ease-out; }
+        .toast-notification.fade-out { animation: slideOutRight 0.5s ease-in; opacity: 0; transform: translateX(100%); }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideOutRight { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(100%); } }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .status { display: inline-block; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: bold; }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.warning { background: #fff3cd; color: #856404; }
+        .log { background: #f8f9fa; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Form Submission - Accesos Rápidos</h1>
+        
+        <!-- Simular formulario de login exacto -->
+        <form id="loginForm" method="POST" action="http://localhost:8010/login">
+            <input type="hidden" name="_token" value="test-token">
+            <input type="hidden" id="redirect_module" name="redirect_module" value="">
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="test@test.com" value="test@test.com">
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="password" value="password">
+            </div>
+        </form>
+        
+        <!-- Test 1: Configurar redirección y mostrar datos -->
+        <div class="test-section">
+            <h3>1. Configurar Redirección</h3>
+            <button class="btn btn-primary" onclick="configureRedirect('Dashboard')">Configurar Dashboard</button>
+            <button class="btn btn-info" onclick="configureRedirect('Miembros')">Configurar Miembros</button>
+            <button class="btn btn-success" onclick="configureRedirect('Directiva')">Configurar Directiva</button>
+            <div id="configResult"></div>
+        </div>
+        
+        <!-- Test 2: Mostrar datos del formulario -->
+        <div class="test-section">
+            <h3>2. Verificar Datos del Formulario</h3>
+            <button class="btn btn-warning" onclick="showFormData()">Mostrar Datos</button>
+            <div id="formDataResult"></div>
+        </div>
+        
+        <!-- Test 3: Simular envío real -->
+        <div class="test-section">
+            <h3>3. Simular Envío Real</h3>
+            <button class="btn btn-primary" onclick="simulateRealSubmission()">Simular Envío Real</button>
+            <div id="submissionResult"></div>
+        </div>
+        
+        <!-- Log de debug -->
+        <div class="test-section">
+            <h3>📋 Log de Debug</h3>
+            <div id="debugLog" class="log"></div>
+            <button class="btn btn-primary" onclick="clearLog()">Limpiar Log</button>
+        </div>
+        
+        <!-- Resultados -->
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let logCount = 0;
+        
+        // Función para agregar al log
+        function addLog(message, type = 'info') {
+            logCount++;
+            const logDiv = document.getElementById('debugLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `<strong>${logCount}.</strong> [${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        // Función para limpiar log
+        function clearLog() {
+            document.getElementById('debugLog').innerHTML = '';
+            logCount = 0;
+        }
+        
+        // Función para mostrar resultados
+        function showResult(message, type = 'info') {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong> - ${message}`;
+            resultsDiv.appendChild(resultDiv);
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Configurar redirección (simula el comportamiento del login)
+        function configureRedirect(module) {
+            addLog(`🎯 Configurando redirección para: ${module}`);
+            
+            // Llenar el campo redirect_module
+            const redirectField = document.getElementById('redirect_module');
+            if (redirectField) {
+                redirectField.value = module;
+                addLog(`✅ Campo redirect_module configurado con: "${module}"`);
+            } else {
+                addLog('❌ Campo redirect_module no encontrado');
+                showResult('Error: Campo redirect_module no encontrado', 'error');
+                return;
+            }
+            
+            // Enfocar campo email
+            const emailField = document.getElementById('email');
+            if (emailField) {
+                emailField.focus();
+                addLog('✅ Campo email enfocado');
+            }
+            
+            // Mostrar resultado
+            const configResult = document.getElementById('configResult');
+            configResult.innerHTML = `
+                <h4>Redirección Configurada:</h4>
+                <p><span class="status success">✅</span> Módulo: ${module}</p>
+                <p><strong>Campo redirect_module:</strong> "${redirectField.value}"</p>
+                <p><strong>Campo email enfocado:</strong> ${emailField ? 'Sí' : 'No'}</p>
+            `;
+            
+            showResult(`Redirección configurada para: ${module}`, 'success');
+        }
+        
+        // Mostrar datos del formulario
+        function showFormData() {
+            const formDataResult = document.getElementById('formDataResult');
+            const form = document.getElementById('loginForm');
+            const formData = new FormData(form);
+            
+            let html = '<h4>Datos del Formulario:</h4>';
+            html += '<table border="1" style="width: 100%; border-collapse: collapse;">';
+            html += '<tr><th>Campo</th><th>Valor</th></tr>';
+            
+            for (let [key, value] of formData.entries()) {
+                html += `<tr><td>${key}</td><td>${value}</td></tr>`;
+            }
+            
+            html += '</table>';
+            
+            // Verificar específicamente redirect_module
+            const redirectField = document.getElementById('redirect_module');
+            html += `<p><strong>Campo redirect_module actual:</strong> "${redirectField ? redirectField.value : 'NO ENCONTRADO'}"</p>`;
+            
+            formDataResult.innerHTML = html;
+            addLog('📋 Datos del formulario mostrados');
+            showResult('Datos del formulario mostrados', 'success');
+        }
+        
+        // Simular envío real
+        function simulateRealSubmission() {
+            const submissionResult = document.getElementById('submissionResult');
+            const form = document.getElementById('loginForm');
+            const formData = new FormData(form);
+            
+            addLog('📤 Simulando envío real del formulario');
+            
+            // Mostrar datos que se enviarían
+            let html = '<h4>Datos que se enviarían al servidor:</h4>';
+            html += '<table border="1" style="width: 100%; border-collapse: collapse;">';
+            html += '<tr><th>Campo</th><th>Valor</th></tr>';
+            
+            for (let [key, value] of formData.entries()) {
+                html += `<tr><td>${key}</td><td>${value}</td></tr>`;
+            }
+            
+            html += '</table>';
+            
+            // Verificar redirect_module
+            const redirectModule = formData.get('redirect_module');
+            if (redirectModule) {
+                html += `<p><span class="status success">✅</span> Redirección configurada: ${redirectModule}</p>`;
+                html += `<p><strong>El controlador recibiría:</strong> redirect_module = "${redirectModule}"</p>`;
+                
+                // Simular lógica del controlador
+                const redirectUrl = getRedirectUrl(redirectModule);
+                html += `<p><strong>Redirigiría a:</strong> ${redirectUrl}</p>`;
+                
+                addLog(`✅ Redirección configurada: ${redirectModule} → ${redirectUrl}`);
+                showResult(`Redirección configurada: ${redirectModule} → ${redirectUrl}`, 'success');
+            } else {
+                html += `<p><span class="status warning">⚠️</span> No hay redirección configurada</p>`;
+                html += `<p><strong>Redirigiría al dashboard por defecto</strong></p>`;
+                
+                addLog('⚠️ No hay redirección configurada');
+                showResult('No hay redirección configurada', 'warning');
+            }
+            
+            submissionResult.innerHTML = html;
+        }
+        
+        // Función auxiliar para obtener URL de redirección
+        function getRedirectUrl(module) {
+            const routes = {
+                'Dashboard': '/dashboard',
+                'Miembros': '/miembros', 
+                'Directiva': '/directiva'
+            };
+            return routes[module] || '/dashboard';
+        }
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('🚀 Test Form Submission iniciado');
+            showResult('Test Form Submission iniciado - Configura una redirección y prueba', 'success');
+        });
+    </script>
+</body>
+</html>
