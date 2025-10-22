@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('inscripcion_cursos', function (Blueprint $table) {
             $table->id();
+            $table->string('miembro_id', 36);
+            $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade');
+            $table->date('fecha_inscripcion');
+            $table->enum('estado', ['inscrito', 'completado', 'cancelado'])->default('inscrito');
+            $table->decimal('calificacion', 5, 2)->nullable();
+            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }

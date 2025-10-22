@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('asistencia_asambleas', function (Blueprint $table) {
             $table->id();
+            $table->string('miembro_id', 36);
+            $table->foreignId('asamblea_id')->constrained('asambleas')->onDelete('cascade');
+            $table->boolean('presente')->default(false);
+            $table->timestamp('hora_llegada')->nullable();
+            $table->timestamp('hora_salida')->nullable();
+            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }
