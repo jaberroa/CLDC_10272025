@@ -48,12 +48,12 @@ class AuthenticatedSessionController extends Controller
                 case 'Directiva':
                     return redirect()->route('directiva.index');
                 default:
-                    return redirect()->intended(route('dashboard', absolute: false));
+                    return redirect()->intended(route('dashboard'));
             }
         }
 
         \Log::info('No redirect module, going to dashboard');
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('dashboard'));
     }
 
     /**
