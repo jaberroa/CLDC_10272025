@@ -17,14 +17,14 @@ class Organizacion extends Model
     protected $fillable = [
         'nombre',
         'codigo',
-        'tipo',
+        'tipo_organizacion_id',
         'pais',
         'provincia',
         'ciudad',
         'direccion',
         'telefono',
         'email',
-        'estado_adecuacion',
+        'estado_adecuacion_id',
         'miembros_minimos',
         'fecha_fundacion',
         'organizacion_padre_id',
@@ -153,11 +153,29 @@ class Organizacion extends Model
     }
 
     /**
+     * Relación con tipo de organización
+     */
+    public function tipoOrganizacion(): BelongsTo
+    {
+        return $this->belongsTo(TipoOrganizacion::class, 'tipo_organizacion_id');
+    }
+
+    /**
+     * Relación con estado de adecuación
+     */
+    public function estadoAdecuacion(): BelongsTo
+    {
+        return $this->belongsTo(EstadoAdecuacion::class, 'estado_adecuacion_id');
+    }
+
+    /**
      * Scope para organizaciones activas
      */
     public function scopeActivas($query)
     {
-        return $query->whereIn('estado_adecuacion', ['aprobada', 'en_revision']);
+        return $query->whereHas('estadoAdecuacion', function($q) {
+            $q->whereIn('nombre', ['aprobada', 'en_revision']);
+        });
     }
 
     /**

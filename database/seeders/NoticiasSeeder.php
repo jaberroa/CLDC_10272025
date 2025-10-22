@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Models\Asamblea;
 use App\Models\Capacitacion;
 use App\Models\Eleccion;
@@ -38,7 +39,7 @@ class NoticiasSeeder extends Seeder
                 'lugar' => 'Sede Nacional CLDCI',
                 'modalidad' => 'presencial',
                 'estado' => 'convocada',
-                'created_by' => 'admin',
+                'created_by' => null,
             ],
             [
                 'organizacion_id' => $organizacionPrincipal->id,
@@ -51,15 +52,15 @@ class NoticiasSeeder extends Seeder
                 'lugar' => 'Virtual - Zoom',
                 'modalidad' => 'virtual',
                 'estado' => 'convocada',
-                'created_by' => 'admin',
+                'created_by' => null,
             ],
         ];
 
         foreach ($asambleasData as $data) {
-            Asamblea::firstOrCreate(
-                ['titulo' => $data['titulo']],
-                $data
-            );
+            $data['id'] = \Illuminate\Support\Str::uuid();
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+            DB::table('asambleas')->insert($data);
         }
 
         // 2. Crear comunicados de directiva
@@ -71,8 +72,9 @@ class NoticiasSeeder extends Seeder
                 'tipo' => 'resolucion',
                 'numero_documento' => 'RES-2025-001',
                 'fecha_emision' => now()->subDays(5),
+                'archivo_url' => '/documentos/resolucion-2025-001.pdf',
                 'activo' => true,
-                'created_by' => 'admin',
+                'created_by' => null,
             ],
             [
                 'organizacion_id' => $organizacionPrincipal->id,
@@ -81,16 +83,17 @@ class NoticiasSeeder extends Seeder
                 'tipo' => 'circular',
                 'numero_documento' => 'CIR-2025-001',
                 'fecha_emision' => now()->subDays(10),
+                'archivo_url' => '/documentos/circular-2025-001.pdf',
                 'activo' => true,
-                'created_by' => 'admin',
+                'created_by' => null,
             ],
         ];
 
         foreach ($comunicadosData as $data) {
-            DocumentoLegal::firstOrCreate(
-                ['titulo' => $data['titulo']],
-                $data
-            );
+            $data['id'] = \Illuminate\Support\Str::uuid();
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+            DB::table('documentos_legales')->insert($data);
         }
 
         // 3. Crear capacitaciones
@@ -99,58 +102,77 @@ class NoticiasSeeder extends Seeder
                 'organizacion_id' => $organizacionPrincipal->id,
                 'titulo' => 'Curso de Locución Profesional',
                 'descripcion' => 'Capacitación en técnicas de locución moderna',
+                'tipo' => 'curso',
                 'fecha_inicio' => now()->addDays(20),
                 'fecha_fin' => now()->addDays(25),
                 'lugar' => 'Estudio de Grabación CLDCI',
                 'modalidad' => 'presencial',
                 'estado' => 'programada',
                 'costo' => 5000,
-                'cupo_maximo' => 20,
-                'instructor' => 'Prof. María González',
+                'capacidad_maxima' => 20,
             ],
             [
                 'organizacion_id' => $organizacionPrincipal->id,
                 'titulo' => 'Taller de Periodismo Digital',
                 'descripcion' => 'Herramientas digitales para periodistas',
+                'tipo' => 'taller',
                 'fecha_inicio' => now()->addDays(45),
                 'fecha_fin' => now()->addDays(47),
                 'lugar' => 'Virtual - Google Meet',
                 'modalidad' => 'virtual',
                 'estado' => 'programada',
                 'costo' => 3000,
-                'cupo_maximo' => 50,
-                'instructor' => 'Lic. Carlos Rodríguez',
+                'capacidad_maxima' => 50,
             ],
         ];
 
         foreach ($capacitacionesData as $data) {
-            Capacitacion::firstOrCreate(
-                ['titulo' => $data['titulo']],
-                $data
-            );
+            $data['id'] = \Illuminate\Support\Str::uuid();
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+            DB::table('capacitaciones')->insert($data);
         }
 
-        // 4. Crear elecciones
+        // 4. Crear elecciones (necesitamos crear un padrón primero)
+        $padronId = \Illuminate\Support\Str::uuid();
+        DB::table('padrones_electorales')->insert([
+            'id' => $padronId,
+            'organizacion_id' => $organizacionPrincipal->id,
+            'periodo' => '2025-2027',
+            'fecha_inicio' => now()->subDays(30),
+            'fecha_fin' => now()->addYears(2),
+            'descripcion' => 'Padrón electoral para elecciones 2025-2027',
+            'activo' => true,
+            'total_electores' => 0,
+            'created_by' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         $eleccionesData = [
             [
-                'organizacion_id' => $organizacionPrincipal->id,
-                'titulo' => 'Elecciones Directiva Nacional 2025',
-                'descripcion' => 'Proceso electoral para elegir nueva directiva',
-                'tipo' => 'nacional',
+                'padron_id' => $padronId,
+                'cargo' => 'Presidente',
+                'candidatos' => json_encode([
+                    ['id' => \Illuminate\Support\Str::uuid(), 'nombre' => 'Juan Pérez', 'propuesta' => 'Modernización de la organización'],
+                    ['id' => \Illuminate\Support\Str::uuid(), 'nombre' => 'María García', 'propuesta' => 'Transparencia y participación']
+                ]),
                 'fecha_inicio' => now()->addDays(60),
                 'fecha_fin' => now()->addDays(65),
-                'estado' => 'preparacion',
+                'modalidad' => 'virtual',
+                'estado' => 'programada',
                 'votos_totales' => 0,
-                'votacion_abierta' => false,
-                'created_by' => 'admin',
+                'resultados' => null,
+                'auditoria_hash' => null,
+                'created_by' => null,
             ],
         ];
 
         foreach ($eleccionesData as $data) {
-            Eleccion::firstOrCreate(
-                ['titulo' => $data['titulo']],
-                $data
-            );
+            $data['id'] = \Illuminate\Support\Str::uuid();
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+            DB::table('elecciones')->insert($data);
         }
 
         // 5. Crear transacciones financieras importantes
@@ -165,8 +187,8 @@ class NoticiasSeeder extends Seeder
                 'observaciones' => 'Recaudación de cuotas de membresía del mes de enero',
                 'referencia' => 'CUOTAS-2025-01',
                 'metodo_pago' => 'transferencia',
-                'aprobado_por' => 'admin',
-                'created_by' => 'admin',
+                'aprobado_por' => null,
+                'created_by' => null,
             ],
             [
                 'organizacion_id' => $organizacionPrincipal->id,
@@ -178,16 +200,16 @@ class NoticiasSeeder extends Seeder
                 'observaciones' => 'Donación de empresa patrocinadora',
                 'referencia' => 'DON-2025-001',
                 'metodo_pago' => 'cheque',
-                'aprobado_por' => 'admin',
-                'created_by' => 'admin',
+                'aprobado_por' => null,
+                'created_by' => null,
             ],
         ];
 
         foreach ($transaccionesData as $data) {
-            TransaccionFinanciera::firstOrCreate(
-                ['referencia' => $data['referencia']],
-                $data
-            );
+            $data['id'] = \Illuminate\Support\Str::uuid();
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+            DB::table('transacciones_financieras')->insert($data);
         }
 
         $this->command->info('✅ Datos de noticias creados exitosamente:');

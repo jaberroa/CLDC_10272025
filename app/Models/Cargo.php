@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Cargo extends Model
 {
@@ -14,53 +15,29 @@ class Cargo extends Model
         'nombre',
         'descripcion',
         'nivel',
-        'es_presidencia',
-        'orden_prioridad',
+        'activo'
     ];
 
     protected $casts = [
-        'es_presidencia' => 'boolean',
-        'orden_prioridad' => 'integer',
+        'activo' => 'boolean'
     ];
 
-    /**
-     * Relación con miembros directivos
-     */
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $model->id = Str::uuid();
+            }
+        });
+    }
+
     public function miembrosDirectivos(): HasMany
     {
         return $this->hasMany(MiembroDirectivo::class);
     }
-
-    /**
-     * Relación con candidatos
-     */
-    public function candidatos(): HasMany
-    {
-        return $this->hasMany(Candidato::class);
-    }
-
-    /**
-     * Scope para cargos presidenciales
-     */
-    public function scopePresidenciales($query)
-    {
-        return $query->where('es_presidencia', true);
-    }
-
-    /**
-     * Scope por nivel
-     */
-    public function scopePorNivel($query, $nivel)
-    {
-        return $query->where('nivel', $nivel);
-    }
-
-    /**
-     * Scope ordenados por prioridad
-     */
-    public function scopeOrdenados($query)
-    {
-        return $query->orderBy('orden_prioridad');
-    }
 }
-

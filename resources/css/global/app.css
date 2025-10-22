@@ -1,0 +1,536 @@
+/* ==========================================
+   CLDCI GLOBAL STYLES - Aplicación Global
+   ========================================== */
+
+/* Importar sistema completo CLDCI */
+@import './complete-system.css';
+
+/* Importar fixes específicos */
+@import './fixes.css';
+
+/* Importar sistema de filtros global */
+@import './global-filter.css';
+
+/* ==========================================
+   LAYOUT GLOBAL - Estructura Base
+   ========================================== */
+.app-container {
+    min-height: 100vh;
+    background: #f8f9fa;
+}
+
+/* ==========================================
+   FOOTER GLOBAL - Pie de Página
+   ========================================== */
+.footer {
+    background: #fff;
+    border-top: 1px solid #e5e7eb;
+    padding: 1rem 0;
+    margin-top: auto;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    margin-right: calc(-50vw + 50%) !important;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+}
+
+.footer .container-fluid {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin: 0 !important;
+}
+
+.footer .row {
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.footer .col-12 {
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+.footer .d-flex {
+    width: 100% !important;
+    min-height: 2rem;
+}
+
+.footer .text-start,
+.footer .text-end {
+    flex: 1;
+    font-size: 0.875rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.footer .text-start {
+    text-align: left;
+}
+
+.footer .text-end {
+    text-align: right;
+}
+
+/* Responsive para footer */
+@media (max-width: 576px) {
+    .footer {
+        width: 100vw !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        left: 0 !important;
+        transform: none !important;
+    }
+    
+    .footer .d-flex {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .footer .text-start,
+    .footer .text-end {
+        text-align: center;
+        width: 100%;
+    }
+}
+
+.app-header {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.app-sidebar {
+    background: #fff;
+    border-right: 1px solid #e5e7eb;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.app-main {
+    background: #f8f9fa;
+    min-height: calc(100vh - 70px);
+    padding: 1.5rem;
+}
+
+/* ==========================================
+   CARDS GLOBAL - Tarjetas Base
+   ========================================== */
+.card-global {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.card-global:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+}
+
+.card-global .card-header {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: #fff;
+    border-bottom: none;
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.card-global .card-header .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.card-global .card-header .card-subtitle {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.card-global .card-body {
+    padding: 1.5rem;
+    background: #fff;
+}
+
+/* ==========================================
+   BUTTONS GLOBAL - Botones Base
+   ========================================== */
+.btn-global {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-global:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-global.btn-primary {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.btn-global.btn-primary:hover {
+    background: #2563eb;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-global.btn-success {
+    background: #10b981;
+    color: #fff;
+}
+
+.btn-global.btn-success:hover {
+    background: #059669;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-global.btn-danger {
+    background: #ef4444;
+    color: #fff;
+}
+
+.btn-global.btn-danger:hover {
+    background: #dc2626;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-global.btn-outline {
+    background: transparent;
+    border: 2px solid #3b82f6;
+    color: #3b82f6;
+}
+
+.btn-global.btn-outline:hover {
+    background: #3b82f6;
+    color: #fff;
+}
+
+/* ==========================================
+   FORMS GLOBAL - Formularios Base
+   ========================================== */
+.form-global {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    border: 1px solid #e5e7eb;
+}
+
+.form-global .form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.form-global .form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.form-global .form-section-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-global .form-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.form-global .form-control,
+.form-global .form-select {
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    background: #fff;
+}
+
+.form-global .form-control:focus,
+.form-global .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+.form-global .form-text {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+.form-global .invalid-feedback {
+    font-size: 0.75rem;
+    color: #dc2626;
+    margin-top: 0.25rem;
+}
+
+/* ==========================================
+   TABLES GLOBAL - Tablas Base
+   ========================================== */
+.table-global {
+    background: #fff;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.table-global .table {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-global .table thead th {
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    color: #495057;
+    padding: 1rem 0.75rem;
+    vertical-align: middle;
+    font-size: 0.875rem;
+}
+
+.table-global .table tbody tr {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.table-global .table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-global .table tbody td {
+    padding: 1rem 0.75rem;
+    vertical-align: middle;
+    font-size: 0.875rem;
+}
+
+.table-global .table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ==========================================
+   MODALS GLOBAL - Modales Base
+   ========================================== */
+.modal-global .modal-content {
+    border-radius: 0.75rem;
+    border: none;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-global .modal-header {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: #fff;
+    border-bottom: none;
+    border-radius: 0.75rem 0.75rem 0 0;
+    padding: 1.25rem 1.5rem;
+}
+
+.modal-global .modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.modal-global .modal-body {
+    padding: 1.5rem;
+    background: #fff;
+}
+
+.modal-global .modal-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #e5e7eb;
+    border-radius: 0 0 0.75rem 0.75rem;
+    padding: 1rem 1.5rem;
+}
+
+/* ==========================================
+   ALERTS GLOBAL - Alertas Base
+   ========================================== */
+.alert-global {
+    border-radius: 0.5rem;
+    border: none;
+    padding: 1rem 1.25rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.alert-global.alert-success {
+    background: #dcfce7;
+    color: #166534;
+    border-left: 4px solid #10b981;
+}
+
+.alert-global.alert-danger {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+.alert-global.alert-warning {
+    background: #fef3c7;
+    color: #92400e;
+    border-left: 4px solid #f59e0b;
+}
+
+.alert-global.alert-info {
+    background: #dbeafe;
+    color: #1e40af;
+    border-left: 4px solid #3b82f6;
+}
+
+/* ==========================================
+   LOADING GLOBAL - Estados de Carga
+   ========================================== */
+.loading-global {
+    position: relative;
+    pointer-events: none;
+}
+
+.loading-global::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.loading-global .spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid #f3f4f6;
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   RESPONSIVE GLOBAL - Adaptaciones Móviles
+   ========================================== */
+@media (max-width: 1200px) {
+    .app-main {
+        padding: 1rem;
+    }
+    
+    .card-global .card-body {
+        padding: 1.25rem;
+    }
+    
+    .form-global {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-main {
+        padding: 0.75rem;
+    }
+    
+    .card-global .card-body {
+        padding: 1rem;
+    }
+    
+    .form-global {
+        padding: 1rem;
+    }
+    
+    .table-global .table thead th,
+    .table-global .table tbody td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .btn-global {
+        padding: 0.625rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .app-main {
+        padding: 0.5rem;
+    }
+    
+    .card-global .card-header {
+        padding: 1rem;
+    }
+    
+    .card-global .card-body {
+        padding: 0.75rem;
+    }
+    
+    .form-global {
+        padding: 0.75rem;
+    }
+}
+
+/* ==========================================
+   UTILITIES GLOBAL - Utilidades Finales
+   ========================================== */
+.text-gradient {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.border-gradient {
+    border: 2px solid;
+    border-image: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) 1;
+}
+
+.shadow-gradient {
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.hover-lift:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    transition: box-shadow 0.2s ease;
+}

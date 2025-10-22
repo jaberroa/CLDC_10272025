@@ -1,7 +1,7 @@
 /*
-Template Name: CLDCI - Sistema de Gestión
-Author: CLDCI
-Website: https://cldci.org.do/
+Template Name: Urbix - Admin & Dashboard Template
+Author: Pixeleyez
+Website: https://pixeleyez.com/
 File: Auth init js
 */
 

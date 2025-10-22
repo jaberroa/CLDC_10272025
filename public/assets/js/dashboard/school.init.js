@@ -1,7 +1,7 @@
 /*
-Template Name: CLDCI - Sistema de Gestión
-Author: CLDCI
-Website: https://cldci.org.do/
+Template Name: Urbix - Admin & Dashboard Template
+Author: Pixeleyez
+Website: https://pixeleyez.com/
 File: School init js
 */
 
@@ -30,16 +30,16 @@ if (document.getElementById("gridjs_expenses")) {
 
 // inline-picker
 const localeEn = {
-  days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-  daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
-  daysMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-  months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-  monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-  today: 'Hoy',
-  clear: 'Limpiar',
-  dateFormat: 'dd/mm/yyyy',
-  timeFormat: 'hh:ii',
-  firstDay: 1
+  days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+  months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  today: 'Today',
+  clear: 'Clear',
+  dateFormat: 'mm/dd/yyyy',
+  timeFormat: 'hh:ii aa',
+  firstDay: 0
 }
 new AirDatepicker('#inline-picker', {
   inline: true,
@@ -57,14 +57,14 @@ function renderCharts() {
       }
     },
     series: [{
-      name: 'Miembros Activos',
+      name: 'Series A',
       data: [6000, 6800, 3000, 4300, 5000, 2800, 4700, 6000, 4500]
     }, {
-      name: 'Organizaciones',
+      name: 'Series B',
       data: [4500, 5200, 1700, 3000, 3600, 2000, 3900, 4800, 3400]
     }],
     xaxis: {
-      categories: ['Sep', 'Oct', 'Nov', 'Dec', 'Ene', 'Feb', 'Mar', 'Abr', 'May'],
+      categories: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'],
       labels: {
         style: {
           fontSize: '14px'
@@ -123,7 +123,7 @@ function renderCharts() {
     stroke: {
       lineCap: 'round'
     },
-    labels: ['Miembros', 'Organizaciones'],
+    labels: ['Students', 'Teachers'],
     legend: {
       show: false,
     }

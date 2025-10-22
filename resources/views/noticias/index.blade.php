@@ -4,7 +4,7 @@
 @section('title-sub', 'Noticias')
 @section('pagetitle', 'Noticias y Avisos Importantes')
 @section('css')
-    <link rel="stylesheet" href="assets/libs/gridjs/theme/mermaid.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/libs/gridjs/theme/mermaid.min.css') }}">
 @endsection
 
 @section('content')
@@ -184,7 +184,7 @@
 @endsection
 
 @section('js')
-    <script src="assets/libs/gridjs/gridjs.umd.js" type="text/javascript"></script>
-    <script src="assets/js/app.js"></script>
+    <script src="{{ asset('assets/libs/gridjs/gridjs.umd.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
 @endsection
 

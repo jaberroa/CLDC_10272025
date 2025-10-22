@@ -1,0 +1,202 @@
+/* ==========================================
+   CORRECCIÓN DE PAGINACIÓN - CLDCI
+   ========================================== */
+
+/* Ocultar las flechas grandes y feas */
+.pagination .page-link {
+    position: relative;
+    display: block;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #6c757d;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    margin: 0 2px;
+    transition: all 0.15s ease-in-out;
+}
+
+.pagination .page-link:hover {
+    z-index: 2;
+    color: #0d6efd;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.pagination .page-link:focus {
+    z-index: 3;
+    color: #0d6efd;
+    background-color: #e9ecef;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.pagination .page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+/* Corregir las flechas de navegación */
+.pagination .page-item:first-child .page-link {
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+}
+
+.pagination .page-item:last-child .page-link {
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+/* Ocultar texto de navegación y mostrar solo iconos */
+.pagination .page-link[aria-label="&laquo; Previous"],
+.pagination .page-link[aria-label="Next &raquo;"] {
+    font-size: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination .page-link[aria-label="&laquo; Previous"]:before {
+    content: "‹";
+    font-size: 18px;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+.pagination .page-link[aria-label="Next &raquo;"]:before {
+    content: "›";
+    font-size: 18px;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+.pagination .page-link[aria-label="&laquo; Previous"]:hover:before,
+.pagination .page-link[aria-label="Next &raquo;"]:hover:before {
+    color: #0d6efd;
+}
+
+/* Estilo para números de página */
+.pagination .page-link:not([aria-label*="Previous"]):not([aria-label*="Next"]) {
+    min-width: 40px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .pagination .page-link {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        margin: 1px;
+    }
+    
+    .pagination .page-link[aria-label="&laquo; Previous"],
+    .pagination .page-link[aria-label="Next &raquo;"] {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Mejorar el contenedor de paginación */
+.d-flex.justify-content-between.align-items-center.mt-4 {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.d-flex.justify-content-between.align-items-center.mt-4 .text-muted {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6c757d !important;
+}
+
+/* Estilo para los botones de navegación rápida */
+.btn-group .btn {
+    border-radius: 0.375rem;
+    margin: 0 2px;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-group .btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
+}
+
+.btn-group .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Mejorar el estilo de la paginación de Laravel */
+.pagination.pagination-sm {
+    margin-bottom: 0;
+}
+
+.pagination.pagination-sm .page-link {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 0.375rem;
+    margin: 0 1px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+    color: #6c757d;
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination.pagination-sm .page-link:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+    color: #0d6efd;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.pagination.pagination-sm .page-item.active .page-link {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.3);
+}
+
+.pagination.pagination-sm .page-item.disabled .page-link {
+    background: #f8f9fa;
+    border-color: #e9ecef;
+    color: #adb5bd;
+    cursor: not-allowed;
+}
+
+/* Estilo para el estado de carga */
+.pagination.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Animación suave para cambios de página */
+.pagination .page-link {
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination .page-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

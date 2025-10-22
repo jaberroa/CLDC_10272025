@@ -5,55 +5,47 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class InscripcionCurso extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'curso_id',
         'miembro_id',
-        'estado',
+        'curso_id',
         'fecha_inscripcion',
-        'monto_pagado',
-        'observaciones',
+        'estado',
+        'nota_final',
+        'certificado_url'
     ];
 
     protected $casts = [
         'fecha_inscripcion' => 'date',
-        'monto_pagado' => 'decimal:2',
+        'nota_final' => 'decimal:2'
     ];
 
-    /**
-     * Relación con curso
-     */
-    public function curso(): BelongsTo
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    protected static function boot()
     {
-        return $this->belongsTo(Curso::class);
+        parent::boot();
+        
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $model->id = Str::uuid();
+            }
+        });
     }
 
-    /**
-     * Relación con miembro
-     */
     public function miembro(): BelongsTo
     {
         return $this->belongsTo(Miembro::class);
     }
 
-    /**
-     * Scope por estado
-     */
-    public function scopePorEstado($query, $estado)
+    public function curso(): BelongsTo
     {
-        return $query->where('estado', $estado);
-    }
-
-    /**
-     * Scope para inscripciones activas
-     */
-    public function scopeActivas($query)
-    {
-        return $query->whereIn('estado', ['inscrito', 'asistio', 'completo']);
+        return $this->belongsTo(Curso::class);
     }
 }
-

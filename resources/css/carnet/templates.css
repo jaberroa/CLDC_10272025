@@ -1,0 +1,247 @@
+/* ==========================================
+   Plantillas de Carnet - Estilos Específicos
+   ========================================== */
+
+/* Modelo 8: Enchazbado Destacado */
+.carnet-modelo8 {
+    width: 400px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.carnet-modelo8 .carnet-header {
+    background: var(--color-primario, #008080);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.carnet-modelo8 .carnet-photo {
+    width: 80px;
+    height: 80px;
+}
+
+.carnet-modelo8 .carnet-info {
+    flex: 1;
+}
+
+.carnet-modelo8 .carnet-body {
+    background: var(--color-fondo, #ffffff);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.carnet-modelo8 .carnet-qr-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.carnet-modelo8 .carnet-details {
+    text-align: right;
+}
+
+/* Modelo 11: Profesional con Degradado */
+.carnet-modelo11 {
+    width: 400px;
+    height: 250px;
+    background: linear-gradient(135deg, var(--color-primario, #4facfe) 0%, var(--color-secundario, #00f2fe) 100%);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.carnet-modelo11 .carnet-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.carnet-modelo11 .carnet-photo {
+    width: 70px;
+    height: 70px;
+}
+
+.carnet-modelo11 .carnet-body {
+    background: rgba(255,255,255,0.9);
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Modelo 13: Barra Superior de Acento */
+.carnet-modelo13 {
+    width: 400px;
+    height: 250px;
+    background: var(--color-fondo, #ffffff);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.carnet-modelo13 .carnet-header {
+    background: var(--color-primario, #008080);
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    position: relative;
+}
+
+.carnet-modelo13 .carnet-logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.carnet-modelo13 .carnet-body {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.carnet-modelo13 .carnet-photo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.carnet-modelo13 .carnet-info-section {
+    flex: 1;
+}
+
+.carnet-modelo13 .carnet-details-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Modelo 15: Patrón Geométrico */
+.carnet-modelo15 {
+    width: 400px;
+    height: 250px;
+    background: var(--color-fondo, #ffffff);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.carnet-modelo15::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    background: 
+        linear-gradient(45deg, var(--color-primario, #667eea) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--color-primario, #667eea) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--color-primario, #667eea) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--color-primario, #667eea) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    opacity: 0.1;
+}
+
+.carnet-modelo15 .carnet-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.carnet-modelo15 .carnet-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.carnet-modelo15 .carnet-photo {
+    width: 70px;
+    height: 70px;
+}
+
+.carnet-modelo15 .carnet-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+/* Modelo Clásico */
+.carnet-clasico {
+    width: 400px;
+    height: 250px;
+    background: linear-gradient(135deg, var(--color-primario, #667eea) 0%, var(--color-secundario, #764ba2) 100%);
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.carnet-clasico .carnet-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.carnet-clasico .carnet-logo {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 10px;
+}
+
+.carnet-clasico .carnet-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.carnet-clasico .carnet-photo {
+    width: 60px;
+    height: 60px;
+}
+
+.carnet-clasico .carnet-info {
+    flex: 1;
+    margin: 0 20px;
+    text-align: center;
+}
+
+.carnet-clasico .carnet-qr {
+    background: rgba(255,255,255,0.2);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Responsive para todos los modelos */
+@media (max-width: 480px) {
+    .carnet-modelo8,
+    .carnet-modelo11,
+    .carnet-modelo13,
+    .carnet-modelo15,
+    .carnet-clasico {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        min-height: 200px;
+    }
+}
+
+

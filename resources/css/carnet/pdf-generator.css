@@ -1,0 +1,323 @@
+/* ==========================================
+   Generador de PDF - Estilos
+   ========================================== */
+
+.carnet-pdf-generator {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.carnet-pdf-generator-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.carnet-pdf-generator-title i {
+    color: #6c757d;
+}
+
+.carnet-pdf-options {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.carnet-pdf-option {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.carnet-pdf-option label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.carnet-pdf-option input,
+.carnet-pdf-option select {
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+}
+
+.carnet-pdf-option input:focus,
+.carnet-pdf-option select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+/* Configuraciones de PDF */
+.carnet-pdf-config {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.carnet-pdf-config-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.carnet-pdf-config-group label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.carnet-pdf-config-group input,
+.carnet-pdf-config-group select {
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+/* Tamaños de página */
+.carnet-pdf-sizes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.carnet-pdf-size {
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.carnet-pdf-size:hover {
+    border-color: #007bff;
+    background: #e7f3ff;
+}
+
+.carnet-pdf-size.active {
+    border-color: #007bff;
+    background: #007bff;
+    color: white;
+}
+
+/* Orientación */
+.carnet-pdf-orientation {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.carnet-pdf-orientation-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.carnet-pdf-orientation-btn:hover {
+    border-color: #007bff;
+    background: #e7f3ff;
+}
+
+.carnet-pdf-orientation-btn.active {
+    border-color: #007bff;
+    background: #007bff;
+    color: white;
+}
+
+.carnet-pdf-orientation-icon {
+    font-size: 1.2rem;
+}
+
+/* Calidad */
+.carnet-pdf-quality {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.carnet-pdf-quality-btn {
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.carnet-pdf-quality-btn:hover {
+    border-color: #007bff;
+    background: #e7f3ff;
+}
+
+.carnet-pdf-quality-btn.active {
+    border-color: #007bff;
+    background: #007bff;
+    color: white;
+}
+
+/* Acciones de PDF */
+.carnet-pdf-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.carnet-pdf-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+.carnet-pdf-btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.carnet-pdf-btn-primary:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+}
+
+.carnet-pdf-btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.carnet-pdf-btn-success:hover {
+    background: #1e7e34;
+    transform: translateY(-1px);
+}
+
+.carnet-pdf-btn-outline {
+    background: transparent;
+    color: #6c757d;
+    border: 1px solid #ced4da;
+}
+
+.carnet-pdf-btn-outline:hover {
+    background: #f8f9fa;
+    color: #495057;
+}
+
+/* Vista previa de PDF */
+.carnet-pdf-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 1rem 0;
+    min-height: 300px;
+    border: 2px dashed #ced4da;
+}
+
+.carnet-pdf-preview-content {
+    text-align: center;
+    color: #6c757d;
+}
+
+.carnet-pdf-preview-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.carnet-pdf-preview-text {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Progreso de generación */
+.carnet-pdf-progress {
+    display: none;
+    margin: 1rem 0;
+}
+
+.carnet-pdf-progress.show {
+    display: block;
+}
+
+.carnet-pdf-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.carnet-pdf-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #007bff, #28a745);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+.carnet-pdf-progress-text {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .carnet-pdf-config {
+        grid-template-columns: 1fr;
+    }
+    
+    .carnet-pdf-sizes {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .carnet-pdf-quality {
+        grid-template-columns: 1fr;
+    }
+    
+    .carnet-pdf-actions {
+        flex-direction: column;
+    }
+    
+    .carnet-pdf-orientation {
+        flex-direction: column;
+    }
+}
+
+

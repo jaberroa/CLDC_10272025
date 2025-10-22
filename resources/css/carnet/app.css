@@ -1,0 +1,48 @@
+/* ==========================================
+   Sistema de Carnet Digital - Assets Principales
+   ========================================== */
+
+/* Importar estilos base */
+@import './base.css';
+@import './templates.css';
+@import './editor.css';
+@import './palette.css';
+@import './qr-generator.css';
+@import './pdf-generator.css';
+
+/* Estilos globales del sistema de carnet */
+.carnet-system {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.carnet-system * {
+    box-sizing: border-box;
+}
+
+/* Animaciones globales */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+.carnet-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.carnet-slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .carnet-system {
+        padding: 1rem;
+    }
+}
+
+

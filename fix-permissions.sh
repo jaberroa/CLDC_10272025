@@ -1,27 +1,25 @@
 #!/bin/bash
 
-echo "🔧 Solucionando permisos de Laravel..."
+# Script para corregir permisos de Laravel en Docker
+echo "🔧 Corrigiendo permisos de Laravel..."
 
-# Crear directorios si no existen
-mkdir -p storage/logs
-mkdir -p storage/framework/views
-mkdir -p storage/framework/cache
-mkdir -p storage/framework/sessions
-mkdir -p bootstrap/cache
+# Cambiar propietario a www-data
+docker-compose exec app chown -R www-data:www-data storage/
+docker-compose exec app chown -R www-data:www-data bootstrap/cache/
 
-# Intentar cambiar permisos
-echo "📁 Configurando permisos de storage..."
-chmod -R 775 storage/ 2>/dev/null || echo "⚠️  No se pudieron cambiar permisos de storage"
-chmod -R 775 bootstrap/cache/ 2>/dev/null || echo "⚠️  No se pudieron cambiar permisos de bootstrap/cache"
+# Dar permisos de escritura
+docker-compose exec app chmod -R 775 storage/
+docker-compose exec app chmod -R 775 bootstrap/cache/
 
-# Limpiar cache
-echo "🧹 Limpiando cache..."
-php artisan config:clear 2>/dev/null || echo "⚠️  No se pudo limpiar config"
-php artisan cache:clear 2>/dev/null || echo "⚠️  No se pudo limpiar cache"
-php artisan view:clear 2>/dev/null || echo "⚠️  No se pudo limpiar views"
+# Limpiar cachés
+docker-compose exec app php artisan cache:clear
+docker-compose exec app php artisan config:clear
+docker-compose exec app php artisan view:clear
 
-echo "✅ Proceso completado"
-echo ""
-echo "🌐 Accede a: http://localhost:8001"
-echo "📋 Si hay errores, revisa los logs en storage/logs/"
+echo "✅ Permisos corregidos exitosamente"
+echo "📝 Verificando que Laravel puede escribir en logs..."
 
+# Probar escritura en logs
+docker-compose exec app php artisan tinker --execute="\Log::info('Permisos corregidos - ' . now()); echo 'Log escrito correctamente';"
+
+echo "🎉 ¡Listo! Los permisos están corregidos."

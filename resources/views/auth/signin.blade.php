@@ -11,7 +11,7 @@
         <div class="card-body p-8">
           <h3 class="fw-medium text-center">¡Bienvenido de vuelta!</h3>
           <p class="mb-8 text-muted text-center">Inicia sesión para continuar con CLDCI</p>
-          <form method="POST" action="{{ route('login') }}">
+          <form method="POST" action="{{ route('login') }}" id="loginForm">
             @csrf
             <input type="hidden" id="redirect_module" name="redirect_module" value="">
             <div class="mb-4">

@@ -1,0 +1,126 @@
+/* ==========================================
+   CORRECCIÓN DEL PIE DE PÁGINA - CLDCI
+   ========================================== */
+
+/* Contenedor principal del footer */
+.footer {
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    padding: 1rem 0;
+    margin-top: auto;
+}
+
+.footer .container-fluid {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+/* Alineación perfecta del contenido */
+.footer .d-flex {
+    align-items: center;
+    justify-content: space-between;
+    min-height: 1.5rem;
+    width: 100%;
+}
+
+/* Texto izquierdo - Copyright */
+.footer-left {
+    color: #6c757d;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    text-align: left;
+    flex: 0 0 auto;
+}
+
+/* Texto derecho - Developer */
+.footer-right {
+    color: #6c757d;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    text-align: right;
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+/* Responsive - ocultar texto derecho en móviles */
+@media (max-width: 576px) {
+    .footer-right {
+        display: none !important;
+    }
+    
+    .footer .d-flex {
+        justify-content: center;
+    }
+    
+    .footer-left {
+        text-align: center;
+    }
+}
+
+/* Asegurar que no haya espacios extra */
+.footer * {
+    box-sizing: border-box;
+}
+
+/* Alineación vertical perfecta */
+.footer .d-flex > * {
+    display: flex;
+    align-items: center;
+    height: 1.5rem;
+}
+
+/* Espaciado consistente */
+.footer .container-fluid {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Eliminar márgenes y paddings extra */
+.footer {
+    margin: 0;
+    padding: 1rem 0;
+}
+
+.footer .container-fluid {
+    margin: 0;
+    padding: 0 1.5rem;
+}
+
+/* Asegurar alineación horizontal perfecta */
+.footer .d-flex {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+/* Texto izquierdo específico */
+.footer .d-flex > script {
+    display: none;
+}
+
+.footer .d-flex > script + text,
+.footer .d-flex > *:first-child {
+    flex: 0 0 auto;
+    text-align: left;
+}
+
+/* Texto derecho específico */
+.footer .text-sm-end {
+    flex: 0 0 auto;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* Asegurar que ambos textos tengan la misma altura de línea */
+.footer .d-flex > * {
+    line-height: 1.5;
+    vertical-align: middle;
+}

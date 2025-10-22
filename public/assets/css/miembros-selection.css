@@ -1,0 +1,201 @@
+/* Estilos para selección de miembros en tabla */
+
+/* Checkbox principal (Seleccionar todo) */
+.miembros-table .form-check-input#selectAll {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 0.25rem;
+    border: 2px solid #d1d5db;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.miembros-table .form-check-input#selectAll:checked {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.miembros-table .form-check-input#selectAll:indeterminate {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+}
+
+.miembros-table .form-check-input#selectAll:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Checkboxes individuales */
+.miembros-table .member-checkbox {
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 0.25rem;
+    border: 2px solid #d1d5db;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.miembros-table .member-checkbox:checked {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.miembros-table .member-checkbox:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.miembros-table .member-checkbox:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    outline: none;
+}
+
+/* Labels de checkboxes */
+.miembros-table .form-check-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.miembros-table .form-check-label:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.miembros-table .form-check-label i {
+    font-size: 0.875rem;
+    color: #6b7280;
+    transition: all 0.3s ease;
+}
+
+.miembros-table .form-check-input:checked + .form-check-label i {
+    color: #3b82f6;
+}
+
+/* Dropdown de acciones masivas */
+#bulkActionsDropdown .dropdown-toggle {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#bulkActionsDropdown .dropdown-toggle:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#bulkActionsDropdown .dropdown-toggle:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    outline: none;
+}
+
+#bulkActionsDropdown .dropdown-toggle .badge {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+/* Dropdown menu */
+#bulkActionsDropdown .dropdown-menu {
+    border: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+#bulkActionsDropdown .dropdown-item {
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    color: #374151;
+    transition: all 0.3s ease;
+    border-radius: 0;
+}
+
+#bulkActionsDropdown .dropdown-item:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: #1d4ed8;
+    transform: translateX(4px);
+}
+
+#bulkActionsDropdown .dropdown-item i {
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+#bulkActionsDropdown .dropdown-item:hover i {
+    transform: scale(1.1);
+}
+
+#bulkActionsDropdown .dropdown-divider {
+    margin: 0.5rem 0;
+    border-color: #e5e7eb;
+}
+
+/* Animaciones */
+.miembros-table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.miembros-table tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.miembros-table tbody tr:hover .member-checkbox {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .miembros-table .form-check-input {
+        width: 1rem;
+        height: 1rem;
+    }
+    
+    .miembros-table .form-check-label {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+    
+    #bulkActionsDropdown .dropdown-toggle {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Estados de selección */
+.miembros-table tbody tr.selected {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-left: 3px solid #3b82f6;
+}
+
+.miembros-table tbody tr.selected:hover {
+    background-color: rgba(59, 130, 246, 0.15);
+}
+
+

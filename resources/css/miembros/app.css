@@ -1,0 +1,73 @@
+/* ==========================================
+   Módulo Miembros - Bundle Principal
+   ========================================== */
+
+/* Importar todos los estilos del módulo */
+@import './index.css';
+@import './form.css';
+@import './profile.css';
+@import './carnet.css';
+@import './components/stat-card.css';
+
+/* Estilos globales del módulo */
+.miembros-module {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.miembros-module * {
+    box-sizing: border-box;
+}
+
+/* Utilidades específicas del módulo */
+.miembros-text-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.miembros-shadow-soft {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.miembros-shadow-medium {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.miembros-shadow-strong {
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.miembros-border-radius {
+    border-radius: 15px;
+}
+
+.miembros-border-radius-lg {
+    border-radius: 20px;
+}
+
+/* Transiciones globales */
+.miembros-transition {
+    transition: all 0.3s ease;
+}
+
+.miembros-transition-fast {
+    transition: all 0.2s ease;
+}
+
+.miembros-transition-slow {
+    transition: all 0.5s ease;
+}
+
+/* Estados de hover globales */
+.miembros-hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+.miembros-hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.miembros-hover-glow:hover {
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+}

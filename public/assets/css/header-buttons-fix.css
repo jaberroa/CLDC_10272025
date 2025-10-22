@@ -1,0 +1,305 @@
+/* ==========================================
+   CORRECCIÓN DE BOTONES EN HEADER - MIEMBROS
+   ========================================== */
+
+/* Forzar posicionamiento de botones al final de la derecha */
+.card-header .d-flex {
+    width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* Título a la izquierda */
+.card-header .card-title {
+    flex: 0 0 auto;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Contenedor de botones - asegurar que ambos sean visibles */
+.card-header .flex-shrink-0.d-flex {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    margin-left: auto !important;
+}
+
+/* Asegurar que ambos botones sean visibles y del mismo tamaño */
+.card-header .btn {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    min-width: 100px !important;
+    max-width: none !important;
+    height: 38px !important;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    border-radius: 0.375rem !important;
+    margin: 0 !important;
+}
+
+/* Botón Exportar */
+.card-header .btn-outline-primary {
+    background-color: transparent !important;
+    border-color: #0d6efd !important;
+    color: #0d6efd !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Botón Imprimir - Mismo estilo que Exportar */
+.card-header .btn-outline-success {
+    background-color: transparent !important;
+    border-color: #0d6efd !important;
+    color: #0d6efd !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Hover suave para ambos botones */
+.card-header .btn-outline-primary:hover,
+.card-header .btn-outline-success:hover {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3) !important;
+}
+
+/* Focus para accesibilidad */
+.card-header .btn-outline-primary:focus,
+.card-header .btn-outline-success:focus {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    outline: none !important;
+}
+
+/* Active state */
+.card-header .btn-outline-primary:active,
+.card-header .btn-outline-success:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2) !important;
+}
+
+/* Disabled state */
+.card-header .btn-outline-primary:disabled,
+.card-header .btn-outline-success:disabled {
+    background-color: #f8f9fa !important;
+    border-color: #e9ecef !important;
+    color: #6c757d !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Mejorar transición general */
+.card-header .btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Hover específico para iconos */
+.card-header .btn:hover i {
+    transform: scale(1.1) !important;
+    transition: transform 0.2s ease !important;
+}
+
+/* ==========================================
+   ESTILOS PARA BOTONES DE FILTROS - MIEMBROS
+   ========================================== */
+
+/* Botones de filtros - Mismo estilo que header */
+.card-body .btn {
+    width: auto !important;
+    min-width: 100px !important;
+    max-width: none !important;
+    height: 38px !important;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    border-radius: 0.375rem !important;
+    margin: 0 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+}
+
+/* Botón Buscar - Estilo primario */
+.card-body .btn-primary {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+}
+
+/* Botón Limpiar - Estilo outline */
+.card-body .btn-outline-secondary {
+    background-color: transparent !important;
+    border-color: #6c757d !important;
+    color: #6c757d !important;
+}
+
+/* Hover para botón Buscar */
+.card-body .btn-primary:hover {
+    background-color: #0b5ed7 !important;
+    border-color: #0a58ca !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3) !important;
+}
+
+/* Hover para botón Limpiar */
+.card-body .btn-outline-secondary:hover {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3) !important;
+}
+
+/* Focus para accesibilidad */
+.card-body .btn-primary:focus,
+.card-body .btn-outline-secondary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    outline: none !important;
+}
+
+.card-body .btn-outline-secondary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.25) !important;
+}
+
+/* Active state */
+.card-body .btn-primary:active,
+.card-body .btn-outline-secondary:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Hover específico para iconos de filtros */
+.card-body .btn:hover i {
+    transform: scale(1.1) !important;
+    transition: transform 0.2s ease !important;
+}
+
+/* Responsive - mantener botones a la derecha */
+@media (max-width: 768px) {
+    .card-header .d-flex {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+    }
+    
+    .card-header .flex-shrink-0.d-flex {
+        margin-left: auto !important;
+        gap: 0.25rem !important;
+    }
+    
+    .card-header .btn {
+        font-size: 0.8rem !important;
+        padding: 0.25rem 0.5rem !important;
+    }
+}
+
+/* Forzar override de cualquier CSS conflictivo */
+.card-header .d-flex.align-items-center {
+    justify-content: space-between !important;
+}
+
+/* Asegurar que no haya elementos ocultos */
+.card-header * {
+    visibility: visible !important;
+}
+
+.card-header .btn {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Forzar visibilidad específica del botón Imprimir - Mismo tamaño que Exportar */
+.card-header .btn-outline-success {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background-color: transparent !important;
+    border: 1px solid #0d6efd !important;
+    color: #0d6efd !important;
+    width: auto !important;
+    min-width: 100px !important;
+    max-width: none !important;
+    height: 38px !important;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    border-radius: 0.375rem !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+}
+
+/* Asegurar que el contenedor de botones muestre ambos */
+.card-header .flex-shrink-0.d-flex {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    width: auto !important;
+    min-width: auto !important;
+}
+
+/* Estilos finales - Coherencia visual */
+.card-header .btn-outline-success {
+    border: 1px solid #0d6efd !important;
+    background-color: transparent !important;
+    color: #0d6efd !important;
+}
+
+/* ==========================================
+   ESTILOS PARA BOTÓN CREAR MIEMBRO
+   ========================================== */
+
+/* Botón Crear Miembro - Estilo primario prominente */
+.card-header .btn-primary {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Hover para botón Crear Miembro */
+.card-header .btn-primary:hover {
+    background-color: #0b5ed7 !important;
+    border-color: #0a58ca !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(13, 110, 253, 0.4) !important;
+}
+
+/* Focus para accesibilidad - Crear Miembro */
+.card-header .btn-primary:focus {
+    background-color: #0b5ed7 !important;
+    border-color: #0a58ca !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    outline: none !important;
+}
+
+/* Active state - Crear Miembro */
+.card-header .btn-primary:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.3) !important;
+}
+
+/* Hover específico para icono de Crear Miembro */
+.card-header .btn-primary:hover i {
+    transform: scale(1.1) rotate(5deg) !important;
+    transition: transform 0.2s ease !important;
+}

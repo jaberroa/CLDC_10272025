@@ -43,21 +43,9 @@ RUN mkdir -p storage/logs \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-# Configure Nginx
-RUN echo 'server {' > /etc/nginx/sites-available/default && \
-    echo '    listen 80;' >> /etc/nginx/sites-available/default && \
-    echo '    index index.php index.html;' >> /etc/nginx/sites-available/default && \
-    echo '    root /var/www/html/public;' >> /etc/nginx/sites-available/default && \
-    echo '    location / {' >> /etc/nginx/sites-available/default && \
-    echo '        try_files $uri $uri/ /index.php?$query_string;' >> /etc/nginx/sites-available/default && \
-    echo '    }' >> /etc/nginx/sites-available/default && \
-    echo '    location ~ \.php$ {' >> /etc/nginx/sites-available/default && \
-    echo '        fastcgi_pass 127.0.0.1:9000;' >> /etc/nginx/sites-available/default && \
-    echo '        fastcgi_index index.php;' >> /etc/nginx/sites-available/default && \
-    echo '        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;' >> /etc/nginx/sites-available/default && \
-    echo '        include fastcgi_params;' >> /etc/nginx/sites-available/default && \
-    echo '    }' >> /etc/nginx/sites-available/default && \
-    echo '}' >> /etc/nginx/sites-available/default
+# Configure Nginx with custom config
+COPY nginx.conf /etc/nginx/sites-available/default
+RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Configure Supervisor
 RUN echo '[supervisord]' > /etc/supervisor/conf.d/supervisord.conf && \

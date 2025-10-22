@@ -1,0 +1,455 @@
+/* ==========================================
+   COMPONENTES GLOBALES - CLDCI
+   ========================================== */
+
+/* ==========================================
+   CARD BODY TABLE BODY - Comportamiento Global
+   ========================================== */
+.card-body.table-body {
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.card-body.table-body .table-responsive {
+    border-radius: 0.375rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-body.table-body .table {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.card-body.table-body .table thead th {
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    color: #495057;
+    padding: 1rem 0.75rem;
+    vertical-align: middle;
+}
+
+.card-body.table-body .table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.card-body.table-body .table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body.table-body .table tbody td {
+    padding: 1rem 0.75rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+/* ==========================================
+   FORM GLOBAL - Estilos para Formularios
+   ========================================== */
+.form-global {
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.form-global .form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.form-global .form-control,
+.form-global .form-select {
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-global .form-control:focus,
+.form-global .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-global .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.form-global .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================
+   STAT CARD GLOBAL - Tarjetas Estadísticas
+   ========================================== */
+.stat-card-global {
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.stat-card-global:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-global .card-body {
+    padding: 1.5rem;
+    position: relative;
+}
+
+.stat-card-global .school-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+.stat-card-global .card-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card-global .card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.stat-card-global .card-description {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+/* ==========================================
+   FILTER PANEL GLOBAL - Panel de Filtros
+   ========================================== */
+.filter-panel-global {
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.filter-panel-global .card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid #dee2e6;
+    padding: 1.25rem 1.5rem;
+}
+
+.filter-panel-global .card-body {
+    padding: 1.5rem;
+}
+
+.filter-panel-global .form-control,
+.filter-panel-global .form-select {
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.filter-panel-global .form-control:focus,
+.filter-panel-global .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.filter-panel-global .btn-buscar,
+.filter-panel-global .btn-limpiar {
+    padding: 0.625rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    min-width: 100px;
+    height: 38px;
+}
+
+.filter-panel-global .btn-buscar {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: #fff;
+}
+
+.filter-panel-global .btn-buscar:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.filter-panel-global .btn-limpiar {
+    background: #fff;
+    border-color: #d1d5db;
+    color: #6b7280;
+}
+
+.filter-panel-global .btn-limpiar:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+    color: #374151;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================
+   AVATAR GLOBAL - Avatares y Iconos
+   ========================================== */
+.avatar-global {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 600;
+    color: #fff;
+}
+
+.avatar-global.avatar-sm {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.875rem;
+}
+
+.avatar-global.avatar-md {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+.avatar-global.avatar-lg {
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.25rem;
+}
+
+/* ==========================================
+   BADGE GLOBAL - Etiquetas y Estados
+   ========================================== */
+.badge-global {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.badge-global.badge-primary {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-global.badge-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge-global.badge-warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge-global.badge-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.badge-global.badge-info {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+/* ==========================================
+   DROPDOWN GLOBAL - Menús Desplegables
+   ========================================== */
+.dropdown-global .dropdown-toggle {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #374151;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-global .dropdown-toggle:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+    transform: translateY(-1px);
+}
+
+.dropdown-global .dropdown-menu {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+}
+
+.dropdown-global .dropdown-item {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-global .dropdown-item:hover {
+    background: #f3f4f6;
+    color: #1f2937;
+}
+
+/* ==========================================
+   PAGINATION GLOBAL - Paginación
+   ========================================== */
+.pagination-global {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 1rem;
+}
+
+.pagination-global .pagination-info {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.pagination-global .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pagination-global .page-size-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 1rem;
+}
+
+.pagination-global .page-size-selector select {
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* ==========================================
+   RESPONSIVE GLOBAL - Adaptaciones Móviles
+   ========================================== */
+@media (max-width: 768px) {
+    .card-body.table-body {
+        padding: 1rem;
+    }
+    
+    .form-global {
+        padding: 1.5rem;
+    }
+    
+    .filter-panel-global .card-body {
+        padding: 1rem;
+    }
+    
+    .filter-panel-global .btn-buscar,
+    .filter-panel-global .btn-limpiar {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .pagination-global {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .pagination-global .pagination-controls {
+        justify-content: center;
+    }
+}
+
+/* ==========================================
+   ANIMATIONS GLOBAL - Animaciones
+   ========================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+/* ==========================================
+   UTILITIES GLOBAL - Utilidades
+   ========================================== */
+.text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.border-radius-lg {
+    border-radius: 0.75rem;
+}
+
+.border-radius-xl {
+    border-radius: 1rem;
+}
+
+

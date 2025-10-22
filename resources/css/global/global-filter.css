@@ -1,0 +1,430 @@
+/* ==========================================
+   GLOBAL FILTER SYSTEM - Sistema de Filtros Global
+   ========================================== */
+
+/* Contenedor principal */
+.global-filter-container {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.global-filter-container:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Header del filtro */
+.global-filter-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1.25rem 1.5rem;
+}
+
+.global-filter-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    transition: all 0.3s ease;
+}
+
+.global-filter-icon:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.global-filter-title {
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+}
+
+.global-filter-description {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* Body del filtro */
+.global-filter-body {
+    padding: 1.5rem;
+    background: #ffffff;
+}
+
+/* Grid de filtros - Layout mejorado */
+.global-filter-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+/* Campos de filtro con distribución flexible */
+.global-filter-field {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.global-filter-field.col-md-2 {
+    flex: 0 0 150px;
+    min-width: 150px;
+}
+
+.global-filter-field.col-md-3 {
+    flex: 0 0 200px;
+    min-width: 200px;
+}
+
+.global-filter-field.col-md-4 {
+    flex: 0 0 250px;
+    min-width: 250px;
+}
+
+/* Campos de filtro */
+.global-filter-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.global-filter-label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+/* Inputs y selects - Diseño mejorado */
+.global-filter-input,
+.global-filter-select {
+    height: 44px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #374151;
+    background: #ffffff;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: block;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.global-filter-input::placeholder {
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+.global-filter-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.global-filter-input:focus,
+.global-filter-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.global-filter-input:hover,
+.global-filter-select:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Acciones del filtro */
+.global-filter-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+    flex-shrink: 0;
+}
+
+/* Botones del filtro */
+.global-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    min-width: 100px;
+    height: 38px;
+    position: relative;
+    overflow: hidden;
+}
+
+.global-filter-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.global-filter-btn:hover::before {
+    left: 100%;
+}
+
+/* Botón primario */
+.global-filter-btn-primary {
+    background: #3b82f6;
+    border: 1px solid #3b82f6;
+    color: white;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.global-filter-btn-primary:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    color: white;
+}
+
+/* Botón secundario */
+.global-filter-btn-secondary {
+    background: transparent;
+    border: 1px solid #6b7280;
+    color: #6b7280;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.global-filter-btn-secondary:hover {
+    background: #6b7280;
+    border-color: #6b7280;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+/* Iconos de botones */
+.global-filter-btn i {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.global-filter-btn:hover i {
+    transform: scale(1.1);
+}
+
+/* ==========================================
+   VARIANTES DEL FILTRO
+   ========================================== */
+
+/* Variante compacta */
+.global-filter-container.variant-compact .global-filter-header {
+    padding: 1rem 1.25rem;
+}
+
+.global-filter-container.variant-compact .global-filter-body {
+    padding: 1.25rem;
+}
+
+.global-filter-container.variant-compact .global-filter-grid {
+    gap: 1rem;
+}
+
+.global-filter-container.variant-compact .global-filter-input,
+.global-filter-container.variant-compact .global-filter-select {
+    height: 38px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+.global-filter-container.variant-compact .global-filter-btn {
+    height: 38px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    min-width: 100px;
+}
+
+/* Variante expandida */
+.global-filter-container.variant-expanded .global-filter-header {
+    padding: 1.5rem 2rem;
+}
+
+.global-filter-container.variant-expanded .global-filter-body {
+    padding: 2rem;
+}
+
+.global-filter-container.variant-expanded .global-filter-grid {
+    gap: 1.5rem;
+}
+
+.global-filter-container.variant-expanded .global-filter-input,
+.global-filter-container.variant-expanded .global-filter-select {
+    height: 48px;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+}
+
+.global-filter-container.variant-expanded .global-filter-btn {
+    height: 48px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    min-width: 140px;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 1200px) {
+    .global-filter-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .global-filter-container {
+        margin: 0 -0.5rem;
+        border-radius: 8px;
+    }
+    
+    .global-filter-header {
+        padding: 1rem;
+    }
+    
+    .global-filter-body {
+        padding: 1rem;
+    }
+    
+    .global-filter-grid {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .global-filter-field {
+        flex: 1;
+        min-width: 100%;
+        max-width: 100%;
+    }
+    
+    .global-filter-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+    
+    .global-filter-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .global-filter-icon {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
+    }
+    
+    .global-filter-title {
+        font-size: 1rem;
+    }
+    
+    .global-filter-description {
+        font-size: 0.8rem;
+    }
+}
+
+/* ==========================================
+   ANIMACIONES Y EFECTOS
+   ========================================== */
+
+@keyframes filterSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.global-filter-container {
+    animation: filterSlideIn 0.6s ease-out;
+}
+
+.global-filter-field {
+    animation: filterSlideIn 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.global-filter-field:nth-child(1) { animation-delay: 0.1s; }
+.global-filter-field:nth-child(2) { animation-delay: 0.2s; }
+.global-filter-field:nth-child(3) { animation-delay: 0.3s; }
+.global-filter-field:nth-child(4) { animation-delay: 0.4s; }
+.global-filter-field:nth-child(5) { animation-delay: 0.5s; }
+
+.global-filter-actions {
+    animation: filterSlideIn 0.6s ease-out;
+    animation-delay: 0.6s;
+    animation-fill-mode: both;
+}
+
+/* Estados de carga */
+.global-filter-btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.global-filter-btn.loading i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   PRINT STYLES
+   ========================================== */
+
+@media print {
+    .global-filter-container {
+        display: none;
+    }
+}

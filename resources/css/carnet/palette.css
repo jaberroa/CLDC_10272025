@@ -1,0 +1,234 @@
+/* ==========================================
+   Paleta de Colores del Sistema de Carnet
+   ========================================== */
+
+/* Colores predefinidos para carnets */
+.carnet-palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.carnet-palette-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    background: #f8f9fa;
+}
+
+.carnet-palette-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.carnet-palette-item.active {
+    border-color: #007bff;
+    background: #e7f3ff;
+}
+
+.carnet-palette-preview {
+    width: 60px;
+    height: 30px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.carnet-palette-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #495057;
+    text-align: center;
+}
+
+/* Paletas específicas */
+.carnet-palette-azul {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.carnet-palette-verde {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.carnet-palette-rosa {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.carnet-palette-purple {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.carnet-palette-orange {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.carnet-palette-teal {
+    background: linear-gradient(135deg, #008080 0%, #00ced1 100%);
+}
+
+.carnet-palette-red {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+}
+
+.carnet-palette-blue {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+}
+
+.carnet-palette-gold {
+    background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+}
+
+.carnet-palette-dark {
+    background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+}
+
+.carnet-palette-corporate {
+    background: linear-gradient(135deg, #008080 0%, #ffffff 100%);
+}
+
+.carnet-palette-elegant {
+    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+}
+
+/* Selector de colores personalizado */
+.carnet-color-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.carnet-color-picker-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+.carnet-color-picker-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.carnet-color-picker-group input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.carnet-color-picker-group input[type="text"] {
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: monospace;
+}
+
+/* Vista previa de colores */
+.carnet-color-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.carnet-color-preview-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.carnet-color-preview-swatch {
+    width: 40px;
+    height: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.carnet-color-preview-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* Efectos de color */
+.carnet-color-effects {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.carnet-color-effect {
+    padding: 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    font-size: 0.8rem;
+    border: 2px solid transparent;
+}
+
+.carnet-color-effect:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.carnet-color-effect.active {
+    border-color: #007bff;
+    background: #e7f3ff;
+}
+
+.carnet-color-effect.solid {
+    background: var(--color-preview, #007bff);
+    color: white;
+}
+
+.carnet-color-effect.gradient {
+    background: linear-gradient(135deg, var(--color-primary, #007bff) 0%, var(--color-secondary, #6c757d) 100%);
+    color: white;
+}
+
+.carnet-color-effect.pattern {
+    background: 
+        linear-gradient(45deg, var(--color-primary, #007bff) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--color-primary, #007bff) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--color-secondary, #6c757d) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--color-secondary, #6c757d) 75%);
+    background-size: 10px 10px;
+    background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .carnet-palette {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .carnet-color-picker-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .carnet-color-effects {
+        grid-template-columns: 1fr;
+    }
+}
+
+

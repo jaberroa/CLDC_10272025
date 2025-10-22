@@ -8,10 +8,10 @@
 <meta content="Pixeleyez" name="author" />
 
 <!-- layout setup -->
-<script type="module" src="assets/js/layout-setup.js"></script>
+<script type="module" src="{{ asset('assets/js/layout-setup.js') }}"></script>
 
 <!-- App favicon -->
-<link rel="shortcut icon" href="assets/images/favicon.png">
+<link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
 
 @yield('css')
 @include('partials.head-css')
@@ -22,8 +22,6 @@
     @include('partials.sidebar')
     @include('partials.horizontal')
 
-    
-
     <main class="app-wrapper">
         <div class="container-fluid">
 
@@ -32,11 +30,15 @@
 
         @include('partials.switcher')
         @include('partials.scroll-to-top')
-        @include('partials.footer')
 
-        @include('partials.vendor-scripts')
+        </div>
+    </main>
+    
+    @include('partials.footer')
 
-        @yield('js')
+    @include('partials.vendor-scripts')
+
+    @yield('js')
 
 </body>
 

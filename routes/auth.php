@@ -51,7 +51,6 @@ Route::middleware('auth')->group(function () {
         return redirect()->route('dashboard')->with('success', 'Email verificado exitosamente.');
     })->name('verification.verify');
     
-    Route::get('/signout', function () { return view('auth.signout'); })->name('signout');
     Route::post('/logout', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 

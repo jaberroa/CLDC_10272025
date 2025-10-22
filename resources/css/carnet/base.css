@@ -1,0 +1,131 @@
+/* ==========================================
+   Estilos Base del Sistema de Carnet
+   ========================================== */
+
+/* Logo corporativo por defecto */
+.carnet-logo-default {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #ff0000 0%, #0000ff 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.2;
+    position: relative;
+    overflow: hidden;
+}
+
+.carnet-logo-default::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0%, transparent 70%);
+}
+
+.carnet-logo-default .logo-text {
+    position: relative;
+    z-index: 2;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* Estilos base para todos los carnets */
+.carnet-base {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.carnet-base:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* Foto del miembro */
+.carnet-photo {
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255,255,255,0.8);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* QR Code */
+.carnet-qr {
+    background: white;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Badges de estado */
+.carnet-status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.carnet-status-badge.activa {
+    background: #10b981;
+    color: white;
+}
+
+.carnet-status-badge.inactiva {
+    background: #ef4444;
+    color: white;
+}
+
+.carnet-status-badge.suspendida {
+    background: #f59e0b;
+    color: white;
+}
+
+/* Tipografía personalizable */
+.carnet-text {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.carnet-text.nombre {
+    font-weight: bold;
+    color: inherit;
+}
+
+.carnet-text.profesion {
+    opacity: 0.9;
+    font-weight: normal;
+}
+
+.carnet-text.organizacion {
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+
+/* Efectos de impresión */
+@media print {
+    .carnet-base {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .carnet-actions {
+        display: none;
+    }
+}
+
+

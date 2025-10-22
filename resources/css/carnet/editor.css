@@ -1,0 +1,316 @@
+/* ==========================================
+   Editor de Carnet - Estilos
+   ========================================== */
+
+.carnet-editor {
+    background: #f8f9fa;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.carnet-editor-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
+}
+
+/* Panel de vista previa */
+.carnet-preview-panel {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 2rem;
+}
+
+.carnet-preview-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.carnet-preview-container .carnet-base {
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.carnet-preview-container:hover .carnet-base {
+    transform: scale(0.85);
+}
+
+/* Panel de personalización */
+.carnet-customization-panel {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+}
+
+.carnet-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.carnet-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.carnet-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.carnet-section-title i {
+    color: #6c757d;
+}
+
+/* Controles de color */
+.carnet-color-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.carnet-color-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.carnet-color-input label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.carnet-color-input input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Paleta de colores predefinidos */
+.carnet-color-palette {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.carnet-color-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.carnet-color-option:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.carnet-color-option.active {
+    border-color: #007bff;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+}
+
+.carnet-color-option.active::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Controles de tipografía */
+.carnet-typography-controls {
+    display: grid;
+    gap: 1rem;
+}
+
+.carnet-typography-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: end;
+}
+
+.carnet-typography-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.carnet-typography-group input,
+.carnet-typography-group select {
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.carnet-checkbox-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.carnet-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.carnet-checkbox-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+.carnet-checkbox-item label {
+    font-size: 0.9rem;
+    color: #495057;
+    margin: 0;
+}
+
+/* Controles de datos */
+.carnet-data-controls {
+    display: grid;
+    gap: 1rem;
+}
+
+.carnet-data-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.carnet-data-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.carnet-data-group input,
+.carnet-data-group textarea {
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+}
+
+.carnet-data-group input:focus,
+.carnet-data-group textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+/* Botones de acción */
+.carnet-actions {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.carnet-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.carnet-btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.carnet-btn-primary:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+}
+
+.carnet-btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.carnet-btn-success:hover {
+    background: #1e7e34;
+    transform: translateY(-1px);
+}
+
+.carnet-btn-outline {
+    background: transparent;
+    color: #6c757d;
+    border: 1px solid #ced4da;
+}
+
+.carnet-btn-outline:hover {
+    background: #f8f9fa;
+    color: #495057;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .carnet-editor-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .carnet-preview-panel,
+    .carnet-customization-panel {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .carnet-editor {
+        padding: 1rem;
+    }
+    
+    .carnet-color-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .carnet-typography-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .carnet-color-palette {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

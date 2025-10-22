@@ -20,7 +20,7 @@ RouteNotFoundException: Route [miembros.create] not defined.
 Route::get('/miembros', [MiembrosController::class, 'index'])->name('miembros.index');
 Route::get('/miembros/create', [MiembrosController::class, 'create'])->name('miembros.create');
 Route::post('/miembros', [MiembrosController::class, 'store'])->name('miembros.store');
-Route::get('/miembros/{id}', [MiembrosController::class, 'show'])->name('miembros.show');
+// Vista show eliminada - usar miembros.profile en su lugar
 Route::get('/miembros/{id}/edit', [MiembrosController::class, 'edit'])->name('miembros.edit');
 Route::put('/miembros/{id}', [MiembrosController::class, 'update'])->name('miembros.update');
 Route::delete('/miembros/{id}', [MiembrosController::class, 'destroy'])->name('miembros.destroy');
