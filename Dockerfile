@@ -61,8 +61,10 @@ RUN php artisan key:generate --no-interaction || true
 
 # Cache configuration for production
 RUN php artisan config:cache || true
-RUN php artisan route:cache || true
 RUN php artisan view:cache || true
+
+# Don't cache routes in production to avoid 404 issues
+RUN php artisan route:clear || true
 
 # Expose port (Render uses $PORT environment variable)
 EXPOSE $PORT
