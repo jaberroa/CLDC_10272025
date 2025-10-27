@@ -1,6 +1,6 @@
 FROM php:8.3-fpm
 
-# Install system dependencies
+# Install system dependencies including Node.js
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -12,17 +12,16 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
-    libmcrypt-dev \
     libgd-dev \
-    nginx \
     postgresql-client \
     libpq-dev \
-    supervisor \
-    nodejs \
-    npm \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Configure and install PHP extensions
+# Install Node.js 18.x
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
+
+# Configure and install PHP extensions (PostgreSQL instead of MySQL)
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip
 
@@ -39,7 +38,11 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Install Node.js dependencies and build assets
-RUN npm install && npm run build
+RUN npm ci --only=production
+RUN npm run build
+
+# Verify assets were built correctly
+RUN ls -la public/build/assets/ || echo "Warning: Assets directory not found"
 
 # Create necessary directories and set permissions
 RUN mkdir -p storage/logs \
@@ -47,35 +50,19 @@ RUN mkdir -p storage/logs \
     && mkdir -p storage/framework/sessions \
     && mkdir -p storage/framework/views \
     && mkdir -p bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache public/build \
-    && chmod -R 775 storage bootstrap/cache public/build
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
-# Configure Nginx with custom config
-COPY nginx.conf /etc/nginx/sites-available/default
-RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default \
-    && mkdir -p /var/log/nginx \
-    && chown -R www-data:www-data /var/log/nginx
+# Generate application key if not exists
+RUN php artisan key:generate --no-interaction || true
 
-# Copy start script
-COPY start.sh /usr/local/bin/start.sh
-RUN chmod +x /usr/local/bin/start.sh
+# Cache configuration for production
+RUN php artisan config:cache || true
+RUN php artisan route:cache || true
+RUN php artisan view:cache || true
 
-# Configure Supervisor
-RUN mkdir -p /etc/supervisor/conf.d && \
-    echo '[supervisord]' > /etc/supervisor/conf.d/supervisord.conf && \
-    echo 'nodaemon=true' >> /etc/supervisor/conf.d/supervisord.conf && \
-    echo 'user=root' >> /etc/supervisor/conf.d/supervisord.conf && \
-    echo '[program:php-fpm]' >> /etc/supervisor/conf.d/supervisord.conf && \
-    echo 'command=php-fpm' >> /etc/supervisor/conf.d/supervisord.conf && \
-    echo 'autostart=true' >> /etc/supervisor/conf.d/supervisord.conf && \
-    echo 'autorestart=true' >> /etc/supervisor/conf.d/supervisord.conf && \
-    echo '[program:nginx]' >> /etc/supervisor/conf.d/supervisord.conf && \
-    echo 'command=nginx -g "daemon off;"' >> /etc/supervisor/conf.d/supervisord.conf && \
-    echo 'autostart=true' >> /etc/supervisor/conf.d/supervisord.conf && \
-    echo 'autorestart=true' >> /etc/supervisor/conf.d/supervisord.conf
+# Expose port (Render uses $PORT environment variable)
+EXPOSE $PORT
 
-# Expose port 8000 (Render default)
-EXPOSE 8000
-
-# Start with custom script
-CMD ["/usr/local/bin/start.sh"]
+# Start PHP built-in server (Render doesn't need nginx/supervisor)
+CMD php artisan serve --host=0.0.0.0 --port=$PORT
