@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     libgd-dev \
     nginx \
     postgresql-client \
+    libpq-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Configure and install PHP extensions
