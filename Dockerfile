@@ -49,6 +49,10 @@ RUN mkdir -p storage/logs \
 COPY nginx.conf /etc/nginx/sites-available/default
 RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
+# Copy start script
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
 # Configure Supervisor
 RUN mkdir -p /etc/supervisor/conf.d && \
     echo '[supervisord]' > /etc/supervisor/conf.d/supervisord.conf && \
@@ -66,5 +70,5 @@ RUN mkdir -p /etc/supervisor/conf.d && \
 # Expose port 8000 (Render default)
 EXPOSE 8000
 
-# Start supervisor
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Start with custom script
+CMD ["/usr/local/bin/start.sh"]
