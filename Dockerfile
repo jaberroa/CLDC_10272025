@@ -66,11 +66,8 @@ RUN php artisan view:cache || true
 # Don't cache routes in production to avoid 404 issues
 RUN php artisan route:clear || true
 
-# Run database migrations
-RUN php artisan migrate --force --no-interaction || true
-
 # Expose port (Render uses $PORT environment variable)
 EXPOSE $PORT
 
 # Start PHP built-in server with proper configuration
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000} --env=production
+CMD php artisan migrate --force --no-interaction && php artisan serve --host=0.0.0.0 --port=${PORT:-8000} --env=production
