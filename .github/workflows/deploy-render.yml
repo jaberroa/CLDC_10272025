@@ -1,0 +1,92 @@
+name: Deploy Laravel to Render
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: mbstring, dom, fileinfo, pgsql, zip
+        coverage: none
+        
+    - name: Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.composer/cache
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+          
+    - name: Install Composer dependencies
+      run: composer install --no-dev --optimize-autoloader --no-interaction
+      
+    - name: Create deployment package for Render
+      run: |
+        echo "🚀 Creando paquete de despliegue para Render..."
+        echo "📋 Información del deployment:"
+        echo "  - SHA: ${{ github.sha }}"
+        echo "  - Run Number: ${{ github.run_number }}"
+        echo "  - Branch: ${{ github.ref_name }}"
+        
+        mkdir -p render-package
+        
+        # Copiar archivos necesarios para Laravel en Render
+        echo "📦 Copiando archivos de Laravel para Render..."
+        cp -r app bootstrap config database public resources routes storage vendor composer.json composer.lock artisan Dockerfile.render render-package/
+        
+        # Renombrar Dockerfile para Render
+        mv render-package/Dockerfile.render render-package/Dockerfile
+        
+        # Validar archivos críticos
+        echo "🔍 Validando archivos críticos..."
+        if [ ! -f "render-package/artisan" ]; then
+          echo "❌ Error: artisan no encontrado"
+          exit 1
+        fi
+        if [ ! -f "render-package/composer.json" ]; then
+          echo "❌ Error: composer.json no encontrado"
+          exit 1
+        fi
+        if [ ! -f "render-package/Dockerfile" ]; then
+          echo "❌ Error: Dockerfile no encontrado"
+          exit 1
+        fi
+        echo "✅ Archivos críticos validados correctamente"
+        
+        # Comprimir el paquete
+        echo "📦 Comprimiendo paquete para Render..."
+        cd render-package && zip -r ../render-deployment.zip . && cd ..
+        
+        echo "✅ Paquete de despliegue para Render creado exitosamente!"
+        echo "📊 Contenido del paquete:"
+        unzip -l render-deployment.zip | head -20
+        
+    - name: Deploy to Render
+      uses: johnbeynon/render-deploy-action@v1.0.0
+      with:
+        service_id: ${{ secrets.RENDER_SERVICE_ID }}
+        api_key: ${{ secrets.RENDER_API_KEY }}
+        deployment_package: render-deployment.zip
+        
+    - name: Deployment Success Notification
+      if: success()
+      run: |
+        echo "✅ Deployment to Render completed successfully!"
+        echo "🚀 Application deployed to: https://app-cldc.onrender.com"
+        
+    - name: Deployment Failure Notification
+      if: failure()
+      run: |
+        echo "❌ Deployment to Render failed!"
+        echo "Please check the logs above for more details."

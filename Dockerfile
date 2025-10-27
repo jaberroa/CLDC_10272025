@@ -15,12 +15,12 @@ RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
     libgd-dev \
     nginx \
-    supervisor \
+    postgresql-client \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Configure and install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+    && docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
