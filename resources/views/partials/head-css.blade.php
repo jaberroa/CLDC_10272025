@@ -8,11 +8,31 @@
 <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css">
 <!--icons css-->
 <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
-<!-- App Css-->
-<link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css">
 
-<!-- Estilos Globales CLDCI -->
+<!-- Prevenir flash del sidebar - CSS crítico -->
+<style>
+    /* Ocultar sidebar hasta que se carguen nuestros estilos */
+    .pe-app-sidebar {
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+    
+    /* Mostrar sidebar cuando esté listo */
+    .sidebar-loaded .pe-app-sidebar {
+        opacity: 1;
+    }
+    
+    /* Asegurar que nuestro sidebar tenga prioridad */
+    .pe-app-sidebar {
+        z-index: 1000;
+    }
+</style>
+
+<!-- Estilos Globales CLDCI - CARGAR ANTES QUE APP.MIN.CSS -->
 <link rel="stylesheet" href="{{ vite_asset('resources/css/global/app.css') }}">
+
+<!-- App Css - CARGAR DESPUÉS DE NUESTROS ESTILOS -->
+<link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css">
 
 <!-- Estilos específicos por módulo -->
 @if(request()->routeIs('miembros.*'))

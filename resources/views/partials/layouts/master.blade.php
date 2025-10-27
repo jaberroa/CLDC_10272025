@@ -46,6 +46,14 @@
     {{-- Toast Global JavaScript --}}
     <script src="{{ vite_asset('resources/js/toast-simple.js') }}"></script>
 
+    {{-- Prevenir flash del sidebar --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar clase para mostrar sidebar cuando esté listo
+            document.body.classList.add('sidebar-loaded');
+        });
+    </script>
+
     @yield('js')
 
 </body>

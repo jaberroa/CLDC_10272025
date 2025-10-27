@@ -20,4 +20,31 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: (id) => {
+                    // Separar por tipo de módulo
+                    if (id.includes('node_modules')) {
+                        // Vendor libraries
+                        if (id.includes('jquery')) return 'vendor-jquery';
+                        if (id.includes('bootstrap')) return 'vendor-bootstrap';
+                        if (id.includes('chart') || id.includes('apexcharts')) return 'vendor-charts';
+                        if (id.includes('swiper') || id.includes('sweetalert') || id.includes('simplebar')) return 'vendor-ui';
+                        if (id.includes('html2canvas') || id.includes('jspdf') || id.includes('qrcode')) return 'vendor-utils';
+                        
+                        // Otros vendor modules
+                        return 'vendor';
+                    }
+                    
+                    // Separar por módulos de la aplicación
+                    if (id.includes('carnet')) return 'app-carnet';
+                    if (id.includes('miembros')) return 'app-miembros';
+                    if (id.includes('toast') || id.includes('delete-confirmation')) return 'app-components';
+                }
+            }
+        },
+        // Aumentar límite de warning a 1MB
+        chunkSizeWarningLimit: 1000
+    }
 });
