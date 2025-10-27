@@ -4,12 +4,7 @@ services:
     env: docker
     dockerfilePath: ./Dockerfile.render
     buildCommand: |
-      composer install --no-dev --optimize-autoloader
-      php artisan key:generate
-      php artisan migrate --force
-      php artisan config:cache
-      php artisan route:cache
-      php artisan view:cache
+      echo "Build process handled by Dockerfile"
     startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
     envVars:
       - key: APP_ENV
