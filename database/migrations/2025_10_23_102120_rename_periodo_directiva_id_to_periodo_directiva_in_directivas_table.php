@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('directivas', function (Blueprint $table) {
-            // Verificar si existe la clave foránea antes de eliminarla
-            if (Schema::hasColumn('directivas', 'periodo_directiva_id')) {
-                $table->dropColumn('periodo_directiva_id');
-            }
-            $table->string('periodo_directiva')->nullable()->after('cargo_id');
-        });
+        // Verificar si la tabla existe antes de modificarla
+        if (Schema::hasTable('directivas')) {
+            Schema::table('directivas', function (Blueprint $table) {
+                // Verificar si existe la clave foránea antes de eliminarla
+                if (Schema::hasColumn('directivas', 'periodo_directiva_id')) {
+                    $table->dropColumn('periodo_directiva_id');
+                }
+                $table->string('periodo_directiva')->nullable()->after('cargo_id');
+            });
+        }
     }
 
     /**
@@ -25,9 +28,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('directivas', function (Blueprint $table) {
-            $table->dropColumn('periodo_directiva');
-            $table->foreignId('periodo_directiva_id')->nullable()->constrained('periodos_directiva')->onDelete('set null');
-        });
+        // Verificar si la tabla existe antes de modificarla
+        if (Schema::hasTable('directivas')) {
+            Schema::table('directivas', function (Blueprint $table) {
+                $table->dropColumn('periodo_directiva');
+                $table->foreignId('periodo_directiva_id')->nullable()->constrained('periodos_directiva')->onDelete('set null');
+            });
+        }
     }
 };
