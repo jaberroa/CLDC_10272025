@@ -24,9 +24,7 @@ class DashboardController extends Controller
             'miembros_activos' => Miembro::whereHas('estadoMembresia', function($query) {
                 $query->where('nombre', 'activa');
             })->count(),
-            'organizaciones_activas' => Organizacion::whereHas('estadoAdecuacion', function($query) {
-                $query->where('nombre', 'aprobada');
-            })->count(),
+            'organizaciones_activas' => Organizacion::where('estado', 'activa')->count(),
             'asambleas_programadas' => 0, // Tabla no existe aún
             'capacitaciones_activas' => 0, // Tabla no existe aún
             'elecciones_activas' => 0, // Tabla no existe aún
@@ -279,9 +277,9 @@ class DashboardController extends Controller
         
         $estadisticas = [
             'miembros_activos' => $organizacion->miembros()->activos()->count(),
-            'asambleas_programadas' => $organizacion->asambleas()->programadas()->count(),
-            'cursos_activos' => $organizacion->cursos()->activos()->count(),
-            'elecciones_activas' => $organizacion->elecciones()->activas()->count(),
+            'asambleas_programadas' => $organizacion->asambleas()->where('estado', 'programada')->count(),
+            'cursos_activos' => $organizacion->cursos()->where('estado', 'activo')->count(),
+            'elecciones_activas' => $organizacion->elecciones()->where('estado', 'en_proceso')->count(),
             'presupuesto_total' => $organizacion->presupuestos()->where('activo', true)->sum('monto_presupuestado'),
             'presupuesto_ejecutado' => $organizacion->presupuestos()->where('activo', true)->sum('monto_ejecutado'),
         ];
@@ -350,11 +348,11 @@ class DashboardController extends Controller
             $stats = [
                 'miembros_activos' => Miembro::activos()->count(),
                 'organizaciones' => Organizacion::count(),
-                'seccionales_provinciales' => Organizacion::seccionales()->count(),
-                'seccionales_internacionales' => Organizacion::seccionalesInternacionales()->count(),
-                'asambleas_programadas' => Asamblea::programadas()->count(),
+                'seccionales_provinciales' => Organizacion::where('tipo', 'seccional')->count(),
+                'seccionales_internacionales' => Organizacion::where('tipo', 'seccional_internacional')->count(),
+                'asambleas_programadas' => Asamblea::where('estado', 'programada')->count(),
                 'cursos_activos' => Curso::activos()->count(),
-                'elecciones_activas' => Eleccion::activas()->count(),
+                'elecciones_activas' => Eleccion::where('estado', 'en_proceso')->count(),
                 'miembros_nuevos_mes' => Miembro::where('created_at', '>=', now()->subMonth())->count(),
                 'timestamp' => now()->toISOString()
             ];

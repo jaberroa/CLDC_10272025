@@ -124,6 +124,10 @@ class MiembroQueryService
             $query->where('estado_membresia_id', $filters['estado_membresia_id']);
         }
 
+        if (!empty($filters['tipo_membresia'])) {
+            $query->where('tipo_membresia', $filters['tipo_membresia']);
+        }
+
         if (!empty($filters['organizacion_id'])) {
             $query->porOrganizacion($filters['organizacion_id']);
         }

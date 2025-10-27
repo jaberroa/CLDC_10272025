@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Miembro;
 use App\Models\Organizacion;
+use App\Models\Documento;
 use App\Http\Requests\Miembros\StoreMiembroRequest;
 use App\Http\Requests\Miembros\UpdateMiembroRequest;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,7 @@ class MiembrosController extends Controller
     {
         $filters = $request->only([
             'buscar',
+            'tipo_membresia',
             'estado_membresia_id',
             'organizacion_id',
         ]);
@@ -68,11 +70,11 @@ class MiembrosController extends Controller
             'cedula' => $data['cedula'],
             'telefono' => $data['telefono'] ?? null,
             'profesion' => $data['profesion'] ?? null,
+            'estado_membresia_id' => $data['estado_membresia_id'],
             'tipo_membresia' => $data['tipo_membresia'],
-            'estado_membresia' => $data['estado_membresia'],
             'fecha_ingreso' => $data['fecha_ingreso'],
         ]);
-        $miembro->created_by = auth()->user()->name ?? 'admin';
+        $miembro->user_id = auth()->id() ?? 1;
 
         // Generar número de carnet
         $miembro->numero_carnet = Miembro::generarNumeroCarnet(
@@ -122,7 +124,7 @@ class MiembrosController extends Controller
             'telefono' => $data['telefono'] ?? null,
             'profesion' => $data['profesion'] ?? null,
             'tipo_membresia' => $data['tipo_membresia'],
-            'estado_membresia' => $data['estado_membresia'],
+            'estado_membresia_id' => $data['estado_membresia_id'],
             'fecha_ingreso' => $data['fecha_ingreso'],
         ]);
 
@@ -158,6 +160,14 @@ class MiembrosController extends Controller
         }
 
         $miembro->delete();
+
+        // Responder JSON para solicitudes AJAX
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Miembro eliminado exitosamente'
+            ]);
+        }
 
         return redirect()->route('miembros.index')
             ->with('success', 'Miembro eliminado exitosamente.');
@@ -416,7 +426,209 @@ class MiembrosController extends Controller
         $selectedIds = $request->input('selected_ids');
         $deletedCount = Miembro::whereIn('id', $selectedIds)->delete();
 
+        // Responder JSON para solicitudes AJAX
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Se eliminaron {$deletedCount} miembros correctamente",
+                'deleted_count' => $deletedCount
+            ]);
+        }
+
         return redirect()->route('miembros.index')
             ->with('success', "Se eliminaron {$deletedCount} miembros correctamente.");
+    }
+
+    /**
+     * Upload document for a member
+     */
+    public function uploadDocument(Request $request, $id)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,ppt,pptx|max:10240' // 10MB max
+        ]);
+
+        $miembro = Miembro::findOrFail($id);
+        $files = $request->file('file');
+        
+        // Si es un solo archivo, convertirlo a array
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+        
+        $uploadedFiles = [];
+        $uploadedCount = 0;
+        
+        // Crear directorio si no existe
+        $directory = "documents/miembros/{$miembro->id}";
+        Storage::disk('public')->makeDirectory($directory);
+        
+        foreach ($files as $file) {
+            // Guardar archivo
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs($directory, $filename, 'public');
+            
+            // Guardar en la base de datos
+            $documento = Documento::create([
+                'miembro_id' => $miembro->id,
+                'nombre_original' => $file->getClientOriginalName(),
+                'nombre_archivo' => $filename,
+                'ruta' => $path,
+                'tipo_mime' => $file->getMimeType(),
+                'tamaño' => $file->getSize(),
+                'extension' => $file->getClientOriginalExtension()
+            ]);
+            
+            $uploadedFiles[] = [
+                'name' => $file->getClientOriginalName(),
+                'path' => $path,
+                'size' => $file->getSize(),
+                'type' => $file->getMimeType()
+            ];
+            
+            $uploadedCount++;
+        }
+        
+        // Log para debugging
+        \Log::info('Archivos subidos:', [
+            'miembro_id' => $miembro->id,
+            'uploaded_count' => $uploadedCount,
+            'files' => $uploadedFiles
+        ]);
+        
+        return response()->json([
+            'success' => true,
+            'message' => "Se subieron {$uploadedCount} archivo(s) correctamente",
+            'uploaded_count' => $uploadedCount,
+            'files' => $uploadedFiles
+        ]);
+    }
+
+    /**
+     * Get documents for a member
+     */
+    public function getDocuments($id)
+    {
+        $miembro = Miembro::findOrFail($id);
+        
+        $documentos = Documento::where('miembro_id', $miembro->id)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($documento) {
+                return [
+                    'id' => $documento->id,
+                    'name' => $documento->nombre_original,
+                    'real_name' => $documento->nombre_archivo, // Nombre real del archivo con timestamp
+                    'path' => $documento->ruta,
+                    'url' => Storage::url($documento->ruta),
+                    'size' => $documento->tamaño,
+                    'extension' => $documento->extension,
+                    'mime_type' => $documento->tipo_mime,
+                    'created_at' => $documento->created_at->timestamp
+                ];
+            });
+
+        return response()->json($documentos);
+    }
+
+    /**
+     * Delete a document
+     */
+    public function deleteDocument($id, $document)
+    {
+        $miembro = Miembro::findOrFail($id);
+        
+        // Buscar el documento en la base de datos por nombre original o nombre de archivo
+        $documento = Documento::where('miembro_id', $miembro->id)
+            ->where(function($query) use ($document) {
+                $query->where('nombre_original', $document)
+                      ->orWhere('nombre_archivo', $document);
+            })
+            ->first();
+        
+        if ($documento) {
+            // Eliminar archivo del storage
+            if (Storage::exists($documento->ruta)) {
+                Storage::delete($documento->ruta);
+            }
+            
+            // Eliminar registro de la base de datos
+            $documento->delete();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Documento eliminado correctamente'
+            ]);
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Documento no encontrado'
+        ], 404);
+    }
+
+    /**
+     * Rename a document
+     */
+    public function renameDocument(Request $request, $id, $document)
+    {
+        $request->validate([
+            'new_name' => 'required|string|max:255'
+        ]);
+
+        $miembro = Miembro::findOrFail($id);
+        
+        // Log para debugging
+        \Log::info('Intentando renombrar documento:', [
+            'miembro_id' => $miembro->id,
+            'document_param' => $document,
+            'new_name' => $request->input('new_name')
+        ]);
+        
+        // Buscar el documento en la base de datos por nombre original
+        // El parámetro $document viene como nombre original del archivo
+        $documento = Documento::where('miembro_id', $miembro->id)
+            ->where('nombre_original', $document)
+            ->first();
+            
+        \Log::info('Documento encontrado:', [
+            'documento' => $documento ? $documento->toArray() : 'No encontrado'
+        ]);
+        
+        if ($documento) {
+            // Obtener extensión del archivo original
+            $extension = pathinfo($documento->nombre_original, PATHINFO_EXTENSION);
+            $newFileName = $request->input('new_name') . '.' . $extension;
+            $newFilePath = "documents/miembros/{$miembro->id}/{$newFileName}";
+            
+            // Verificar si el archivo físico existe (usar disco public)
+            if (Storage::disk('public')->exists($documento->ruta)) {
+                // Renombrar archivo físico (usar disco public)
+                Storage::disk('public')->move($documento->ruta, $newFilePath);
+                
+                // Actualizar registro en la base de datos
+                $documento->update([
+                    'nombre_original' => $newFileName,
+                    'nombre_archivo' => $newFileName,
+                    'ruta' => $newFilePath
+                ]);
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Documento renombrado correctamente',
+                    'new_name' => $newFileName
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Archivo físico no encontrado'
+                ], 404);
+            }
+        }
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Documento no encontrado'
+        ], 404);
     }
 }

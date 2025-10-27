@@ -2,184 +2,435 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Organizacion;
-use App\Models\PeriodoDirectiva;
+use App\Models\Directiva;
 use App\Models\Miembro;
+use App\Models\Organo;
+use App\Models\Cargo;
+use App\Models\PeriodoDirectiva;
+use App\Http\Requests\Directivas\StoreDirectivaRequest;
+use App\Http\Requests\Directivas\UpdateDirectivaRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DirectivaController extends Controller
 {
     /**
-     * Display the directiva structure.
+     * Display a listing of directivas.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Obtener la organización principal
-        $organizacionPrincipal = Organizacion::where('codigo', 'CLDCI-001')->first();
-        
-        if (!$organizacionPrincipal) {
-            return redirect()->route('dashboard')->with('error', 'No se encontró la organización principal.');
+        $filters = $request->only([
+            'buscar',
+            'estado',
+            'organo_id',
+            'cargo_id',
+            'periodo_directiva',
+        ]);
+
+        $query = Directiva::with(['miembro', 'organo', 'cargo']);
+
+        // Aplicar filtros
+        if (!empty($filters['buscar'])) {
+            $query->whereHas('miembro', function ($q) use ($filters) {
+                $q->where('nombre_completo', 'like', '%' . $filters['buscar'] . '%')
+                  ->orWhere('cedula', 'like', '%' . $filters['buscar'] . '%')
+                  ->orWhere('email', 'like', '%' . $filters['buscar'] . '%');
+            });
         }
 
-        // Obtener períodos de directiva activos
-        $periodosActivos = PeriodoDirectiva::where('organizacion_id', $organizacionPrincipal->id)
-            ->where('activo', true)
-            ->orderBy('fecha_inicio', 'desc')
-            ->get();
-
-        // Obtener estructura jerárquica de la directiva actual
-        $directivaActual = $periodosActivos->first();
-        
-        // Obtener miembros de la directiva actual
-        $miembrosDirectiva = collect();
-        if ($directivaActual && $directivaActual->directiva) {
-            $directivaData = json_decode($directivaActual->directiva, true);
-            $miembrosDirectiva = $this->obtenerMiembrosDirectiva($directivaData);
+        if (!empty($filters['estado'])) {
+            $query->where('estado', $filters['estado']);
         }
 
-        // Obtener estadísticas de la directiva
+        if (!empty($filters['organo_id'])) {
+            $query->where('organo_id', $filters['organo_id']);
+        }
+
+        if (!empty($filters['cargo_id'])) {
+            $query->where('cargo_id', $filters['cargo_id']);
+        }
+
+        if (!empty($filters['periodo_directiva'])) {
+            $query->where('periodo_directiva', 'like', '%' . $filters['periodo_directiva'] . '%');
+        }
+
+        // Ordenar por fecha de inicio descendente
+        $query->orderBy('fecha_inicio', 'desc');
+
+        $directivas = $query->paginate(25);
+
+        // Estadísticas
         $estadisticas = [
-            'total_periodos' => PeriodoDirectiva::where('organizacion_id', $organizacionPrincipal->id)->count(),
-            'periodos_activos' => $periodosActivos->count(),
-            'miembros_directiva_actual' => $miembrosDirectiva->count(),
-            'organizaciones_activas' => Organizacion::activas()->count(),
+            'total' => Directiva::count(),
+            'activos' => Directiva::activos()->count(),
+            'inactivos' => Directiva::inactivos()->count(),
+            'vigentes' => Directiva::vigentes()->count(),
+            'vencidos' => Directiva::vencidos()->count(),
         ];
 
-        return view('directiva.index', compact(
-            'organizacionPrincipal',
-            'periodosActivos',
-            'directivaActual',
-            'miembrosDirectiva',
-            'estadisticas'
+        // Datos para filtros
+        $organos = Organo::activos()->get();
+        $cargos = Cargo::activos()->get();
+
+        return view('directivas.index', compact(
+            'directivas',
+            'estadisticas',
+            'organos',
+            'cargos',
+            'filters'
         ));
     }
 
     /**
-     * Show the form for creating a new directiva period.
+     * Show the form for creating a new directiva.
      */
     public function create()
     {
-        $organizaciones = Organizacion::activas()->get();
-        $miembros = Miembro::with(['organizacion', 'estadoMembresia'])
-            ->whereHas('estadoMembresia', function($query) {
-                $query->where('nombre', 'activa');
-            })
-            ->get();
+        $miembros = Miembro::activos()->get();
+        $organos = Organo::activos()->get();
+        $cargos = Cargo::activos()->get();
 
-        return view('directiva.create', compact('organizaciones', 'miembros'));
+        return view('directivas.create', compact(
+            'miembros',
+            'organos',
+            'cargos'
+        ));
     }
 
     /**
-     * Store a newly created directiva period.
+     * Store a newly created directiva.
      */
-    public function store(Request $request)
+    public function store(StoreDirectivaRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $data = $request->validated();
+            $data['created_by'] = Auth::id();
+
+            // Verificar si el miembro ya tiene un cargo activo en el mismo órgano
+            $conflicto = Directiva::where('miembro_id', $data['miembro_id'])
+                                 ->where('organo_id', $data['organo_id'])
+                                 ->where('estado', 'activo')
+                                 ->where(function ($q) use ($data) {
+                                     $q->whereNull('fecha_fin')
+                                       ->orWhere('fecha_fin', '>=', $data['fecha_inicio']);
+                                 })
+                                 ->exists();
+
+            if ($conflicto) {
+                return back()->withErrors([
+                    'miembro_id' => 'El miembro ya tiene un cargo activo en este órgano durante el período especificado.'
+                ])->withInput();
+            }
+
+            $directiva = Directiva::create($data);
+
+            DB::commit();
+
+            return redirect()->route('directivas.index')
+                           ->with('success', 'Directiva creada exitosamente.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Error al crear la directiva: ' . $e->getMessage()])
+                        ->withInput();
+        }
+    }
+
+    /**
+     * Display the specified directiva.
+     */
+    public function show(Directiva $directiva)
+    {
+        $directiva->load(['miembro', 'organo', 'cargo', 'creadoPor', 'actualizadoPor']);
+
+        return view('directivas.show', compact('directiva'));
+    }
+
+    /**
+     * Show the form for editing the specified directiva.
+     */
+    public function edit(Directiva $directiva)
+    {
+        $miembros = Miembro::activos()->get();
+        $organos = Organo::activos()->get();
+        $cargos = Cargo::activos()->get();
+
+        return view('directivas.edit', compact(
+            'directiva',
+            'miembros',
+            'organos',
+            'cargos'
+        ));
+    }
+
+    /**
+     * Update the specified directiva.
+     */
+    public function update(UpdateDirectivaRequest $request, Directiva $directiva)
+    {
+        try {
+            DB::beginTransaction();
+
+            $data = $request->validated();
+            $data['updated_by'] = Auth::id();
+
+            // Verificar conflicto solo si cambió el miembro, órgano o fechas
+            if ($data['miembro_id'] != $directiva->miembro_id || 
+                $data['organo_id'] != $directiva->organo_id ||
+                $data['fecha_inicio'] != $directiva->fecha_inicio) {
+                
+                $conflicto = Directiva::where('miembro_id', $data['miembro_id'])
+                                     ->where('organo_id', $data['organo_id'])
+                                     ->where('estado', 'activo')
+                                     ->where('id', '!=', $directiva->id)
+                                     ->where(function ($q) use ($data) {
+                                         $q->whereNull('fecha_fin')
+                                           ->orWhere('fecha_fin', '>=', $data['fecha_inicio']);
+                                     })
+                                     ->exists();
+
+                if ($conflicto) {
+                    return back()->withErrors([
+                        'miembro_id' => 'El miembro ya tiene un cargo activo en este órgano durante el período especificado.'
+                    ])->withInput();
+                }
+            }
+
+            $directiva->update($data);
+
+            DB::commit();
+
+            return redirect()->route('directivas.index')
+                           ->with('success', 'Directiva actualizada exitosamente.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Error al actualizar la directiva: ' . $e->getMessage()])
+                        ->withInput();
+        }
+    }
+
+    /**
+     * Remove the specified directiva.
+     */
+    public function destroy(Directiva $directiva)
+    {
+        try {
+            $directiva->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Directiva eliminada exitosamente.'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar la directiva: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Bulk delete directivas.
+     */
+    public function bulkDelete(Request $request)
     {
         $request->validate([
-            'organizacion_id' => 'required|exists:organizaciones,id',
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date|after:fecha_inicio',
-            'directiva' => 'required|array',
-            'directiva.*.cargo' => 'required|string',
-            'directiva.*.miembro_id' => 'required|exists:miembros,id',
+            'ids' => 'required|array',
+            'ids.*' => 'exists:directivas,id'
         ]);
 
-        // Desactivar períodos anteriores
-        PeriodoDirectiva::where('organizacion_id', $request->organizacion_id)
-            ->update(['activo' => false]);
+        try {
+            $deleted = Directiva::whereIn('id', $request->ids)->delete();
 
-        // Crear nuevo período
-        $periodo = PeriodoDirectiva::create([
-            'organizacion_id' => $request->organizacion_id,
-            'fecha_inicio' => $request->fecha_inicio,
-            'fecha_fin' => $request->fecha_fin,
-            'directiva' => json_encode($request->directiva),
-            'activo' => true,
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => "Se eliminaron {$deleted} directivas exitosamente."
+            ]);
 
-        return redirect()->route('directiva.index')
-            ->with('success', 'Período de directiva creado exitosamente.');
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar las directivas: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
-     * Display the specified directiva period.
+     * Activate directiva.
      */
-    public function show($id)
+    public function activate(Directiva $directiva)
     {
-        $periodo = PeriodoDirectiva::with('organizacion')->findOrFail($id);
-        $directivaData = json_decode($periodo->directiva, true);
-        $miembrosDirectiva = $this->obtenerMiembrosDirectiva($directivaData);
+        try {
+            if (!$directiva->puedeSerActivo()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se puede activar la directiva debido a conflictos con otros cargos.'
+                ], 400);
+            }
 
-        return view('directiva.show', compact('periodo', 'miembrosDirectiva'));
+            $directiva->activar();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Directiva activada exitosamente.'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al activar la directiva: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
-     * Show the form for editing the specified directiva period.
+     * Deactivate directiva.
      */
-    public function edit($id)
+    public function deactivate(Directiva $directiva)
     {
-        $periodo = PeriodoDirectiva::with('organizacion')->findOrFail($id);
-        $organizaciones = Organizacion::activas()->get();
-        $miembros = Miembro::with(['organizacion', 'estadoMembresia'])
-            ->whereHas('estadoMembresia', function($query) {
-                $query->where('nombre', 'activa');
-            })
-            ->get();
+        try {
+            $directiva->desactivar();
 
-        return view('directiva.edit', compact('periodo', 'organizaciones', 'miembros'));
+            return response()->json([
+                'success' => true,
+                'message' => 'Directiva desactivada exitosamente.'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al desactivar la directiva: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
-     * Update the specified directiva period.
+     * Suspend directiva.
      */
-    public function update(Request $request, $id)
+    public function suspend(Directiva $directiva)
     {
-        $periodo = PeriodoDirectiva::findOrFail($id);
+        try {
+            $directiva->suspender();
 
+            return response()->json([
+                'success' => true,
+                'message' => 'Directiva suspendida exitosamente.'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al suspender la directiva: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Finish directiva.
+     */
+    public function finish(Directiva $directiva, Request $request)
+    {
         $request->validate([
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date|after:fecha_inicio',
-            'directiva' => 'required|array',
-            'directiva.*.cargo' => 'required|string',
-            'directiva.*.miembro_id' => 'required|exists:miembros,id',
+            'fecha_fin' => 'nullable|date|after_or_equal:today'
         ]);
 
-        $periodo->update([
-            'fecha_inicio' => $request->fecha_inicio,
-            'fecha_fin' => $request->fecha_fin,
-            'directiva' => json_encode($request->directiva),
-        ]);
+        try {
+            $directiva->finalizar($request->fecha_fin);
 
-        return redirect()->route('directiva.index')
-            ->with('success', 'Período de directiva actualizado exitosamente.');
+            return response()->json([
+                'success' => true,
+                'message' => 'Directiva finalizada exitosamente.'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al finalizar la directiva: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
-     * Remove the specified directiva period.
+     * Renew directiva.
      */
-    public function destroy($id)
+    public function renew(Directiva $directiva, Request $request)
     {
-        $periodo = PeriodoDirectiva::findOrFail($id);
-        $periodo->delete();
+        $request->validate([
+            'fecha_fin' => 'required|date|after:today'
+        ]);
 
-        return redirect()->route('directiva.index')
-            ->with('success', 'Período de directiva eliminado exitosamente.');
+        try {
+            $directiva->renovar($request->fecha_fin);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Directiva renovada exitosamente.'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al renovar la directiva: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
-     * Obtener miembros de la directiva con sus datos completos
+     * Get directivas by organo.
      */
-    private function obtenerMiembrosDirectiva($directivaData)
+    public function porOrgano(Organo $organo)
     {
-        $miembrosIds = collect($directivaData)->pluck('miembro_id');
-        
-        return Miembro::with(['organizacion', 'estadoMembresia'])
-            ->whereIn('id', $miembrosIds)
-            ->get()
-            ->map(function($miembro) use ($directivaData) {
-                $cargo = collect($directivaData)->firstWhere('miembro_id', $miembro->id);
-                $miembro->cargo_directiva = $cargo['cargo'] ?? 'Sin cargo';
-                return $miembro;
-            });
+        $directivas = Directiva::porOrgano($organo->id)
+                              ->with(['miembro', 'cargo'])
+                              ->get();
+
+        return response()->json($directivas);
+    }
+
+    /**
+     * Get directivas by cargo.
+     */
+    public function porCargo(Cargo $cargo)
+    {
+        $directivas = Directiva::porCargo($cargo->id)
+                              ->with(['miembro', 'organo'])
+                              ->get();
+
+        return response()->json($directivas);
+    }
+
+    /**
+     * Get active directivas.
+     */
+    public function activas()
+    {
+        $directivas = Directiva::directivosActivos();
+
+        return response()->json($directivas);
+    }
+
+    /**
+     * Get upcoming expirations.
+     */
+    public function proximosVencimientos(Request $request)
+    {
+        $dias = $request->get('dias', 30);
+        $directivas = Directiva::proximosVencimientos($dias);
+
+        return response()->json($directivas);
+    }
+
+    /**
+     * Export directivas.
+     */
+    public function export(Request $request)
+    {
+        // TODO: Implementar exportación de directivas
+        return response()->json(['message' => 'Función de exportación pendiente']);
     }
 }

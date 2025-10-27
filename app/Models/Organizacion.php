@@ -5,8 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Str;
 
 class Organizacion extends Model
 {
@@ -17,193 +15,122 @@ class Organizacion extends Model
     protected $fillable = [
         'nombre',
         'codigo',
-        'tipo_organizacion_id',
-        'pais',
-        'provincia',
-        'ciudad',
+        'tipo',
+        'estado',
+        'descripcion',
         'direccion',
         'telefono',
         'email',
-        'estado_adecuacion_id',
-        'miembros_minimos',
-        'fecha_fundacion',
-        'organizacion_padre_id',
+        'logo_url'
     ];
 
-    protected $casts = [
-        'fecha_fundacion' => 'date',
-    ];
+    // ========================================
+    // RELACIONES
+    // ========================================
 
-    protected static function boot()
-    {
-        parent::boot();
-        
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = Str::uuid();
-            }
-        });
-    }
-
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    /**
-     * Relación con organizaciones hijas
-     */
-    public function organizacionesHijas(): HasMany
-    {
-        return $this->hasMany(Organizacion::class, 'organizacion_padre_id');
-    }
-
-    /**
-     * Relación con organización padre
-     */
-    public function organizacionPadre(): BelongsTo
-    {
-        return $this->belongsTo(Organizacion::class, 'organizacion_padre_id');
-    }
-
-    /**
-     * Relación con miembros
-     */
     public function miembros(): HasMany
     {
         return $this->hasMany(Miembro::class);
     }
 
-    /**
-     * Relación con asambleas
-     */
     public function asambleas(): HasMany
     {
         return $this->hasMany(Asamblea::class);
     }
 
-    /**
-     * Relación con órganos directivos
-     */
-    public function organosDirectivos(): HasMany
-    {
-        return $this->hasMany(OrganoCldc::class);
-    }
-
-    /**
-     * Relación con cursos
-     */
-    public function cursos(): HasMany
-    {
-        return $this->hasMany(Curso::class);
-    }
-
-    /**
-     * Relación con elecciones
-     */
     public function elecciones(): HasMany
     {
         return $this->hasMany(Eleccion::class);
     }
 
-    /**
-     * Relación con documentos legales
-     */
-    public function documentosLegales(): HasMany
+    public function cursos(): HasMany
     {
-        return $this->hasMany(DocumentoLegal::class);
+        return $this->hasMany(Curso::class);
     }
 
-    /**
-     * Relación con presupuestos
-     */
+    public function transacciones(): HasMany
+    {
+        return $this->hasMany(TransaccionFinanciera::class);
+    }
+
     public function presupuestos(): HasMany
     {
         return $this->hasMany(Presupuesto::class);
     }
 
-    /**
-     * Relación con padrones electorales
-     */
-    public function padronesElectorales(): HasMany
+    public function documentos(): HasMany
     {
-        return $this->hasMany(PadronElectoral::class);
+        return $this->hasMany(DocumentoLegal::class);
     }
 
-    /**
-     * Relación con transacciones financieras
-     */
-    public function transaccionesFinancieras(): HasMany
-    {
-        return $this->hasMany(TransaccionFinanciera::class);
-    }
+    // ========================================
+    // SCOPES
+    // ========================================
 
-    /**
-     * Relación con capacitaciones
-     */
-    public function capacitaciones(): HasMany
-    {
-        return $this->hasMany(Capacitacion::class);
-    }
-
-    /**
-     * Relación con períodos de directiva
-     */
-    public function periodosDirectiva(): HasMany
-    {
-        return $this->hasMany(PeriodoDirectiva::class);
-    }
-
-    /**
-     * Relación con tipo de organización
-     */
-    public function tipoOrganizacion(): BelongsTo
-    {
-        return $this->belongsTo(TipoOrganizacion::class, 'tipo_organizacion_id');
-    }
-
-    /**
-     * Relación con estado de adecuación
-     */
-    public function estadoAdecuacion(): BelongsTo
-    {
-        return $this->belongsTo(EstadoAdecuacion::class, 'estado_adecuacion_id');
-    }
-
-    /**
-     * Scope para organizaciones activas
-     */
     public function scopeActivas($query)
     {
-        return $query->whereHas('estadoAdecuacion', function($q) {
-            $q->whereIn('nombre', ['aprobada', 'en_revision']);
-        });
+        return $query->where('estado', 'activa');
     }
 
-    /**
-     * Scope para seccionales
-     */
-    public function scopeSeccionales($query)
+    public function scopePorTipo($query, $tipo)
     {
-        return $query->where('tipo', 'seccional');
+        return $query->where('tipo', $tipo);
     }
 
-    /**
-     * Scope para seccionales internacionales
-     */
-    public function scopeSeccionalesInternacionales($query)
+    // ========================================
+    // ACCESSORS
+    // ========================================
+
+    public function getTotalMiembrosAttribute()
     {
-        return $query->where('tipo', 'seccional_internacional');
+        return $this->miembros()->count();
     }
 
-    /**
-     * Obtener estadísticas de la organización
-     */
-    public function getEstadisticasAttribute()
+    public function getMiembrosActivosAttribute()
+    {
+        return $this->miembros()->activos()->count();
+    }
+
+    public function getMiembrosVencidosAttribute()
+    {
+        return $this->miembros()->vencidos()->count();
+    }
+
+    public function getMiembrosPorVencerAttribute()
+    {
+        return $this->miembros()->porVencer()->count();
+    }
+
+    // ========================================
+    // MÉTODOS DE NEGOCIO
+    // ========================================
+
+    public function estadisticas()
     {
         return [
-            'miembros_activos' => $this->miembros()->where('estado_membresia', 'activa')->count(),
-            'asambleas_programadas' => $this->asambleas()->where('estado', 'convocada')->count(),
-            'cursos_activos' => $this->cursos()->where('estado', 'programada')->count(),
-            'elecciones_activas' => $this->elecciones()->where('estado', 'activa')->count(),
+            'total_miembros' => $this->total_miembros,
+            'miembros_activos' => $this->miembros_activos,
+            'miembros_vencidos' => $this->miembros_vencidos,
+            'miembros_por_vencer' => $this->miembros_por_vencer,
+            'total_asambleas' => $this->asambleas()->count(),
+            'asambleas_activas' => $this->asambleas()->where('estado', 'convocada')->count(),
+            'total_elecciones' => $this->elecciones()->count(),
+            'elecciones_activas' => $this->elecciones()->where('estado', 'en_proceso')->count()
         ];
+    }
+
+    public function esSeccional()
+    {
+        return $this->tipo === 'seccional';
+    }
+
+    public function esNacional()
+    {
+        return $this->tipo === 'nacional';
+    }
+
+    public function esRegional()
+    {
+        return $this->tipo === 'regional';
     }
 }

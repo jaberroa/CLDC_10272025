@@ -12,50 +12,34 @@ class Capacitacion extends Model
 {
     use HasFactory;
 
-    protected $table = 'capacitaciones';
+    protected $table = 'cursos';
 
     protected $fillable = [
-        'organizacion_id',
         'titulo',
         'descripcion',
         'fecha_inicio',
         'fecha_fin',
         'lugar',
         'modalidad',
-        'estado',
-        'costo',
+        'enlace_virtual',
         'cupo_maximo',
+        'costo',
         'instructor',
-        'created_by',
+        'contenido',
+        'activo',
     ];
 
     protected $casts = [
         'fecha_inicio' => 'datetime',
         'fecha_fin' => 'datetime',
         'costo' => 'decimal:2',
+        'activo' => 'boolean',
     ];
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function boot()
-    {
-        parent::boot();
-        
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = Str::uuid();
-            }
-        });
-    }
-
-    public function organizacion(): BelongsTo
-    {
-        return $this->belongsTo(Organizacion::class);
-    }
+    // Usar ID auto-incrementable por defecto
 
     public function inscripciones(): HasMany
     {
-        return $this->hasMany(InscripcionCapacitacion::class);
+        return $this->hasMany(InscripcionCapacitacion::class, 'curso_id');
     }
 }

@@ -19,6 +19,10 @@ class DatabaseSeeder extends Seeder
             CldciInitialDataSeeder::class,
             CldciDataSeeder::class,
             NoticiasSeeder::class,
+            CapacitacionSeeder::class,
+            InscripcionCapacitacionSeeder::class,
+            ProximosCursosSeeder::class,
+            CursosEspecializadosSeeder::class,
         ]);
     }
 }

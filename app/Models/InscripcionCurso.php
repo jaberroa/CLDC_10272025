@@ -5,39 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Str;
 
 class InscripcionCurso extends Model
 {
     use HasFactory;
+
+    protected $table = 'inscripcion_cursos';
 
     protected $fillable = [
         'miembro_id',
         'curso_id',
         'fecha_inscripcion',
         'estado',
-        'nota_final',
-        'certificado_url'
+        'calificacion',
+        'certificado_url',
+        'observaciones'
     ];
 
     protected $casts = [
         'fecha_inscripcion' => 'date',
-        'nota_final' => 'decimal:2'
+        'calificacion' => 'decimal:2'
     ];
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function boot()
-    {
-        parent::boot();
-        
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = Str::uuid();
-            }
-        });
-    }
+    // ========================================
+    // RELACIONES
+    // ========================================
 
     public function miembro(): BelongsTo
     {
@@ -47,5 +39,48 @@ class InscripcionCurso extends Model
     public function curso(): BelongsTo
     {
         return $this->belongsTo(Curso::class);
+    }
+
+    // ========================================
+    // SCOPES
+    // ========================================
+
+    public function scopeInscritos($query)
+    {
+        return $query->where('estado', 'inscrito');
+    }
+
+    public function scopeCompletados($query)
+    {
+        return $query->where('estado', 'completado');
+    }
+
+    public function scopeCancelados($query)
+    {
+        return $query->where('estado', 'cancelado');
+    }
+
+    // ========================================
+    // ACCESSORS
+    // ========================================
+
+    public function getEsInscritoAttribute()
+    {
+        return $this->estado === 'inscrito';
+    }
+
+    public function getEsCompletadoAttribute()
+    {
+        return $this->estado === 'completado';
+    }
+
+    public function getEsCanceladoAttribute()
+    {
+        return $this->estado === 'cancelado';
+    }
+
+    public function getTieneCertificadoAttribute()
+    {
+        return !empty($this->certificado_url);
     }
 }

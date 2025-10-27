@@ -11,52 +11,56 @@ class Candidato extends Model
 {
     use HasFactory;
 
+    protected $table = 'candidatos';
+
     protected $fillable = [
         'eleccion_id',
         'miembro_id',
         'cargo_id',
-        'propuesta',
+        'nombre',
+        'cargo',
         'biografia',
-        'foto_campana',
-        'votos_recibidos',
+        'propuestas',
+        'foto',
+        'orden',
         'activo',
     ];
 
     protected $casts = [
-        'votos_recibidos' => 'integer',
+        'propuestas' => 'array',
         'activo' => 'boolean',
     ];
 
     /**
-     * Relación con elección
+     * Relación con Elección
      */
     public function eleccion(): BelongsTo
     {
-        return $this->belongsTo(Eleccion::class);
+        return $this->belongsTo(Eleccion::class, 'eleccion_id');
     }
 
     /**
-     * Relación con miembro
+     * Relación con Miembro
      */
     public function miembro(): BelongsTo
     {
-        return $this->belongsTo(Miembro::class);
+        return $this->belongsTo(Miembro::class, 'miembro_id');
     }
 
     /**
-     * Relación con cargo
+     * Relación con Cargo
      */
     public function cargo(): BelongsTo
     {
-        return $this->belongsTo(Cargo::class);
+        return $this->belongsTo(Cargo::class, 'cargo_id');
     }
 
     /**
-     * Relación con votos
+     * Relación con Votos
      */
     public function votos(): HasMany
     {
-        return $this->hasMany(Voto::class);
+        return $this->hasMany(Voto::class, 'candidato_id');
     }
 
     /**
@@ -70,9 +74,25 @@ class Candidato extends Model
     /**
      * Scope por cargo
      */
-    public function scopePorCargo($query, $cargoId)
+    public function scopePorCargo($query, $cargo)
     {
-        return $query->where('cargo_id', $cargoId);
+        return $query->where('cargo', $cargo);
+    }
+
+    /**
+     * Scope ordenados
+     */
+    public function scopeOrdenados($query)
+    {
+        return $query->orderBy('orden')->orderBy('nombre');
+    }
+
+    /**
+     * Obtener total de votos
+     */
+    public function getTotalVotosAttribute()
+    {
+        return $this->votos()->count();
     }
 
     /**
@@ -80,13 +100,12 @@ class Candidato extends Model
      */
     public function getPorcentajeVotosAttribute()
     {
-        $totalVotos = $this->eleccion->votos_totales;
+        $totalVotosEleccion = $this->eleccion->votos()->count();
         
-        if ($totalVotos == 0) {
+        if ($totalVotosEleccion === 0) {
             return 0;
         }
         
-        return round(($this->votos_recibidos / $totalVotos) * 100, 2);
+        return round(($this->total_votos / $totalVotosEleccion) * 100, 2);
     }
 }
-

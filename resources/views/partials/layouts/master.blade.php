@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta content="Admin & Dashboards Template" name="description" />
 <meta content="Pixeleyez" name="author" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!-- layout setup -->
 <script type="module" src="{{ asset('assets/js/layout-setup.js') }}"></script>
@@ -36,7 +37,14 @@
     
     @include('partials.footer')
 
+    {{-- Toast Global --}}
+    @include('components.global-toast')
+    @include('components.modals.delete-confirmation')
+
     @include('partials.vendor-scripts')
+
+    {{-- Toast Global JavaScript --}}
+    <script src="{{ vite_asset('resources/js/toast-simple.js') }}"></script>
 
     @yield('js')
 

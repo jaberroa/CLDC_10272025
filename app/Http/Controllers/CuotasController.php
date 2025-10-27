@@ -16,7 +16,7 @@ class CuotasController extends Controller
      */
     public function index(Request $request): View
     {
-        $query = CuotaMembresia::with(['miembro', 'creadoPor']);
+        $query = CuotaMembresia::with(['miembro']);
 
         // Filtros
         if ($request->filled('estado')) {
@@ -103,6 +103,10 @@ class CuotasController extends Controller
             'tipo_cuota' => 'required|in:mensual,trimestral,anual',
             'monto' => 'required|numeric|min:0',
             'fecha_vencimiento' => 'required|date|after:today',
+            'estado' => 'required|in:pendiente,pagada,vencida,cancelada',
+            'recurrente' => 'boolean',
+            'frecuencia_recurrencia' => 'nullable|in:mensual,trimestral,anual',
+            'proxima_fecha_generacion' => 'nullable|date',
             'observaciones' => 'nullable|string|max:500'
         ]);
 
@@ -111,8 +115,11 @@ class CuotasController extends Controller
             'tipo_cuota' => $request->tipo_cuota,
             'monto' => $request->monto,
             'fecha_vencimiento' => $request->fecha_vencimiento,
+            'estado' => $request->estado,
+            'recurrente' => $request->boolean('recurrente'),
+            'frecuencia_recurrencia' => $request->frecuencia_recurrencia,
+            'proxima_fecha_generacion' => $request->proxima_fecha_generacion,
             'observaciones' => $request->observaciones,
-            'created_by' => auth()->id(),
         ]);
 
         return redirect()->route('cuotas.index')
@@ -124,8 +131,52 @@ class CuotasController extends Controller
      */
     public function show(CuotaMembresia $cuota): View
     {
-        $cuota->load(['miembro', 'creadoPor']);
+        $cuota->load(['miembro']);
         return view('cuotas.show', compact('cuota'));
+    }
+
+    /**
+     * Mostrar formulario para editar cuota
+     */
+    public function edit(CuotaMembresia $cuota): View
+    {
+        $miembros = Miembro::select('id', 'nombre_completo', 'numero_carnet')->get();
+        $tiposCuota = ['mensual', 'trimestral', 'anual'];
+        
+        return view('cuotas.edit', compact('cuota', 'miembros', 'tiposCuota'));
+    }
+
+    /**
+     * Actualizar cuota
+     */
+    public function update(Request $request, CuotaMembresia $cuota): RedirectResponse
+    {
+        $request->validate([
+            'miembro_id' => 'required|exists:miembros,id',
+            'tipo_cuota' => 'required|in:mensual,trimestral,anual',
+            'monto' => 'required|numeric|min:0',
+            'fecha_vencimiento' => 'required|date',
+            'estado' => 'required|in:pendiente,pagada,vencida,cancelada',
+            'recurrente' => 'boolean',
+            'frecuencia_recurrencia' => 'nullable|in:mensual,trimestral,anual',
+            'proxima_fecha_generacion' => 'nullable|date',
+            'observaciones' => 'nullable|string|max:500'
+        ]);
+
+        $cuota->update([
+            'miembro_id' => $request->miembro_id,
+            'tipo_cuota' => $request->tipo_cuota,
+            'monto' => $request->monto,
+            'fecha_vencimiento' => $request->fecha_vencimiento,
+            'estado' => $request->estado,
+            'recurrente' => $request->boolean('recurrente'),
+            'frecuencia_recurrencia' => $request->frecuencia_recurrencia,
+            'proxima_fecha_generacion' => $request->proxima_fecha_generacion,
+            'observaciones' => $request->observaciones,
+        ]);
+
+        return redirect()->route('cuotas.index')
+            ->with('success', 'Cuota actualizada exitosamente.');
     }
 
     /**
@@ -134,22 +185,18 @@ class CuotasController extends Controller
     public function marcarPagada(Request $request, CuotaMembresia $cuota): RedirectResponse
     {
         $request->validate([
-            'metodo_pago' => 'required|string|max:50',
-            'comprobante_url' => 'nullable|url|max:255',
             'observaciones' => 'nullable|string|max:500'
         ]);
 
-        $cuota->marcarComoPagada(
-            $request->metodo_pago,
-            $request->comprobante_url
-        );
+        $cuota->marcarComoPagada(now());
 
+        // Actualizar observaciones si se proporcionan
         if ($request->observaciones) {
             $cuota->update(['observaciones' => $request->observaciones]);
         }
 
         return redirect()->back()
-            ->with('success', 'Cuota marcada como pagada.');
+            ->with('success', 'Cuota marcada como pagada exitosamente.');
     }
 
     /**
@@ -282,7 +329,35 @@ class CuotasController extends Controller
         $selectedIds = $request->input('selected_ids');
         $deletedCount = CuotaMembresia::whereIn('id', $selectedIds)->delete();
 
+        // Responder JSON para solicitudes AJAX
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Se eliminaron {$deletedCount} cuotas correctamente",
+                'deleted_count' => $deletedCount
+            ]);
+        }
+
         return redirect()->route('cuotas.index')
             ->with('success', "Se eliminaron {$deletedCount} cuotas correctamente.");
+    }
+
+    /**
+     * Remove the specified cuota from storage.
+     */
+    public function destroy(CuotaMembresia $cuota)
+    {
+        $cuota->delete();
+
+        // Responder JSON para solicitudes AJAX
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Cuota eliminada exitosamente'
+            ]);
+        }
+
+        return redirect()->route('cuotas.index')
+            ->with('success', 'Cuota eliminada exitosamente.');
     }
 }

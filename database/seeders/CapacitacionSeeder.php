@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Capacitacion;
+use App\Models\Organizacion;
+use App\Models\User;
+use Carbon\Carbon;
 
 class CapacitacionSeeder extends Seeder
 {
@@ -12,69 +15,83 @@ class CapacitacionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear capacitaciones de prueba
+        // Obtener la primera organización y usuario
+        $organizacion = Organizacion::first();
+        $usuario = User::first();
+
+        if (!$organizacion || !$usuario) {
+            $this->command->warn('No se encontraron organizaciones o usuarios. Ejecute primero los seeders de organizaciones y usuarios.');
+            return;
+        }
+
         $capacitaciones = [
             [
-                'id' => \Illuminate\Support\Str::uuid(),
-                'titulo' => 'Liderazgo Comunitario',
-                'descripcion' => 'Capacitación en técnicas de liderazgo y gestión comunitaria',
-                'fecha_inicio' => now()->addDays(30),
-                'fecha_fin' => now()->addDays(32),
+                'titulo' => 'Curso de Locución Profesional',
+                'descripcion' => 'Capacitación completa en técnicas de locución, dicción y expresión vocal para profesionales de la comunicación.',
+                'fecha_inicio' => Carbon::now()->addDays(15),
+                'fecha_fin' => Carbon::now()->addDays(17),
+                'lugar' => 'Estudio de Grabación CLDCI',
                 'modalidad' => 'presencial',
-                'lugar' => 'Sede Nacional CLDCI',
-                'cupo_maximo' => 50,
-                'costo' => 0.00,
-                'activo' => true,
+                'costo' => 2500.00,
+                'cupo_maximo' => 20,
+                'instructor' => 'María González - Locutora Profesional',
+                'activo' => true
             ],
             [
-                'id' => \Illuminate\Support\Str::uuid(),
-                'titulo' => 'Gestión de Proyectos',
-                'descripcion' => 'Metodologías para la planificación y ejecución de proyectos comunitarios',
-                'fecha_inicio' => now()->addDays(45),
-                'fecha_fin' => now()->addDays(47),
+                'titulo' => 'Taller de Producción Radiofónica',
+                'descripcion' => 'Aprende las técnicas fundamentales de producción y edición de contenido radiofónico.',
+                'fecha_inicio' => Carbon::now()->addDays(30),
+                'fecha_fin' => Carbon::now()->addDays(32),
+                'lugar' => 'Laboratorio de Producción CLDCI',
+                'modalidad' => 'presencial',
+                'costo' => 1800.00,
+                'cupo_maximo' => 15,
+                'instructor' => 'Carlos Rodríguez - Productor Ejecutivo',
+                'activo' => true
+            ],
+            [
+                'titulo' => 'Seminario de Comunicación Digital',
+                'descripcion' => 'Estrategias y herramientas para la comunicación efectiva en medios digitales.',
+                'fecha_inicio' => Carbon::now()->addDays(45),
+                'fecha_fin' => Carbon::now()->addDays(47),
+                'lugar' => 'Aula Virtual CLDCI',
                 'modalidad' => 'virtual',
-                'enlace_virtual' => 'https://meet.google.com/abc-defg-hij',
-                'cupo_maximo' => 100,
-                'costo' => 0.00,
-                'activo' => true,
+                'enlace_virtual' => 'https://meet.google.com/cldci-virtual',
+                'costo' => 1200.00,
+                'cupo_maximo' => 50,
+                'instructor' => 'Ana Martínez - Especialista en Marketing Digital',
+                'activo' => true
             ],
             [
-                'id' => \Illuminate\Support\Str::uuid(),
-                'titulo' => 'Comunicación Efectiva',
-                'descripcion' => 'Técnicas de comunicación para líderes comunitarios',
-                'fecha_inicio' => now()->addDays(60),
-                'fecha_fin' => now()->addDays(62),
-                'modalidad' => 'hibrida',
-                'lugar' => 'Centro de Convenciones',
-                'enlace_virtual' => 'https://zoom.us/j/123456789',
-                'cupo_maximo' => 75,
-                'costo' => 0.00,
-                'activo' => true,
+                'titulo' => 'Curso de Periodismo Deportivo',
+                'descripcion' => 'Especialización en cobertura deportiva, redacción deportiva y análisis de eventos.',
+                'fecha_inicio' => Carbon::now()->addDays(60),
+                'fecha_fin' => Carbon::now()->addDays(62),
+                'lugar' => 'Centro de Entrenamiento CLDCI',
+                'modalidad' => 'mixta',
+                'costo' => 3000.00,
+                'cupo_maximo' => 25,
+                'instructor' => 'Roberto Silva - Periodista Deportivo',
+                'activo' => true
+            ],
+            [
+                'titulo' => 'Taller de Técnicas de Entrevista',
+                'descripcion' => 'Desarrollo de habilidades para realizar entrevistas efectivas en radio y televisión.',
+                'fecha_inicio' => Carbon::now()->addDays(75),
+                'fecha_fin' => Carbon::now()->addDays(77),
+                'lugar' => 'Estudio de Televisión CLDCI',
+                'modalidad' => 'presencial',
+                'costo' => 2000.00,
+                'cupo_maximo' => 18,
+                'instructor' => 'Laura Fernández - Conductora de TV',
+                'activo' => true
             ]
         ];
 
         foreach ($capacitaciones as $capacitacion) {
-            \App\Models\Capacitacion::create($capacitacion);
+            Capacitacion::create($capacitacion);
         }
 
-        // Crear inscripciones de prueba para algunos miembros
-        $miembros = \App\Models\Miembro::take(5)->get();
-        $capacitaciones = \App\Models\Capacitacion::all();
-
-        foreach ($miembros as $miembro) {
-            // Inscribir a 1-2 capacitaciones aleatoriamente
-            $capacitacionesAleatorias = $capacitaciones->random(rand(1, 2));
-            
-            foreach ($capacitacionesAleatorias as $capacitacion) {
-                \App\Models\InscripcionCapacitacion::create([
-                    'id' => \Illuminate\Support\Str::uuid(),
-                    'miembro_id' => $miembro->id,
-                    'capacitacion_id' => $capacitacion->id,
-                    'fecha_inscripcion' => now()->subDays(rand(1, 10)),
-                    'estado' => ['inscrito', 'completado'][rand(0, 1)],
-                    'observaciones' => 'Inscripción de prueba'
-                ]);
-            }
-        }
+        $this->command->info('Capacitaciones creadas exitosamente.');
     }
 }

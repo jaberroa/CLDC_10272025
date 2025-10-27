@@ -11,6 +11,8 @@ class Cargo extends Model
 {
     use HasFactory;
 
+    protected $table = 'cargos';
+
     protected $fillable = [
         'nombre',
         'descripcion',
@@ -22,22 +24,20 @@ class Cargo extends Model
         'activo' => 'boolean'
     ];
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function boot()
-    {
-        parent::boot();
-        
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = Str::uuid();
-            }
-        });
-    }
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     public function miembrosDirectivos(): HasMany
     {
         return $this->hasMany(MiembroDirectivo::class);
+    }
+
+    // ========================================
+    // SCOPES
+    // ========================================
+
+    public function scopeActivos($query)
+    {
+        return $query->where('activo', true);
     }
 }

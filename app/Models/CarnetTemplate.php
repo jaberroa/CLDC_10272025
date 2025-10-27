@@ -4,30 +4,38 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CarnetTemplate extends Model
 {
     use HasFactory;
 
+    protected $table = 'carnet_templates';
+
     protected $fillable = [
         'nombre',
         'descripcion',
-        'template_path',
-        'preview_image',
-        'configuracion_default',
-        'activo',
-        'orden'
+        'template_html',
+        'template_css',
+        'activo'
     ];
 
     protected $casts = [
-        'configuracion_default' => 'array',
         'activo' => 'boolean'
     ];
 
-    public function personalizaciones()
+    // ========================================
+    // RELACIONES
+    // ========================================
+
+    public function personalizados(): HasMany
     {
         return $this->hasMany(CarnetPersonalizado::class, 'template_id');
     }
+
+    // ========================================
+    // SCOPES
+    // ========================================
 
     public function scopeActivos($query)
     {
@@ -36,6 +44,15 @@ class CarnetTemplate extends Model
 
     public function scopeOrdenados($query)
     {
-        return $query->orderBy('orden');
+        return $query->orderBy('nombre', 'asc');
+    }
+
+    // ========================================
+    // ACCESSORS
+    // ========================================
+
+    public function getPersonalizacionesCountAttribute()
+    {
+        return $this->personalizados()->count();
     }
 }

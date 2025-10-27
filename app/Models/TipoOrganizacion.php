@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TipoOrganizacion extends Model
 {
@@ -13,13 +14,15 @@ class TipoOrganizacion extends Model
 
     protected $fillable = [
         'nombre',
-        'descripcion',
+        'descripcion'
     ];
 
-    public function organizaciones()
+    // ========================================
+    // RELACIONES
+    // ========================================
+
+    public function organizaciones(): HasMany
     {
-        return $this->hasMany(Organizacion::class, 'tipo_organizacion_id');
+        return $this->hasMany(Organizacion::class, 'tipo', 'nombre');
     }
 }
-
-

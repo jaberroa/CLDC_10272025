@@ -10,9 +10,11 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/css/miembros/app.css',
                 'resources/css/global/app.css',
-        'resources/css/carnet/app.css',
-        'resources/js/carnet/app.js',
-        'resources/js/carnet/carnet-editor.js'
+                'resources/css/carnet/app.css',
+                'resources/js/carnet/app.js',
+                'resources/js/carnet/carnet-editor.js',
+                'resources/js/delete-confirmation.js',
+                'resources/js/toast-simple.js'
             ],
             refresh: true,
         }),

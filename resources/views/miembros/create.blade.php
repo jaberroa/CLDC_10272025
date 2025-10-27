@@ -5,8 +5,7 @@
 @section('pagetitle', 'Agregar Nuevo Miembro')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/libs/dropzone/dropzone.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/libs/dropzone/dropzone.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/miembros-create-header.css') }}">
 <link rel="stylesheet" href="{{ vite_asset('resources/css/miembros/app.css') }}">
 @endsection
@@ -53,6 +52,5 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
-@include('miembros.partials.form-scripts')
+@include('components.miembros.form-scripts')
 @endsection

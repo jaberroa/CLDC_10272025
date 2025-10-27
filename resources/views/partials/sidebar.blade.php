@@ -76,62 +76,68 @@
                             <a href="#" class="pe-nav-link">
                                 <i class="ri-bar-chart-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Reportes de Cuotas</span>
-                            </a>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                    </ul>
-                </li>
 
                 <!-- Directiva -->
                 <li class="pe-slide pe-has-sub">
-                    <a href="#collapseDirectiva" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('directiva.*') ? 'true' : 'false' }}" aria-controls="collapseDirectiva">
+                    <a href="#collapseDirectiva" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('directiva.*') || request()->routeIs('cronograma-directiva.*') ? 'true' : 'false' }}" aria-controls="collapseDirectiva">
                         <i class="ri-government-line pe-nav-icon"></i>
                         <span class="pe-nav-content">Directiva</span>
-                        <i class="ri-arrow-down-s-line pe-nav-arrow"></i>
-                    </a>
-                    <ul class="pe-slide-menu collapse {{ request()->routeIs('directiva.*') ? 'show' : '' }}" id="collapseDirectiva">
-                        <li class="pe-slide-item">
+                                <i class="ri-arrow-down-s-line pe-nav-arrow"></i>
+                            </a>
+                    <ul class="pe-slide-menu collapse {{ request()->routeIs('directiva.*') || request()->routeIs('cronograma-directiva.*') ? 'show' : '' }}" id="collapseDirectiva">
+                                        <li class="pe-slide-item">
                             <a href="{{ route('directiva.index') }}" class="pe-nav-link {{ request()->routeIs('directiva.index') ? 'active' : '' }}">
                                 <i class="ri-list-check pe-nav-icon"></i>
                                 <span class="pe-nav-content">Períodos Directiva</span>
-                            </a>
-                        </li>
-                        <li class="pe-slide-item">
+                                            </a>
+                                        </li>
+                                        <li class="pe-slide-item">
                             <a href="#" class="pe-nav-link">
                                 <i class="ri-user-star-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Miembros Directiva</span>
-                            </a>
-                        </li>
-                        <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
+                                            </a>
+                                        </li>
+                                        <li class="pe-slide-item">
+                            <a href="{{ route('cronograma-directiva.index') }}" class="pe-nav-link {{ request()->routeIs('cronograma-directiva.*') ? 'active' : '' }}">
                                 <i class="ri-calendar-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Cronograma</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
 
                 <!-- Asambleas -->
                 <li class="pe-slide pe-has-sub">
-                    <a href="#collapseAsambleas" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseAsambleas">
+                    <a href="#collapseAsambleas" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('asambleas.*') ? 'true' : 'false' }}" aria-controls="collapseAsambleas">
                         <i class="ri-group-2-line pe-nav-icon"></i>
                         <span class="pe-nav-content">Asambleas</span>
                         <i class="ri-arrow-down-s-line pe-nav-arrow"></i>
                     </a>
-                    <ul class="pe-slide-menu collapse" id="collapseAsambleas">
+                    <ul class="pe-slide-menu collapse {{ request()->routeIs('asambleas.*') ? 'show' : '' }}" id="collapseAsambleas">
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
+                            <a href="{{ route('asambleas.proxima') }}" class="pe-nav-link {{ request()->routeIs('asambleas.proxima') ? 'active' : '' }}">
                                 <i class="ri-calendar-event-line pe-nav-icon"></i>
-                                <span class="pe-nav-content">Próximas Asambleas</span>
+                                <span class="pe-nav-content">Próxima Asamblea</span>
+                            </a>
+                        </li>
+                        <li class="pe-slide-item">
+                            <a href="{{ route('asambleas.index') }}" class="pe-nav-link {{ request()->routeIs('asambleas.index') ? 'active' : '' }}">
+                                <i class="ri-list-check-2 pe-nav-icon"></i>
+                                <span class="pe-nav-content">Todas las Asambleas</span>
                             </a>
                         </li>
                         <li class="pe-slide-item">
                             <a href="#" class="pe-nav-link">
-                                <i class="ri-list-check-2 pe-nav-icon"></i>
+                                <i class="ri-history-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Historial</span>
                             </a>
                         </li>
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
+                            <a href="{{ route('asambleas.asistencias.index') }}" class="pe-nav-link {{ request()->routeIs('asambleas.asistencias.*') ? 'active' : '' }}">
                                 <i class="ri-user-check-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Asistencia</span>
                             </a>
@@ -139,30 +145,54 @@
                     </ul>
                 </li>
 
-                <!-- Elecciones -->
+                <!-- Gestión Documental -->
                 <li class="pe-slide pe-has-sub">
-                    <a href="#collapseElecciones" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseElecciones">
-                        <i class="ri-vote-line pe-nav-icon"></i>
-                        <span class="pe-nav-content">Elecciones</span>
+                    <a href="#collapseDocumental" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('gestion-documental.*') ? 'true' : 'false' }}" aria-controls="collapseDocumental">
+                        <i class="ri-folders-line pe-nav-icon"></i>
+                        <span class="pe-nav-content">Gestión Documental</span>
                         <i class="ri-arrow-down-s-line pe-nav-arrow"></i>
                     </a>
-                    <ul class="pe-slide-menu collapse" id="collapseElecciones">
+                    <ul class="pe-slide-menu collapse {{ request()->routeIs('gestion-documental.*') ? 'show' : '' }}" id="collapseDocumental">
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
-                                <i class="ri-calendar-schedule-line pe-nav-icon"></i>
-                                <span class="pe-nav-content">Próximas Elecciones</span>
+                            <a href="{{ route('gestion-documental.explorador.index') }}" class="pe-nav-link {{ request()->routeIs('gestion-documental.explorador.*') || request()->routeIs('gestion-documental.dashboard') ? 'active' : '' }}">
+                                <i class="ri-folder-open-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Mi Unidad</span>
                             </a>
                         </li>
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
-                                <i class="ri-user-star-line pe-nav-icon"></i>
-                                <span class="pe-nav-content">Candidatos</span>
+                            <a href="{{ route('gestion-documental.secciones.index') }}" class="pe-nav-link {{ request()->routeIs('gestion-documental.secciones.*') ? 'active' : '' }}">
+                                <i class="ri-folder-settings-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Secciones</span>
                             </a>
                         </li>
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
-                                <i class="ri-bar-chart-line pe-nav-icon"></i>
-                                <span class="pe-nav-content">Resultados</span>
+                            <a href="{{ route('gestion-documental.carpetas.index') }}" class="pe-nav-link {{ request()->routeIs('gestion-documental.carpetas.*') ? 'active' : '' }}">
+                                <i class="ri-folder-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Carpetas</span>
+                            </a>
+                        </li>
+                        <li class="pe-slide-item">
+                            <a href="{{ route('gestion-documental.aprobaciones.mis-pendientes') }}" class="pe-nav-link {{ request()->routeIs('gestion-documental.aprobaciones.*') ? 'active' : '' }}">
+                                <i class="ri-checkbox-circle-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Mis Aprobaciones</span>
+                                @if(isset($aprobacionesPendientes) && $aprobacionesPendientes > 0)
+                                <span class="badge bg-warning rounded-pill ms-auto">{{ $aprobacionesPendientes }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li class="pe-slide-item">
+                            <a href="{{ route('gestion-documental.firmas.mis-pendientes') }}" class="pe-nav-link {{ request()->routeIs('gestion-documental.firmas.*') ? 'active' : '' }}">
+                                <i class="ri-edit-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Mis Firmas</span>
+                                @if(isset($firmasPendientes) && $firmasPendientes > 0)
+                                <span class="badge bg-danger rounded-pill ms-auto">{{ $firmasPendientes }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li class="pe-slide-item">
+                            <a href="{{ route('gestion-documental.busqueda.index') }}" class="pe-nav-link {{ request()->routeIs('gestion-documental.busqueda.*') ? 'active' : '' }}">
+                                <i class="ri-search-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Buscar Documentos</span>
                             </a>
                         </li>
                     </ul>
@@ -170,32 +200,68 @@
 
                 <!-- Capacitaciones -->
                 <li class="pe-slide pe-has-sub">
-                    <a href="#collapseCapacitaciones" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseCapacitaciones">
+                    <a href="#collapseCapacitaciones" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('capacitaciones.*') ? 'true' : 'false' }}" aria-controls="collapseCapacitaciones">
                         <i class="ri-graduation-cap-line pe-nav-icon"></i>
                         <span class="pe-nav-content">Capacitaciones</span>
                         <i class="ri-arrow-down-s-line pe-nav-arrow"></i>
                     </a>
-                    <ul class="pe-slide-menu collapse" id="collapseCapacitaciones">
+                    <ul class="pe-slide-menu collapse {{ request()->routeIs('capacitaciones.*') ? 'show' : '' }}" id="collapseCapacitaciones">
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
+                            <a href="{{ route('capacitaciones.proximo') }}" class="pe-nav-link {{ request()->routeIs('capacitaciones.proximo') ? 'active' : '' }}">
                                 <i class="ri-calendar-event-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Próximos Cursos</span>
                             </a>
                         </li>
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
-                                <i class="ri-book-open-line pe-nav-icon"></i>
+                            <a href="{{ route('capacitaciones.index') }}" class="pe-nav-link {{ request()->routeIs('capacitaciones.index') ? 'active' : '' }}">
+                                <i class="ri-list-check-2 pe-nav-icon"></i>
                                 <span class="pe-nav-content">Catálogo</span>
+                                    </a>
+                                </li>
+                                <li class="pe-slide-item">
+                            <a href="{{ route('capacitaciones.inscripciones') }}" class="pe-nav-link {{ request()->routeIs('capacitaciones.inscripciones') ? 'active' : '' }}">
+                                <i class="ri-user-heart-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Mis Inscripciones</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                <!-- Elecciones -->
+                <li class="pe-slide pe-has-sub">
+                    <a href="#collapseElecciones" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseElecciones">
+                        <i class="ri-government-line pe-nav-icon"></i>
+                        <span class="pe-nav-content">Elecciones</span>
+                        <i class="ri-arrow-down-s-line pe-nav-arrow"></i>
+                    </a>
+                    <ul class="pe-slide-menu collapse" id="collapseElecciones">
+                        <li class="pe-slide-item">
+                            <a href="{{ route('elecciones.index') }}" class="pe-nav-link {{ request()->routeIs('elecciones.index') ? 'active' : '' }}">
+                                <i class="ri-calendar-schedule-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Próximas Elecciones</span>
                             </a>
                         </li>
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
-                                <i class="ri-user-heart-line pe-nav-icon"></i>
-                                <span class="pe-nav-content">Mis Inscripciones</span>
+                            <a href="{{ route('tipos-elecciones.index') }}" class="pe-nav-link {{ request()->routeIs('tipos-elecciones.*') ? 'active' : '' }}">
+                                <i class="ri-list-check-2 pe-nav-icon"></i>
+                                <span class="pe-nav-content">Tipos de Elecciones</span>
+                            </a>
+                        </li>
+                        <li class="pe-slide-item">
+                            <a href="{{ route('elecciones.candidatos') }}" class="pe-nav-link {{ request()->routeIs('elecciones.candidatos') ? 'active' : '' }}">
+                                <i class="ri-user-star-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Candidatos</span>
+                            </a>
+                        </li>
+                        <li class="pe-slide-item">
+                            <a href="{{ route('elecciones.votacion') }}" class="pe-nav-link {{ request()->routeIs('elecciones.votacion') ? 'active' : '' }}">
+                                <i class="ri-checkbox-circle-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Votación</span>
                             </a>
                         </li>
                     </ul>
                 </li>
+
 
                 <!-- Organizaciones -->
                 <li class="pe-slide pe-has-sub">
@@ -330,7 +396,7 @@
                             </a>
                         </li>
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
+                            <a href="{{ route('roles.index') }}" class="pe-nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
                                 <i class="ri-shield-user-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Roles y Permisos</span>
                             </a>
@@ -349,17 +415,17 @@
                     <a href="#" class="pe-nav-link">
                         <i class="ri-user-line pe-nav-icon"></i>
                         <span class="pe-nav-content">Mi Perfil</span>
-                    </a>
-                </li>
+                            </a>
+                        </li>
 
                 <!-- Cerrar Sesión -->
                 <li class="pe-slide">
                     <a href="{{ route('logout') }}" class="pe-nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="ri-logout-box-line pe-nav-icon"></i>
                         <span class="pe-nav-content">Cerrar Sesión</span>
-                    </a>
-                </li>
-            </ul>
+                                            </a>
+                                        </li>
+                                    </ul>
         </div>
     </nav>
 </aside>

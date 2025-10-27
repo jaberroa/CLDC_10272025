@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class QuickAccessUsersSeeder extends Seeder
 {
@@ -13,45 +13,36 @@ class QuickAccessUsersSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear usuarios de acceso rápido
-        $quickAccessUsers = [
-            [
-                'name' => 'Administrador CLDCI',
-                'email' => 'admin@cldci.org',
-                'password' => Hash::make('admin123'),
-                'email_verified_at' => now(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Gestor de Miembros',
-                'email' => 'miembros@cldci.org',
-                'password' => Hash::make('miembros123'),
-                'email_verified_at' => now(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        // Crear usuario directiva
+        User::firstOrCreate(
+            ['email' => 'directiva@cldci.org'],
             [
                 'name' => 'Directiva CLDCI',
-                'email' => 'directiva@cldci.org',
                 'password' => Hash::make('directiva123'),
-                'email_verified_at' => now(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ];
+                'email_verified_at' => now()
+            ]
+        );
 
-        foreach ($quickAccessUsers as $userData) {
-            User::updateOrCreate(
-                ['email' => $userData['email']],
-                $userData
-            );
-        }
+        // Crear usuario admin
+        User::firstOrCreate(
+            ['email' => 'admin@cldci.org'],
+            [
+                'name' => 'Administrador',
+                'password' => Hash::make('admin123'),
+                'email_verified_at' => now()
+            ]
+        );
 
-        $this->command->info('✅ Usuarios de acceso rápido creados exitosamente');
-        $this->command->info('📧 admin@cldci.org / admin123');
-        $this->command->info('📧 miembros@cldci.org / miembros123');
-        $this->command->info('📧 directiva@cldci.org / directiva123');
+        // Crear usuario secretario
+        User::firstOrCreate(
+            ['email' => 'secretario@cldci.org'],
+            [
+                'name' => 'Secretario',
+                'password' => Hash::make('secretario123'),
+                'email_verified_at' => now()
+            ]
+        );
+
+        $this->command->info('Usuarios de acceso rápido creados exitosamente.');
     }
 }
-

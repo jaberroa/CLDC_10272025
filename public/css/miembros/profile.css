@@ -1,0 +1,534 @@
+/* ==========================================
+   MIEMBROS PROFILE - ESTILOS OPTIMIZADOS
+   ========================================== */
+
+/* ==========================================
+   LAYOUT ESTRATÉGICO - CARDS ORGANIZADAS
+   ========================================== */
+
+/* Cards con mejor espaciado y organización */
+.profile-layout .card {
+    border: 1px solid rgba(var(--bs-primary-rgb), 0.1) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.3s ease !important;
+}
+
+.profile-layout .card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Headers de cards con mejor diseño */
+.profile-layout .card-header {
+    background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.05) 0%, rgba(var(--bs-primary-rgb), 0.02) 100%) !important;
+    border-bottom: 1px solid rgba(var(--bs-primary-rgb), 0.1) !important;
+    padding: 1rem 1.5rem !important;
+}
+
+.profile-layout .card-header .card-title {
+    color: var(--bs-primary) !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+}
+
+/* Botones de acción mejorados */
+.profile-actions .btn {
+    border-radius: 0.75rem !important;
+    transition: all 0.3s ease !important;
+    border-width: 2px !important;
+}
+
+.profile-actions .btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Iconos en headers */
+.profile-layout .card-header i {
+    font-size: 1.2rem !important;
+    margin-right: 0.5rem !important;
+}
+
+/* Badges informativos */
+.profile-layout .badge {
+    font-size: 0.75rem !important;
+    padding: 0.375rem 0.75rem !important;
+    border-radius: 1rem !important;
+    font-weight: 500 !important;
+}
+
+/* Espaciado entre secciones */
+.profile-layout .row {
+    margin-bottom: 1.5rem !important;
+}
+
+.profile-layout .row:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* ==========================================
+   DISEÑO ORIGINAL REFACTORIZADO
+   ========================================== */
+
+/* Cards con diseño original pero optimizado */
+.profile-layout .card {
+    border: 1px solid #e9ecef !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.profile-layout .card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Headers de cards con estilo original */
+.profile-layout .card-header {
+    background: #f8f9fa !important;
+    border-bottom: 1px solid #e9ecef !important;
+    padding: 1rem 1.5rem !important;
+}
+
+.profile-layout .card-header .card-title {
+    color: #495057 !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+}
+
+/* Botones de acción con estilo original */
+.profile-layout .btn {
+    border-radius: 0.375rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.profile-layout .btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN MEJORADO
+   ========================================== */
+
+@media (max-width: 1200px) {
+    .profile-layout .col-xl-4 {
+        margin-bottom: 1.5rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-layout .card-header {
+        padding: 0.75rem 1rem !important;
+    }
+    
+    .profile-layout .card-header .card-title {
+        font-size: 1rem !important;
+    }
+    
+    .profile-actions .btn {
+        padding: 0.75rem !important;
+        font-size: 0.875rem !important;
+    }
+    
+    .profile-actions .btn i {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Estilos para la card de Cargos Actuales */
+.cargo-item {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(var(--bs-primary-rgb), 0.1) !important;
+    background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.02) 0%, rgba(var(--bs-primary-rgb), 0.05) 100%) !important;
+}
+
+.cargo-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--bs-primary-rgb), 0.15);
+    border-color: rgba(var(--bs-primary-rgb), 0.2) !important;
+}
+
+.cargo-item .avatar-lg {
+    width: 3rem;
+    height: 3rem;
+    transition: all 0.3s ease;
+}
+
+.cargo-item:hover .avatar-lg {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(var(--bs-primary-rgb), 0.3);
+}
+
+.cargo-item .badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.cargo-item .progress {
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.cargo-item .progress-bar {
+    background: linear-gradient(90deg, var(--bs-primary) 0%, var(--bs-primary) 100%);
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+/* Animación para el estado vacío */
+.avatar-xl {
+    width: 4rem;
+    height: 4rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Mejoras para el header de la card */
+.card-header .badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cargo-item {
+        margin-bottom: 1rem;
+    }
+    
+    .cargo-item .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    
+    .cargo-item .ms-3 {
+        margin-left: 0 !important;
+        margin-top: 1rem;
+    }
+}
+
+/* ==========================================
+   CARNET MODAL - ESTILOS OPTIMIZADOS
+   ========================================== */
+
+.carnet-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    overflow: hidden;
+}
+
+.carnet-modal-content {
+    background: white;
+    border-radius: 20px;
+    width: 95vw;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: modalSlideIn 0.4s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes modalSlideOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8) translateY(-50px);
+    }
+}
+
+.carnet-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 20px 20px 0 0;
+}
+
+.carnet-modal-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.carnet-modal-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.carnet-modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.carnet-modal-body {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.carnet-modal-body::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+    z-index: 1;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.carnet-header {
+    text-align: center;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.carnet-logo {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.5rem;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.carnet-photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.4);
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.carnet-info {
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.carnet-qr {
+    text-align: center;
+    margin: 1rem 0;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 0.75rem;
+    backdrop-filter: blur(10px);
+}
+
+.carnet-footer {
+    text-align: center;
+    font-size: 0.75rem;
+    opacity: 0.9;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.carnet-number {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    letter-spacing: 1px;
+}
+
+.carnet-name {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0.5rem 0 0.25rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.carnet-profession {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.carnet-org {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-top: 0.25rem;
+}
+
+.carnet-status {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.carnet-status.activa {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.carnet-status.suspendida {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.carnet-status.pendiente {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* ==========================================
+   TIMELINE - ESTILOS OPTIMIZADOS
+   ========================================== */
+
+.timeline2.icon-timeline {
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+.timeline2.icon-timeline ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.timeline2.icon-timeline li {
+    position: relative;
+    padding: 1rem 0 1rem 3rem;
+    border-left: 2px solid #e9ecef;
+    margin-left: 1rem;
+}
+
+.timeline2.icon-timeline li:last-child {
+    border-left: none;
+}
+
+.timeline2.icon-timeline li span {
+    position: absolute;
+    left: -1rem;
+    top: 1rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.875rem;
+    z-index: 2;
+}
+
+.timeline2.icon-timeline li .title {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.25rem;
+}
+
+.timeline2.icon-timeline li .info {
+    color: #6c757d;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 768px) {
+    .carnet-modal-content {
+        width: 98vw;
+        max-width: none;
+        margin: 1rem;
+    }
+    
+    .carnet-modal-header {
+        padding: 1rem;
+    }
+    
+    .carnet-modal-body {
+        padding: 1rem;
+    }
+    
+    .carnet-photo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .carnet-logo {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .carnet-modal-content {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        max-height: none;
+    }
+    
+    .carnet-modal-header {
+        border-radius: 0;
+    }
+}

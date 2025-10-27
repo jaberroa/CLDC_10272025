@@ -11,6 +11,8 @@ class MiembroDirectivo extends Model
 {
     use HasFactory;
 
+    protected $table = 'miembro_directivos';
+
     protected $fillable = [
         'miembro_id',
         'organo_id',
@@ -28,19 +30,8 @@ class MiembroDirectivo extends Model
         'es_presidente' => 'boolean'
     ];
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function boot()
-    {
-        parent::boot();
-        
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = Str::uuid();
-            }
-        });
-    }
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     public function miembro(): BelongsTo
     {

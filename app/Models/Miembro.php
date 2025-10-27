@@ -6,297 +6,275 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Str;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Carbon\Carbon;
 
 class Miembro extends Model
 {
     use HasFactory;
 
+    protected $table = 'miembros';
+
     protected $fillable = [
-        'organizacion_id',
         'user_id',
+        'organizacion_id',
+        'numero_carnet',
         'nombre_completo',
-        'email',
         'cedula',
+        'email',
         'telefono',
         'direccion',
         'fecha_nacimiento',
         'profesion',
         'estado_membresia_id',
+        'tipo_membresia',
         'fecha_ingreso',
         'fecha_vencimiento',
-        'numero_carnet',
         'foto_url',
-        'observaciones',
+        'observaciones'
     ];
 
     protected $casts = [
         'fecha_nacimiento' => 'date',
         'fecha_ingreso' => 'date',
-        'fecha_vencimiento' => 'date',
+        'fecha_vencimiento' => 'date'
     ];
 
-    public $incrementing = false;
-    protected $keyType = 'string';
+    // ========================================
+    // RELACIONES
+    // ========================================
 
-    protected static function boot()
-    {
-        parent::boot();
-        
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = Str::uuid();
-            }
-        });
-    }
-
-    /**
-     * Relación con organización
-     */
-    public function organizacion(): BelongsTo
-    {
-        return $this->belongsTo(Organizacion::class);
-    }
-
-    /**
-     * Relación con estado de membresía
-     */
-    public function estadoMembresia(): BelongsTo
-    {
-        return $this->belongsTo(EstadoMembresia::class, 'estado_membresia_id');
-    }
-
-    /**
-     * Relación con usuario Laravel
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Relación con asistencia a asambleas
-     */
-    public function asistenciaAsambleas(): HasMany
+    public function organizacion(): BelongsTo
     {
-        return $this->hasMany(AsistenciaAsamblea::class);
+        return $this->belongsTo(Organizacion::class);
     }
 
-    /**
-     * Relación con miembros directivos
-     */
-    public function miembrosDirectivos(): HasMany
+    public function estadoMembresia(): BelongsTo
     {
-        return $this->hasMany(MiembroDirectivo::class);
+        return $this->belongsTo(EstadoMembresia::class, 'estado_membresia_id');
     }
 
-    /**
-     * Relación con candidatos
-     */
-    public function candidatos(): HasMany
-    {
-        return $this->hasMany(Candidato::class);
-    }
-
-    /**
-     * Relación con votos emitidos
-     */
-    public function votos(): HasMany
-    {
-        return $this->hasMany(Voto::class, 'votante_id');
-    }
-
-    /**
-     * Relación con inscripciones a cursos
-     */
-    public function inscripcionesCursos(): HasMany
-    {
-        return $this->hasMany(InscripcionCurso::class);
-    }
-
-    /**
-     * Relación con inscripciones a capacitaciones
-     */
-    public function inscripcionesCapacitacion(): HasMany
-    {
-        return $this->hasMany(InscripcionCapacitacion::class);
-    }
-
-    /**
-     * Relación con electores
-     */
-    public function electores(): HasMany
-    {
-        return $this->hasMany(Elector::class);
-    }
-
-    /**
-     * Relación con seccionales (como coordinador)
-     */
-    public function seccionalesCoordinadas(): HasMany
-    {
-        return $this->hasMany(Seccional::class, 'coordinador_id');
-    }
-
-    /**
-     * Scope para miembros activos
-     */
-    public function scopeActivos($query)
-    {
-        return $query->whereHas('estadoMembresia', function($q) {
-            $q->where('nombre', 'activa');
-        });
-    }
-
-    /**
-     * Scope para miembros por organización
-     */
-    public function scopePorOrganizacion($query, $organizacionId)
-    {
-        return $query->where('organizacion_id', $organizacionId);
-    }
-
-    /**
-     * Scope para búsqueda por nombre o cédula
-     */
-    public function scopeBuscar($query, $termino)
-    {
-        return $query->where(function ($q) use ($termino) {
-            $q->where('nombre_completo', 'like', "%{$termino}%")
-              ->orWhere('cedula', 'like', "%{$termino}%")
-              ->orWhere('numero_carnet', 'like', "%{$termino}%");
-        });
-    }
-
-    /**
-     * Obtener cargos actuales del miembro
-     */
-    public function getCargosActualesAttribute()
-    {
-        return $this->miembrosDirectivos()
-            ->where('estado', 'activo')
-            ->with(['cargo', 'organo'])
-            ->get();
-    }
-
-    /**
-     * Obtiene el nombre separado del campo nombre_completo.
-     */
-    public function getNombreAttribute(): ?string
-    {
-        if (empty($this->nombre_completo)) {
-            return null;
-        }
-
-        $partes = preg_split('/\s+/', trim($this->nombre_completo), -1, PREG_SPLIT_NO_EMPTY);
-
-        return $partes[0] ?? null;
-    }
-
-    /**
-     * Obtiene los apellidos separados del campo nombre_completo.
-     */
-    public function getApellidoAttribute(): ?string
-    {
-        if (empty($this->nombre_completo)) {
-            return null;
-        }
-
-        $partes = preg_split('/\s+/', trim($this->nombre_completo), -1, PREG_SPLIT_NO_EMPTY);
-
-        if (count($partes) <= 1) {
-            return null;
-        }
-
-        return implode(' ', array_slice($partes, 1));
-    }
-
-    /**
-     * Verificar si el miembro es presidente
-     */
-    public function esPresidente()
-    {
-        return $this->miembrosDirectivos()
-            ->where('estado', 'activo')
-            ->where('es_presidente', true)
-            ->exists();
-    }
-
-    /**
-     * Obtener estadísticas del miembro
-     */
-    public function getEstadisticasAttribute()
-    {
-        return [
-            'asambleas_asistidas' => $this->asistenciaAsambleas()->where('presente', true)->count(),
-            'cursos_completados' => $this->inscripcionesCursos()->where('estado', 'completo')->count(),
-            'votos_emitidos' => $this->votos()->count(),
-            'cargos_actuales' => $this->miembrosDirectivos()->where('estado', 'activo')->count(),
-        ];
-    }
-
-    /**
-     * Generar número de carnet automáticamente
-     */
-    public static function generarNumeroCarnet($organizacionId, $fechaReferencia = null)
-    {
-        $organizacion = Organizacion::find($organizacionId);
-        $prefijo = $organizacion->codigo ?? 'CLDCI';
-        $fecha = $fechaReferencia ? Carbon::parse($fechaReferencia) : now();
-        $año = $fecha->year;
-
-        $ultimoNumero = self::where('organizacion_id', $organizacionId)
-            ->whereYear('fecha_ingreso', $año)
-            ->max('numero_carnet');
-
-        if ($ultimoNumero) {
-            $secuencia = (int) substr($ultimoNumero, strrpos($ultimoNumero, '-') + 1);
-            $secuencia++;
-        } else {
-            $secuencia = 1;
-        }
-
-        return "{$prefijo}-{$año}-" . str_pad($secuencia, 3, '0', STR_PAD_LEFT);
-    }
-
-    /**
-     * Relaciones con cuotas
-     */
     public function cuotas(): HasMany
     {
         return $this->hasMany(CuotaMembresia::class);
     }
 
-    public function cuotasPendientes(): HasMany
+    public function directivos(): HasMany
     {
-        return $this->hasMany(CuotaMembresia::class)->where('estado', 'pendiente');
+        return $this->hasMany(MiembroDirectivo::class);
     }
 
-    public function cuotasPagadas(): HasMany
+    public function asistencias(): HasMany
     {
-        return $this->hasMany(CuotaMembresia::class)->where('estado', 'pagada');
+        return $this->hasMany(AsistenciaAsamblea::class);
     }
 
-    public function cuotasVencidas(): HasMany
+    public function inscripcionesCursos(): HasMany
     {
-        return $this->hasMany(CuotaMembresia::class)->where('estado', 'vencida');
+        return $this->hasMany(InscripcionCurso::class);
+    }
+
+    public function candidaturas(): HasMany
+    {
+        return $this->hasMany(Candidato::class);
+    }
+
+    public function votos(): HasMany
+    {
+        return $this->hasMany(Voto::class);
+    }
+
+    public function carnetPersonalizado(): HasOne
+    {
+        return $this->hasOne(CarnetPersonalizado::class);
+    }
+
+    // ========================================
+    // SCOPES
+    // ========================================
+
+    public function scopeActivos($query)
+    {
+        return $query->whereHas('estadoMembresia', function ($q) {
+            $q->where('nombre', 'activa');
+        });
+    }
+
+    public function scopePorOrganizacion($query, $organizacionId)
+    {
+        return $query->where('organizacion_id', $organizacionId);
+    }
+
+    public function scopePorEstado($query, $estadoId)
+    {
+        return $query->where('estado_membresia_id', $estadoId);
+    }
+
+    public function scopeVencidos($query)
+    {
+        return $query->where('fecha_vencimiento', '<', now());
+    }
+
+    public function scopePorVencer($query, $dias = 30)
+    {
+        return $query->where('fecha_vencimiento', '<=', now()->addDays($dias))
+                    ->where('fecha_vencimiento', '>', now());
+    }
+
+    // ========================================
+    // ACCESSORS
+    // ========================================
+
+    public function getEdadAttribute()
+    {
+        return $this->fecha_nacimiento ? $this->fecha_nacimiento->age : null;
+    }
+
+    public function getAñosMembresiaAttribute()
+    {
+        return $this->fecha_ingreso ? $this->fecha_ingreso->diffInYears(now()) : 0;
+    }
+
+    public function getEstadoMembresiaNombreAttribute()
+    {
+        return $this->estadoMembresia?->nombre ?? 'Sin estado';
+    }
+
+    public function getEstadoMembresiaColorAttribute()
+    {
+        return $this->estadoMembresia?->color ?? '#6c757d';
+    }
+
+    public function getEsVencidoAttribute()
+    {
+        return $this->fecha_vencimiento && $this->fecha_vencimiento->isPast();
+    }
+
+    public function getEsPorVencerAttribute()
+    {
+        return $this->fecha_vencimiento && 
+               $this->fecha_vencimiento->isFuture() && 
+               $this->fecha_vencimiento->diffInDays(now()) <= 30;
+    }
+
+    public function getInicialesAttribute()
+    {
+        $nombres = explode(' ', $this->nombre_completo);
+        $iniciales = '';
+        foreach ($nombres as $nombre) {
+            if (!empty($nombre)) {
+                $iniciales .= strtoupper(substr($nombre, 0, 1));
+            }
+        }
+        return substr($iniciales, 0, 2);
+    }
+
+    // ========================================
+    // MÉTODOS DE NEGOCIO
+    // ========================================
+
+    public function tieneCuotasPendientes()
+    {
+        return $this->cuotas()->where('estado', 'pendiente')->exists();
+    }
+
+    public function cuotasPendientes()
+    {
+        return $this->cuotas()->where('estado', 'pendiente')->get();
+    }
+
+    public function cuotasVencidas()
+    {
+        return $this->cuotas()->where('estado', 'vencida')->get();
+    }
+
+    public function esDirectivo()
+    {
+        return $this->directivos()->where('estado', 'activo')->exists();
+    }
+
+    public function cargosDirectivos()
+    {
+        return $this->directivos()
+                    ->with(['organo', 'cargo'])
+                    ->where('estado', 'activo')
+                    ->get();
+    }
+
+    public function asistenciaAsambleas()
+    {
+        return $this->asistencias()->where('presente', true)->count();
+    }
+
+    public function cursosCompletados()
+    {
+        return $this->inscripcionesCursos()->where('estado', 'completado')->count();
+    }
+
+    public function votosEmitidos()
+    {
+        return $this->votos()->count();
+    }
+
+    // ========================================
+    // MÉTODOS ESTÁTICOS
+    // ========================================
+
+    public static function estadisticas()
+    {
+        return [
+            'total' => self::count(),
+            'activos' => self::activos()->count(),
+            'vencidos' => self::vencidos()->count(),
+            'por_vencer' => self::porVencer()->count(),
+            'con_cuotas_pendientes' => self::whereHas('cuotas', function ($q) {
+                $q->where('estado', 'pendiente');
+            })->count(),
+            'directivos' => self::whereHas('directivos', function ($q) {
+                $q->where('estado', 'activo');
+            })->count()
+        ];
+    }
+
+    public static function porOrganizacion($organizacionId)
+    {
+        return self::porOrganizacion($organizacionId)->get();
+    }
+
+    public static function porEstado($estadoId)
+    {
+        return self::where('estado_membresia_id', $estadoId)->get();
     }
 
     /**
-     * Verificar si tiene cuotas pendientes
+     * Genera un número de carnet único para el miembro
      */
-    public function tieneCuotasPendientes(): bool
+    public static function generarNumeroCarnet($organizacionId, $fechaIngreso = null)
     {
-        return $this->cuotasPendientes()->exists();
-    }
-
-    /**
-     * Verificar si tiene cuotas vencidas
-     */
-    public function tieneCuotasVencidas(): bool
-    {
-        return $this->cuotasVencidas()->exists();
+        $organizacion = Organizacion::find($organizacionId);
+        $prefijo = $organizacion ? strtoupper(substr($organizacion->codigo ?? 'CLDCI', 0, 5)) : 'CLDCI';
+        
+        $año = $fechaIngreso ? date('Y', strtotime($fechaIngreso)) : date('Y');
+        
+        // Buscar el último número de carnet para este año
+        $ultimoCarnet = self::where('numero_carnet', 'LIKE', $prefijo . '-' . $año . '-%')
+            ->orderBy('numero_carnet', 'desc')
+            ->first();
+        
+        if ($ultimoCarnet) {
+            // Extraer el número secuencial del último carnet
+            $partes = explode('-', $ultimoCarnet->numero_carnet);
+            $ultimoNumero = (int) end($partes);
+            $nuevoNumero = $ultimoNumero + 1;
+        } else {
+            $nuevoNumero = 1;
+        }
+        
+        return $prefijo . '-' . $año . '-' . str_pad($nuevoNumero, 3, '0', STR_PAD_LEFT);
     }
 }

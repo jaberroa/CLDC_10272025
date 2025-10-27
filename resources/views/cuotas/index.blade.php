@@ -6,7 +6,6 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/libs/gridjs/theme/mermaid.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/miembros-index-header.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/miembros-table-ui.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/miembros-selection.css') }}">
@@ -251,6 +250,192 @@
         color: #0d6efd !important;
     }
     
+    /* ==========================================
+       ICONOS DE ACCIONES - DISEÑO COHERENTE MEJORADO
+       ========================================== */
+    
+    /* Estilos para botones de acción con iconos */
+    .table-responsive .btn-soft-primary,
+    .table-responsive .btn-soft-info,
+    .table-responsive .btn-soft-success,
+    .table-responsive .btn-soft-warning,
+    .table-responsive .btn-soft-danger {
+        border: none !important;
+        background: transparent !important;
+        padding: 0.375rem !important;
+        border-radius: 0.375rem !important;
+        transition: all 0.2s ease !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 2rem !important;
+        height: 2rem !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* Colores específicos para cada acción */
+    .table-responsive .btn-soft-primary {
+        color: #0d6efd !important;
+    }
+    
+    .table-responsive .btn-soft-primary:hover {
+        background: rgba(13, 110, 253, 0.1) !important;
+        color: #0a58ca !important;
+        transform: scale(1.05) !important;
+    }
+    
+    .table-responsive .btn-soft-info {
+        color: #0dcaf0 !important;
+    }
+    
+    .table-responsive .btn-soft-info:hover {
+        background: rgba(13, 202, 240, 0.1) !important;
+        color: #0aa2c0 !important;
+        transform: scale(1.05) !important;
+    }
+    
+    .table-responsive .btn-soft-success {
+        color: #198754 !important;
+    }
+    
+    .table-responsive .btn-soft-success:hover {
+        background: rgba(25, 135, 84, 0.1) !important;
+        color: #146c43 !important;
+        transform: scale(1.05) !important;
+    }
+    
+    .table-responsive .btn-soft-warning {
+        color: #ffc107 !important;
+    }
+    
+    .table-responsive .btn-soft-warning:hover {
+        background: rgba(255, 193, 7, 0.1) !important;
+        color: #b45309 !important;
+        transform: scale(1.05) !important;
+    }
+    
+    .table-responsive .btn-soft-danger {
+        color: #dc3545 !important;
+    }
+    
+    .table-responsive .btn-soft-danger:hover {
+        background: rgba(220, 53, 69, 0.1) !important;
+        color: #b02a37 !important;
+        transform: scale(1.05) !important;
+    }
+    
+    /* Iconos dentro de los botones */
+    .table-responsive .btn i {
+        font-size: 0.875rem !important;
+        line-height: 1 !important;
+    }
+    
+    /* Tooltips */
+    .table-responsive [data-bs-toggle="tooltip"] {
+        cursor: pointer !important;
+    }
+    
+    /* Espaciado entre botones */
+    .table-responsive .d-flex.gap-1 {
+        gap: 0.25rem !important;
+        flex-wrap: nowrap !important;
+        justify-content: flex-start !important;
+    }
+    
+    /* Espaciado entre filas de iconos */
+    .table-responsive .d-flex.flex-column.gap-1 {
+        gap: 0.25rem !important;
+    }
+    
+    /* Asegurar que la columna de acciones tenga suficiente ancho */
+    .table-responsive th:last-child,
+    .table-responsive td:last-child {
+        min-width: 150px !important;
+        width: 150px !important;
+        white-space: nowrap !important;
+    }
+    
+    /* Asegurar que la tabla tenga suficiente espacio */
+    .table-responsive {
+        overflow-x: auto !important;
+        min-width: 100% !important;
+    }
+    
+    /* Asegurar que el contenedor de la tabla no limite el ancho */
+    .table-responsive .table {
+        min-width: 1200px !important;
+        width: max-content !important;
+    }
+    
+    /* Responsive para móviles */
+    @media (max-width: 768px) {
+        .table-responsive .btn-soft-primary,
+        .table-responsive .btn-soft-info,
+        .table-responsive .btn-soft-success,
+        .table-responsive .btn-soft-warning,
+        .table-responsive .btn-soft-danger {
+            min-width: 1.75rem !important;
+            height: 1.75rem !important;
+            padding: 0.25rem !important;
+        }
+        
+        .table-responsive .btn i {
+            font-size: 0.75rem !important;
+        }
+        
+        .table-responsive .d-flex.gap-1 {
+            gap: 0.125rem !important;
+        }
+        
+        .table-responsive .d-flex.flex-column.gap-1 {
+            gap: 0.125rem !important;
+        }
+        
+        .table-responsive th:last-child,
+        .table-responsive td:last-child {
+            min-width: 120px !important;
+            width: 120px !important;
+        }
+    }
+    
+    /* Animaciones para dropdowns */
+    @keyframes dropdownSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes dropdownSlideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Asegurar que el desplegable esté por encima de otros elementos */
+    .table-responsive {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .cuotas-table tbody tr {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .cuotas-table tbody tr:hover {
+        z-index: 2;
+    }
+    
     /* Contenedor de controles de vista */
     .d-flex.justify-content-between.align-items-center {
         background: rgba(248, 249, 250, 0.8) !important;
@@ -482,9 +667,6 @@
                                 <th class="sortable" data-sort="miembro_id">
                                     Miembro <i class="ri-arrow-up-down-line ms-1"></i>
                                 </th>
-                                <th class="sortable" data-sort="tipo_cuota">
-                                    Tipo <i class="ri-arrow-up-down-line ms-1"></i>
-                                </th>
                                 <th class="sortable" data-sort="monto">
                                     Monto <i class="ri-arrow-up-down-line ms-1"></i>
                                 </th>
@@ -494,8 +676,8 @@
                                 <th class="sortable" data-sort="estado">
                                     Estado <i class="ri-arrow-up-down-line ms-1"></i>
                                 </th>
-                                <th class="sortable" data-sort="fecha_pago">
-                                    Fecha Pago <i class="ri-arrow-up-down-line ms-1"></i>
+                                <th class="sortable" data-sort="recurrente">
+                                    Recurrente <i class="ri-arrow-up-down-line ms-1"></i>
                                 </th>
                                 <th>Acciones</th>
                             </tr>
@@ -521,14 +703,11 @@
                                         </div>
                                         <div>
                                             <h6 class="mb-0">{{ $cuota->miembro->nombre_completo }}</h6>
-                                            <small class="text-muted">{{ $cuota->miembro->numero_carnet }}</small>
+                                            <small class="text-muted">
+                                                <i class="ri-id-card-line me-1"></i>{{ $cuota->miembro->numero_carnet }}
+                                            </small>
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    <span class="badge bg-info-subtle text-info">
-                                        {{ $cuota->tipo_cuota_label }}
-                                    </span>
                                 </td>
                                 <td>
                                     <strong>RD$ {{ number_format($cuota->monto, 2) }}</strong>
@@ -548,41 +727,82 @@
                                                     Pendiente de pago
                                                 @elseif($cuota->estado === 'pagada')
                                                     Pagada el {{ $cuota->fecha_pago->format('d/m/Y') }}
+                                                @elseif($cuota->estado === 'vencida')
+                                                    Vencida el {{ $cuota->fecha_vencimiento->format('d/m/Y') }}
                                                 @else
-                                                    Vencida
+                                                    {{ ucfirst($cuota->estado) }}
                                                 @endif
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    @if($cuota->fecha_pago)
-                                        {{ $cuota->fecha_pago->format('d/m/Y') }}
-                                    @else
-                                        <span class="text-muted">-</span>
-                                    @endif
+                                    <div class="d-flex align-items-center">
+                                        @if($cuota->recurrente)
+                                            <span class="badge bg-success-subtle text-success">
+                                                <i class="ri-refresh-line me-1"></i>Sí
+                                            </span>
+                                            @if($cuota->frecuencia_recurrencia)
+                                                <div class="text-muted small ms-2">
+                                                    {{ ucfirst($cuota->frecuencia_recurrencia) }}
+                                                </div>
+                                            @endif
+                                        @else
+                                            <span class="badge bg-secondary-subtle text-secondary">
+                                                <i class="ri-close-line me-1"></i>No
+                                            </span>
+                                        @endif
+                                    </div>
                                 </td>
                                 <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-soft-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                            <i class="ri-more-fill"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item" href="{{ route('cuotas.show', $cuota) }}">
-                                                <i class="ri-eye-line me-2"></i> Ver Detalles
-                                            </a></li>
+                                    <div class="d-flex flex-column gap-1">
+                                        <!-- Primera fila de iconos -->
+                                        <div class="d-flex align-items-center gap-1">
+                                            <!-- Ver Detalles -->
+                                            <a href="{{ route('cuotas.show', $cuota) }}" 
+                                               class="btn btn-soft-primary btn-sm" 
+                                               title="Ver Detalles"
+                                               data-bs-toggle="tooltip">
+                                                <i class="ri-eye-line fs-4"></i>
+                                            </a>
+                                            
+                                            <!-- Editar -->
+                                            <a href="{{ route('cuotas.edit', $cuota) }}" 
+                                               class="btn btn-soft-warning btn-sm" 
+                                               title="Editar"
+                                               data-bs-toggle="tooltip">
+                                                <i class="ri-edit-line fs-4"></i>
+                                            </a>
+                                            
+                                            <!-- Marcar como Pagada (solo si está pendiente) -->
                                             @if($cuota->estado === 'pendiente')
-                                            <li><a class="dropdown-item" href="#" onclick="marcarComoPagada({{ $cuota->id }})">
-                                                <i class="ri-check-line me-2"></i> Marcar como Pagada
-                                            </a></li>
+                                            <button type="button" 
+                                                    class="btn btn-soft-success btn-sm" 
+                                                    title="Marcar como Pagada"
+                                                    data-bs-toggle="tooltip"
+                                                    onclick="marcarComoPagada({{ $cuota->id }})">
+                                                <i class="ri-check-line fs-4"></i>
+                                            </button>
                                             @endif
-                                        </ul>
+                                        </div>
+                                        
+                                        <!-- Segunda fila de iconos -->
+                                        <div class="d-flex align-items-center gap-1">
+                                            <!-- Eliminar -->
+                                            <button type="button" 
+                                                    class="btn btn-soft-danger btn-sm" 
+                                                    title="Eliminar"
+                                                    data-bs-toggle="tooltip"
+                                                    onclick="deleteCuota({{ $cuota->id }}, '{{ $cuota->miembro->nombre ?? 'Cuota' }}')">
+                                                <i class="ri-delete-bin-line fs-4"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="7" class="text-center py-4">
+                                <td colspan="6" class="text-center py-4">
                                     <div class="text-muted">
                                         <i class="ri-file-list-3-line font-size-48 mb-3 d-block"></i>
                                         <h5>No hay cuotas registradas</h5>
@@ -731,22 +951,8 @@
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="metodo_pago" class="form-label">Método de Pago</label>
-                        <select class="form-select" id="metodo_pago" name="metodo_pago" required>
-                            <option value="">Seleccionar método</option>
-                            <option value="efectivo">Efectivo</option>
-                            <option value="transferencia">Transferencia</option>
-                            <option value="tarjeta">Tarjeta</option>
-                            <option value="cheque">Cheque</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="comprobante_url" class="form-label">URL del Comprobante (opcional)</label>
-                        <input type="url" class="form-control" id="comprobante_url" name="comprobante_url" placeholder="https://...">
-                    </div>
-                    <div class="mb-3">
-                        <label for="observaciones" class="form-label">Observaciones</label>
-                        <textarea class="form-control" id="observaciones" name="observaciones" rows="3" placeholder="Notas adicionales..."></textarea>
+                        <label for="observaciones" class="form-label">Observaciones (opcional)</label>
+                        <textarea class="form-control" id="observaciones" name="observaciones" rows="3" placeholder="Notas sobre el pago..."></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -822,6 +1028,44 @@ function imprimirCuotas() {
     window.print();
 }
 
+function deleteCuota(cuotaId, cuotaName) {
+    showDeleteConfirmation({
+        title: cuotaName,
+        type: 'cuota',
+        onConfirm: () => {
+            // Mostrar toast de carga
+            showInfoToast('Eliminando cuota...', 'Procesando');
+            
+            // Realizar eliminación por AJAX
+            fetch(`{{ url('cuotas') }}/${cuotaId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Mostrar toast de éxito
+                    showSuccessToast(`Cuota "${cuotaName}" eliminada exitosamente`);
+                    
+                    // Recargar la página después de un breve delay
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    throw new Error('Error al eliminar la cuota');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showErrorToast('Error al eliminar la cuota');
+            });
+        }
+    });
+}
+
 // Funciones para sorting y paginación
 function changePageSize(size) {
     const url = new URL(window.location);
@@ -835,6 +1079,12 @@ function changePageSize(size) {
 
 function cambiarPaginaCuotas(pagina) {
     if (pagina < 1 || pagina > {{ $cuotas->lastPage() }}) return;
+    
+    // Limpiar spinner anterior si existe
+    const existingSpinner = document.querySelector('.pagination-spinner');
+    if (existingSpinner) {
+        existingSpinner.remove();
+    }
     
     // Mostrar indicador de carga
     const paginationContainer = document.querySelector('.cldci-pagination-container');
@@ -876,16 +1126,10 @@ function cambiarPaginaCuotas(pagina) {
         paginationContainer.appendChild(spinner);
     }
     
-    // Simular delay para mejor UX (opcional)
-    setTimeout(() => {
-        const form = document.getElementById('filtros-form');
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'page';
-        input.value = pagina;
-        form.appendChild(input);
-        form.submit();
-    }, 150);
+    // Navegar directamente sin delay
+    const url = new URL(window.location);
+    url.searchParams.set('page', pagina);
+    window.location.href = url.toString();
 }
 
 // Funciones para selección múltiple
@@ -992,39 +1236,57 @@ function markSelectedAsPaid(selectedIds) {
 }
 
 function deleteSelectedCuotas(selectedIds) {
-    if (confirm(`¿Está seguro de eliminar ${selectedIds.length} cuotas seleccionadas? Esta acción no se puede deshacer.`)) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '{{ route("cuotas.bulk-delete") }}';
-        
-        const csrfToken = document.createElement('input');
-        csrfToken.type = 'hidden';
-        csrfToken.name = '_token';
-        csrfToken.value = '{{ csrf_token() }}';
-        form.appendChild(csrfToken);
-        
-        const methodInput = document.createElement('input');
-        methodInput.type = 'hidden';
-        methodInput.name = '_method';
-        methodInput.value = 'DELETE';
-        form.appendChild(methodInput);
-        
-        selectedIds.forEach(id => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'selected_ids[]';
-            input.value = id;
-            form.appendChild(input);
-        });
-        
-        document.body.appendChild(form);
-        form.submit();
-        document.body.removeChild(form);
-    }
+    showDeleteConfirmation({
+        title: `${selectedIds.length} cuotas seleccionadas`,
+        message: `Se eliminarán ${selectedIds.length} cuotas seleccionadas permanentemente.`,
+        type: 'múltiples cuotas',
+        onConfirm: () => {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route("cuotas.bulk-delete") }}';
+            
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            csrfToken.value = '{{ csrf_token() }}';
+            form.appendChild(csrfToken);
+            
+            const methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = 'DELETE';
+            form.appendChild(methodInput);
+            
+            selectedIds.forEach(id => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selected_ids[]';
+                input.value = id;
+                form.appendChild(input);
+            });
+            
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+            
+            // Mostrar toast de éxito
+            showSuccessToast(`${selectedIds.length} cuotas eliminadas exitosamente`);
+        }
+    });
 }
 
 // Sorting de columnas
 document.addEventListener('DOMContentLoaded', function() {
+    // Verificar si hay un mensaje de éxito en la sesión
+    @if(session('success'))
+        // Mostrar toast de éxito inmediatamente
+        if (typeof window.showSuccessToast === 'function') {
+            window.showSuccessToast('{{ session('success') }}');
+        } else {
+            console.log('Toast de éxito:', '{{ session('success') }}');
+        }
+    @endif
+
     const sortableHeaders = document.querySelectorAll('.sortable');
     
     sortableHeaders.forEach(header => {
@@ -1045,6 +1307,19 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = url.toString();
         });
     });
+    
+    // Inicializar tooltips para los iconos de acción
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar tooltips de Bootstrap
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
 });
 </script>
+
+{{-- Modal de Confirmación de Eliminación --}}
+@include('components.modals.delete-confirmation')
+
 @endsection

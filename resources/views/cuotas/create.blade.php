@@ -86,6 +86,56 @@
                                 @enderror
                             </div>
 
+                            <div class="col-md-6">
+                                <label for="estado" class="form-label">Estado <span class="text-danger">*</span></label>
+                                <select class="form-select @error('estado') is-invalid @enderror" 
+                                        id="estado" name="estado" required>
+                                    <option value="">Seleccionar estado</option>
+                                    <option value="pendiente" {{ old('estado') == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                    <option value="pagada" {{ old('estado') == 'pagada' ? 'selected' : '' }}>Pagada</option>
+                                    <option value="vencida" {{ old('estado') == 'vencida' ? 'selected' : '' }}>Vencida</option>
+                                    <option value="cancelada" {{ old('estado') == 'cancelada' ? 'selected' : '' }}>Cancelada</option>
+                                </select>
+                                @error('estado')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input" type="checkbox" id="recurrente" name="recurrente" value="1" 
+                                           {{ old('recurrente') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="recurrente">
+                                        <strong>Cuota Recurrente</strong>
+                                        <small class="text-muted d-block">Generar automáticamente nuevas cuotas</small>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" id="frecuencia-container" style="display: none;">
+                                <label for="frecuencia_recurrencia" class="form-label">Frecuencia de Recurrencia</label>
+                                <select class="form-select @error('frecuencia_recurrencia') is-invalid @enderror" 
+                                        id="frecuencia_recurrencia" name="frecuencia_recurrencia">
+                                    <option value="">Seleccionar frecuencia</option>
+                                    <option value="mensual" {{ old('frecuencia_recurrencia') == 'mensual' ? 'selected' : '' }}>Mensual</option>
+                                    <option value="trimestral" {{ old('frecuencia_recurrencia') == 'trimestral' ? 'selected' : '' }}>Trimestral</option>
+                                    <option value="anual" {{ old('frecuencia_recurrencia') == 'anual' ? 'selected' : '' }}>Anual</option>
+                                </select>
+                                @error('frecuencia_recurrencia')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6" id="proxima-fecha-container" style="display: none;">
+                                <label for="proxima_fecha_generacion" class="form-label">Próxima Fecha de Generación</label>
+                                <input type="date" class="form-control @error('proxima_fecha_generacion') is-invalid @enderror" 
+                                       id="proxima_fecha_generacion" name="proxima_fecha_generacion" 
+                                       value="{{ old('proxima_fecha_generacion') }}">
+                                @error('proxima_fecha_generacion')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="col-12">
                                 <label for="observaciones" class="form-label">Observaciones</label>
                                 <textarea class="form-control @error('observaciones') is-invalid @enderror" 
@@ -124,6 +174,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     document.getElementById('fecha_vencimiento').min = tomorrow.toISOString().split('T')[0];
+    
+    // Manejar checkbox de recurrencia
+    const checkboxRecurrente = document.getElementById('recurrente');
+    const frecuenciaContainer = document.getElementById('frecuencia-container');
+    const proximaFechaContainer = document.getElementById('proxima-fecha-container');
+    
+    function toggleRecurrenceFields() {
+        if (checkboxRecurrente.checked) {
+            frecuenciaContainer.style.display = 'block';
+            proximaFechaContainer.style.display = 'block';
+        } else {
+            frecuenciaContainer.style.display = 'none';
+            proximaFechaContainer.style.display = 'none';
+        }
+    }
+    
+    checkboxRecurrente.addEventListener('change', toggleRecurrenceFields);
+    
+    // Inicializar estado
+    toggleRecurrenceFields();
 });
 </script>
 @endsection

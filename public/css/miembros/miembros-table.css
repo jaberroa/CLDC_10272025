@@ -1,0 +1,298 @@
+/* ==========================================
+   MIEMBROS TABLE - ESTILOS OPTIMIZADOS
+   ========================================== */
+
+/* Iconos de Acciones - Diseño Coherente */
+.table-responsive .btn-soft-primary,
+.table-responsive .btn-soft-info,
+.table-responsive .btn-soft-success,
+.table-responsive .btn-soft-warning,
+.table-responsive .btn-soft-danger {
+    border: none !important;
+    background: transparent !important;
+    padding: 0.375rem !important;
+    border-radius: 0.375rem !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 2rem !important;
+    height: 2rem !important;
+    flex-shrink: 0 !important;
+}
+
+/* Colores específicos para cada acción */
+.table-responsive .btn-soft-primary {
+    color: #0d6efd !important;
+}
+
+.table-responsive .btn-soft-primary:hover {
+    background: rgba(13, 110, 253, 0.1) !important;
+    color: #0a58ca !important;
+    transform: scale(1.05) !important;
+}
+
+.table-responsive .btn-soft-info {
+    color: #0dcaf0 !important;
+}
+
+.table-responsive .btn-soft-info:hover {
+    background: rgba(13, 202, 240, 0.1) !important;
+    color: #0aa2c0 !important;
+    transform: scale(1.05) !important;
+}
+
+.table-responsive .btn-soft-success {
+    color: #198754 !important;
+}
+
+.table-responsive .btn-soft-success:hover {
+    background: rgba(25, 135, 84, 0.1) !important;
+    color: #146c43 !important;
+    transform: scale(1.05) !important;
+}
+
+.table-responsive .btn-soft-warning {
+    color: #ffc107 !important;
+}
+
+.table-responsive .btn-soft-warning:hover {
+    background: rgba(255, 193, 7, 0.1) !important;
+    color: #b45309 !important;
+    transform: scale(1.05) !important;
+}
+
+.table-responsive .btn-soft-danger {
+    color: #dc3545 !important;
+}
+
+.table-responsive .btn-soft-danger:hover {
+    background: rgba(220, 53, 69, 0.1) !important;
+    color: #b02a37 !important;
+    transform: scale(1.05) !important;
+}
+
+/* Iconos dentro de los botones */
+.table-responsive .btn i {
+    font-size: 0.875rem !important;
+    line-height: 1 !important;
+}
+
+/* Tooltips */
+.table-responsive [data-bs-toggle="tooltip"] {
+    cursor: pointer !important;
+}
+
+/* Espaciado entre botones */
+.table-responsive .d-flex.gap-1 {
+    gap: 0.25rem !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+}
+
+/* Espaciado entre filas de iconos */
+.table-responsive .d-flex.flex-column.gap-1 {
+    gap: 0.25rem !important;
+}
+
+/* Columna de acciones - CRÍTICO: NO TOCAR */
+.table-responsive th:last-child,
+.table-responsive td:last-child {
+    min-width: 150px !important;
+    width: 150px !important;
+    white-space: nowrap !important;
+}
+
+/* Tabla responsive */
+.table-responsive {
+    overflow-x: auto !important;
+    min-width: 100% !important;
+}
+
+/* Espaciado entre columnas */
+.miembros-table th,
+.miembros-table td {
+    padding: 0.75rem 1rem !important;
+    vertical-align: middle !important;
+}
+
+/* Espaciado específico para columnas */
+.miembros-table th:first-child,
+.miembros-table td:first-child {
+    padding: 0.75rem 0.25rem !important;
+    width: 50px !important;
+    min-width: 50px !important;
+}
+
+.miembros-table th:nth-child(2),
+.miembros-table td:nth-child(2) {
+    min-width: 200px !important;
+    width: 200px !important;
+    padding: 0.75rem 0.5rem !important;
+}
+
+.miembros-table th:nth-child(3),
+.miembros-table td:nth-child(3) {
+    min-width: 90px !important;
+    width: 90px !important;
+    padding: 0.75rem 1.25rem !important;
+}
+
+.miembros-table th:nth-child(4),
+.miembros-table td:nth-child(4) {
+    min-width: 120px !important;
+    width: 120px !important;
+    padding: 0.75rem 1.25rem !important;
+}
+
+.miembros-table th:nth-child(5),
+.miembros-table td:nth-child(5) {
+    min-width: 90px !important;
+    width: 90px !important;
+    padding: 0.75rem 1.25rem !important;
+}
+
+.miembros-table th:nth-child(6),
+.miembros-table td:nth-child(6) {
+    min-width: 80px !important;
+    width: 80px !important;
+    padding: 0.75rem 2rem !important;
+}
+
+/* Asegurar que el contenedor de la tabla no limite el ancho */
+.table-responsive .table {
+    width: 100% !important;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .table-responsive .btn-soft-primary,
+    .table-responsive .btn-soft-info,
+    .table-responsive .btn-soft-success,
+    .table-responsive .btn-soft-warning,
+    .table-responsive .btn-soft-danger {
+        min-width: 1.75rem !important;
+        height: 1.75rem !important;
+        padding: 0.25rem !important;
+    }
+    
+    .table-responsive .btn i {
+        font-size: 0.75rem !important;
+    }
+    
+    .table-responsive .d-flex.gap-1 {
+        gap: 0.125rem !important;
+    }
+    
+    .table-responsive .d-flex.flex-column.gap-1 {
+        gap: 0.125rem !important;
+    }
+    
+    .table-responsive th:last-child,
+    .table-responsive td:last-child {
+        min-width: 120px !important;
+        width: 120px !important;
+    }
+    
+    /* Espaciado responsive para móviles */
+    .miembros-table th,
+    .miembros-table td {
+        padding: 0.5rem 0.75rem !important;
+    }
+    
+    .miembros-table th:nth-child(2),
+    .miembros-table td:nth-child(2) {
+        min-width: 160px !important;
+        width: 160px !important;
+    }
+    
+    .miembros-table th:nth-child(3),
+    .miembros-table td:nth-child(3) {
+        min-width: 70px !important;
+        width: 70px !important;
+    }
+    
+    .miembros-table th:nth-child(4),
+    .miembros-table td:nth-child(4) {
+        min-width: 90px !important;
+        width: 90px !important;
+    }
+    
+    .miembros-table th:nth-child(5),
+    .miembros-table td:nth-child(5) {
+        min-width: 70px !important;
+        width: 70px !important;
+    }
+    
+    .miembros-table th:nth-child(6),
+    .miembros-table td:nth-child(6) {
+        min-width: 60px !important;
+        width: 60px !important;
+    }
+}
+
+/* Responsive para tablets */
+@media (max-width: 992px) and (min-width: 769px) {
+    .miembros-table th:nth-child(2),
+    .miembros-table td:nth-child(2) {
+        min-width: 180px !important;
+        width: 180px !important;
+    }
+    
+    .miembros-table th:nth-child(3),
+    .miembros-table td:nth-child(3) {
+        min-width: 80px !important;
+        width: 80px !important;
+    }
+    
+    .miembros-table th:nth-child(4),
+    .miembros-table td:nth-child(4) {
+        min-width: 100px !important;
+        width: 100px !important;
+    }
+    
+    .miembros-table th:nth-child(5),
+    .miembros-table td:nth-child(5) {
+        min-width: 80px !important;
+        width: 80px !important;
+    }
+    
+    .miembros-table th:nth-child(6),
+    .miembros-table td:nth-child(6) {
+        min-width: 70px !important;
+        width: 70px !important;
+    }
+}
+
+/* Responsive para pantallas grandes */
+@media (min-width: 1200px) {
+    .miembros-table th:nth-child(2),
+    .miembros-table td:nth-child(2) {
+        min-width: 220px !important;
+        width: 220px !important;
+    }
+    
+    .miembros-table th:nth-child(3),
+    .miembros-table td:nth-child(3) {
+        min-width: 100px !important;
+        width: 100px !important;
+    }
+    
+    .miembros-table th:nth-child(4),
+    .miembros-table td:nth-child(4) {
+        min-width: 140px !important;
+        width: 140px !important;
+    }
+    
+    .miembros-table th:nth-child(5),
+    .miembros-table td:nth-child(5) {
+        min-width: 100px !important;
+        width: 100px !important;
+    }
+    
+    .miembros-table th:nth-child(6),
+    .miembros-table td:nth-child(6) {
+        min-width: 90px !important;
+        width: 90px !important;
+    }
+}

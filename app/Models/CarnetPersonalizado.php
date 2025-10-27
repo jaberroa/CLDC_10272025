@@ -4,78 +4,49 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CarnetPersonalizado extends Model
 {
     use HasFactory;
 
+    protected $table = 'carnet_personalizados';
+
     protected $fillable = [
         'miembro_id',
         'template_id',
-        'color_primario',
-        'color_secundario',
-        'color_fondo',
-        'color_texto',
-        'fuente_familia',
-        'tamaño_nombre',
-        'tamaño_profesion',
-        'tamaño_organizacion',
-        'nombre_negrita',
-        'nombre_cursiva',
-        'profesion_negrita',
-        'profesion_cursiva',
-        'datos_personalizados',
-        'activo'
+        'personalizacion_json'
     ];
 
     protected $casts = [
-        'datos_personalizados' => 'array',
-        'nombre_negrita' => 'boolean',
-        'nombre_cursiva' => 'boolean',
-        'profesion_negrita' => 'boolean',
-        'profesion_cursiva' => 'boolean',
-        'activo' => 'boolean'
+        'personalizacion_json' => 'array'
     ];
 
-    public function miembro()
+    // ========================================
+    // RELACIONES
+    // ========================================
+
+    public function miembro(): BelongsTo
     {
         return $this->belongsTo(Miembro::class);
     }
 
-    public function template()
+    public function template(): BelongsTo
     {
         return $this->belongsTo(CarnetTemplate::class, 'template_id');
     }
 
-    public function getEstiloNombreAttribute()
+    // ========================================
+    // ACCESSORS
+    // ========================================
+
+    public function getPersonalizacionAttribute()
     {
-        $estilo = "font-size: {$this->tamaño_nombre}px;";
-        $estilo .= "font-family: {$this->fuente_familia};";
-        
-        if ($this->nombre_negrita) {
-            $estilo .= "font-weight: bold;";
-        }
-        
-        if ($this->nombre_cursiva) {
-            $estilo .= "font-style: italic;";
-        }
-        
-        return $estilo;
+        return $this->personalizacion_json ?? [];
     }
 
-    public function getEstiloProfesionAttribute()
+    public function setPersonalizacionAttribute($value)
     {
-        $estilo = "font-size: {$this->tamaño_profesion}px;";
-        $estilo .= "font-family: {$this->fuente_familia};";
-        
-        if ($this->profesion_negrita) {
-            $estilo .= "font-weight: bold;";
-        }
-        
-        if ($this->profesion_cursiva) {
-            $estilo .= "font-style: italic;";
-        }
-        
-        return $estilo;
+        $this->personalizacion_json = is_array($value) ? $value : json_decode($value, true);
     }
 }

@@ -5,8 +5,7 @@
 @section('pagetitle', 'Editar Miembro')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('assets/libs/dropzone/dropzone.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/libs/dropzone/dropzone.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/miembros-edit-header.css') }}">
 <link rel="stylesheet" href="{{ vite_asset('resources/css/miembros/app.css') }}">
 @endsection
@@ -102,12 +101,10 @@
 
 @section('js')
 <!-- Dropzone js -->
-<script src="{{ asset('assets/libs/dropzone/dropzone-min.js') }}"></script>
-<!-- Select2 js -->
-<script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
+<script src="{{ asset('assets/libs/dropzone/dropzone.js') }}"></script>
 <!-- Form Validation js -->
 <script src="{{ asset('assets/js/pages/form-validation.init.js') }}"></script>
 <!-- File Upload js -->
 <script src="{{ asset('assets/js/form/file-upload.init.js') }}"></script>
-@include('miembros.partials.form-scripts')
+@include('components.miembros.form-scripts')
 @endsection

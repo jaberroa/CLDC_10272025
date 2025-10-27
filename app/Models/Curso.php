@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Str;
 
 class Curso extends Model
 {
     use HasFactory;
+
+    protected $table = 'cursos';
 
     protected $fillable = [
         'titulo',
@@ -18,34 +19,75 @@ class Curso extends Model
         'fecha_fin',
         'modalidad',
         'lugar',
-        'costo',
+        'enlace_virtual',
         'cupo_maximo',
-        'estado',
-        'instructor'
+        'costo',
+        'instructor',
+        'contenido',
+        'activo'
     ];
 
     protected $casts = [
         'fecha_inicio' => 'date',
         'fecha_fin' => 'date',
-        'costo' => 'decimal:2'
+        'costo' => 'decimal:2',
+        'activo' => 'boolean'
     ];
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function boot()
-    {
-        parent::boot();
-        
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = Str::uuid();
-            }
-        });
-    }
+    // ========================================
+    // RELACIONES
+    // ========================================
 
     public function inscripciones(): HasMany
     {
         return $this->hasMany(InscripcionCurso::class);
+    }
+
+    // ========================================
+    // SCOPES
+    // ========================================
+
+    public function scopeActivos($query)
+    {
+        return $query->where('activo', true);
+    }
+
+    public function scopePorModalidad($query, $modalidad)
+    {
+        return $query->where('modalidad', $modalidad);
+    }
+
+    public function scopeDisponibles($query)
+    {
+        return $query->where('fecha_inicio', '>', now());
+    }
+
+    // ========================================
+    // ACCESSORS
+    // ========================================
+
+    public function getInscripcionesCountAttribute()
+    {
+        return $this->inscripciones()->count();
+    }
+
+    public function getCuposDisponiblesAttribute()
+    {
+        return $this->cupo_maximo - $this->inscripciones_count;
+    }
+
+    public function getEsVirtualAttribute()
+    {
+        return $this->modalidad === 'virtual';
+    }
+
+    public function getEsPresencialAttribute()
+    {
+        return $this->modalidad === 'presencial';
+    }
+
+    public function getEsHibridaAttribute()
+    {
+        return $this->modalidad === 'hibrida';
     }
 }

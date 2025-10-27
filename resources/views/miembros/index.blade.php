@@ -6,12 +6,11 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/libs/gridjs/theme/mermaid.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/libs/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/miembros-index-header.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/miembros-table-ui.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/miembros-selection.css') }}">
 <link rel="stylesheet" href="{{ vite_asset('resources/css/miembros/app.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/libs/qrcode/qrcode.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/miembros/miembros-table.css') }}">
 <style>
     .carnet-modal {
         position: fixed;
@@ -249,138 +248,49 @@
     }
 
     /* ==========================================
-       DROPDOWN DE ACCIONES - MEJORAS UX
+       ESTILOS ESPECÍFICOS DE MIEMBROS
+       (Los estilos de tabla están en miembros-table.css)
        ========================================== */
     
-    /* Mejorar z-index del dropdown de acciones */
-    .table-responsive .dropdown {
-        position: relative;
-        z-index: 1050;
+    /* Colores de iconos - Respaldo */
+    .table-responsive .btn-soft-primary {
+        color: #0d6efd !important;
     }
     
-    .table-responsive .dropdown-menu {
-        z-index: 1055 !important;
-        position: absolute !important;
-        top: 100% !important;
-        left: auto !important;
-        right: 0 !important;
-        transform: none !important;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
-        border: 1px solid rgba(0, 0, 0, 0.1) !important;
-        border-radius: 0.5rem !important;
-        min-width: 200px !important;
-        padding: 0.5rem 0 !important;
-        background: white !important;
-        animation: dropdownSlideIn 0.2s ease-out !important;
-    }
-    
-    @keyframes dropdownSlideIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px) scale(0.95);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-    }
-    
-    /* Mejorar botón del dropdown */
-    .table-responsive .dropdown-toggle {
-        border: none !important;
-        background: transparent !important;
-        color: #6c757d !important;
-        padding: 0.5rem !important;
-        border-radius: 0.375rem !important;
-        transition: all 0.2s ease !important;
-        position: relative !important;
-        z-index: 1051 !important;
-    }
-    
-    .table-responsive .dropdown-toggle:hover {
-        background: rgba(108, 117, 125, 0.1) !important;
-        color: #495057 !important;
+    .table-responsive .btn-soft-primary:hover {
+        background: rgba(13, 110, 253, 0.1) !important;
+        color: #0a58ca !important;
         transform: scale(1.05) !important;
     }
     
-    .table-responsive .dropdown-toggle:focus {
-        box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25) !important;
-        outline: none !important;
+    .table-responsive .btn-soft-info {
+        color: #0dcaf0 !important;
     }
     
-    /* Mejorar items del dropdown */
-    .table-responsive .dropdown-item {
-        padding: 0.75rem 1rem !important;
-        font-size: 0.875rem !important;
-        color: #495057 !important;
-        transition: all 0.2s ease !important;
-        border-radius: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 0.5rem !important;
+    .table-responsive .btn-soft-info:hover {
+        background: rgba(13, 202, 240, 0.1) !important;
+        color: #0aa2c0 !important;
+        transform: scale(1.05) !important;
     }
     
-    .table-responsive .dropdown-item:hover {
-        background: rgba(108, 117, 125, 0.1) !important;
-        color: #212529 !important;
-        transform: translateX(4px) !important;
+    .table-responsive .btn-soft-warning {
+        color: #ffc107 !important;
     }
     
-    .table-responsive .dropdown-item i {
-        width: 16px !important;
-        height: 16px !important;
-        font-size: 16px !important;
-        color: #6c757d !important;
+    .table-responsive .btn-soft-warning:hover {
+        background: rgba(255, 193, 7, 0.1) !important;
+        color: #b45309 !important;
+        transform: scale(1.05) !important;
     }
     
-    .table-responsive .dropdown-item:hover i {
-        color: #495057 !important;
-    }
-    
-    /* Separadores del dropdown */
-    .table-responsive .dropdown-divider {
-        margin: 0.5rem 0 !important;
-        border-color: rgba(0, 0, 0, 0.1) !important;
-    }
-    
-    /* Item de eliminar con estilo especial */
-    .table-responsive .dropdown-item.text-danger {
+    .table-responsive .btn-soft-danger {
         color: #dc3545 !important;
     }
     
-    .table-responsive .dropdown-item.text-danger:hover {
+    .table-responsive .btn-soft-danger:hover {
         background: rgba(220, 53, 69, 0.1) !important;
         color: #b02a37 !important;
-    }
-    
-    .table-responsive .dropdown-item.text-danger i {
-        color: #dc3545 !important;
-    }
-    
-    .table-responsive .dropdown-item.text-danger:hover i {
-        color: #b02a37 !important;
-    }
-    
-    /* Asegurar que el dropdown se muestre por encima de otros elementos */
-    .table-responsive {
-        overflow: visible !important;
-    }
-    
-    .table-responsive .table {
-        margin-bottom: 0 !important;
-    }
-    
-    /* Mejoras para dispositivos móviles */
-    @media (max-width: 768px) {
-        .table-responsive .dropdown-menu {
-            min-width: 180px !important;
-            right: -10px !important;
-        }
-        
-        .table-responsive .dropdown-item {
-            padding: 0.625rem 0.875rem !important;
-            font-size: 0.8rem !important;
-        }
+        transform: scale(1.05) !important;
     }
 
     /* ==========================================
@@ -887,233 +797,9 @@
     <!-- Tabla de Miembros -->
     <div class="col-xxl-12">
         <div class="card shadow-sm">
-            <div class="card-header miembros-index-header">
-                <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0 me-3">
-                        <a href="{{ route('miembros.create') }}" class="btn btn-agregar">
-                            <i class="ri-user-add-line"></i>
-                            <span>Agregar Miembro</span>
-                        </a>
-                    </div>
-                    <div class="flex-grow-1">
-                        <h4 class="card-title">
-                            <i class="ri-group-line"></i>
-                            Lista de Miembros
-                        </h4>
-                        <p class="text-white-50 mb-0 mt-1" style="font-size: 0.9rem; opacity: 0.8;">
-                            Gestione y administre todos los miembros registrados en el sistema
-                        </p>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end mt-3">
-                    <div class="d-flex align-items-center gap-2">
-                        <div class="dropdown" id="bulkActionsDropdown" style="display: none;">
-                            <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                <i class="ri-checkbox-multiple-line me-1"></i> Acciones Masivas
-                                <span id="selectedCount" class="badge bg-light text-dark ms-1">0</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" onclick="bulkAction('export')">
-                                    <i class="ri-download-line me-2"></i> Exportar Seleccionados
-                                </a></li>
-                                <li><a class="dropdown-item" href="#" onclick="bulkAction('print')">
-                                    <i class="ri-printer-line me-2"></i> Imprimir Seleccionados
-                                </a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#" onclick="bulkAction('email')">
-                                    <i class="ri-mail-line me-2"></i> Enviar Email
-                                </a></li>
-                                <li><a class="dropdown-item" href="#" onclick="bulkAction('status')">
-                                    <i class="ri-user-settings-line me-2"></i> Cambiar Estado
-                                </a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="#" onclick="bulkAction('delete')">
-                                    <i class="ri-delete-bin-line me-2"></i> Eliminar Seleccionados
-                                </a></li>
-                            </ul>
-                        </div>
-                        <button type="button" class="btn btn-outline-light btn-sm" onclick="exportarMiembros()">
-                            <i class="ri-download-line me-1"></i> Exportar
-                        </button>
-                        <button type="button" class="btn btn-outline-light btn-sm" onclick="imprimirLista()">
-                            <i class="ri-printer-line me-1"></i> Imprimir
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <x-miembros.table-header />
             <div class="card-body table-body">
-                <div class="table-responsive">
-                    <table class="table table-hover text-nowrap miembros-table">
-                        <thead class="table-light">
-                            <tr>
-                                <th>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="selectAll" onchange="toggleSelectAll()">
-                                        <label class="form-check-label" for="selectAll">
-                                            <i class="ri-checkbox-line"></i>
-                                        </label>
-                                    </div>
-                                </th>
-                                <th class="sortable" data-sort="nombre_completo">
-                                    Miembro <i class="ri-arrow-up-down-line ms-1"></i>
-                                </th>
-                                <th class="sortable" data-sort="numero_carnet">
-                                    Número Carnet <i class="ri-arrow-up-down-line ms-1"></i>
-                                </th>
-                                <th class="sortable" data-sort="tipo_membresia">
-                                    Tipo <i class="ri-arrow-up-down-line ms-1"></i>
-                                </th>
-                                <th class="sortable" data-sort="estado_membresia">
-                                    Estado <i class="ri-arrow-up-down-line ms-1"></i>
-                                </th>
-                                <th class="sortable" data-sort="organizacion_id">
-                                    Organización <i class="ri-arrow-up-down-line ms-1"></i>
-                                </th>
-                                <th class="sortable" data-sort="fecha_ingreso">
-                                    Fecha Ingreso <i class="ri-arrow-up-down-line ms-1"></i>
-                                </th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($miembros as $miembro)
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input member-checkbox" type="checkbox" 
-                                               value="{{ $miembro->id }}" 
-                                               id="member_{{ $miembro->id }}"
-                                               onchange="updateSelectAllState()">
-                                        <label class="form-check-label" for="member_{{ $miembro->id }}">
-                                            <i class="ri-checkbox-line"></i>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            @if($miembro->foto_url)
-                                            <img src="{{ $miembro->foto_url }}" alt="" class="avatar-xs rounded-circle">
-                                            @else
-                                            <div class="avatar-xs rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center">
-                                                <i class="ri-user-line fs-12"></i>
-                                            </div>
-                                            @endif
-                                        </div>
-                                        <div class="flex-grow-1 ms-2">
-                                            <h6 class="mb-0">{{ $miembro->nombre_completo }}</h6>
-                                            <p class="text-muted mb-0 fs-12">{{ $miembro->email }}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="fw-semibold">{{ $miembro->numero_carnet }}</span>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center tipo-membresia-container">
-                                        <div class="flex-shrink-0 me-2">
-                                            <div class="avatar-xs bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center">
-                                                <i class="ri-user-star-line text-primary fs-10"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <span class="fw-semibold text-dark">Miembro</span>
-                                            <br>
-                                            <small class="text-muted">Tipo estándar</small>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center estado-membresia-container">
-                                        <div class="flex-shrink-0 me-2">
-                                            @if($miembro->estadoMembresia)
-                                                @if($miembro->estadoMembresia->nombre === 'activa')
-                                                    <div class="avatar-xs bg-success-subtle rounded-circle d-flex align-items-center justify-content-center">
-                                                        <i class="ri-check-line text-success fs-10"></i>
-                                                    </div>
-                                                @elseif($miembro->estadoMembresia->nombre === 'suspendida')
-                                                    <div class="avatar-xs bg-danger-subtle rounded-circle d-flex align-items-center justify-content-center">
-                                                        <i class="ri-pause-line text-danger fs-10"></i>
-                                                    </div>
-                                                @else
-                                                    <div class="avatar-xs bg-warning-subtle rounded-circle d-flex align-items-center justify-content-center">
-                                                        <i class="ri-time-line text-warning fs-10"></i>
-                                                    </div>
-                                                @endif
-                                            @else
-                                                <div class="avatar-xs bg-secondary-subtle rounded-circle d-flex align-items-center justify-content-center">
-                                                    <i class="ri-question-line text-secondary fs-10"></i>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            @if($miembro->estadoMembresia)
-                                                <span class="badge bg-{{ $miembro->estadoMembresia->nombre === 'activa' ? 'success' : ($miembro->estadoMembresia->nombre === 'suspendida' ? 'danger' : 'warning') }} bg-opacity-10 text-{{ $miembro->estadoMembresia->nombre === 'activa' ? 'success' : ($miembro->estadoMembresia->nombre === 'suspendida' ? 'danger' : 'warning') }} border border-{{ $miembro->estadoMembresia->nombre === 'activa' ? 'success' : ($miembro->estadoMembresia->nombre === 'suspendida' ? 'danger' : 'warning') }} border-opacity-25 fw-semibold">
-                                                    {{ ucfirst($miembro->estadoMembresia->nombre) }}
-                                                </span>
-                                            @else
-                                                <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 fw-semibold">
-                                                    Sin Estado
-                                                </span>
-                                            @endif
-                                            <br>
-                                            <small class="text-muted">
-                                                @if($miembro->estadoMembresia)
-                                                    {{ $miembro->estadoMembresia->descripcion ?? 'Estado de membresía' }}
-                                                @else
-                                                    Estado no definido
-                                                @endif
-                                            </small>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="fw-semibold">{{ Str::limit($miembro->organizacion->nombre, 20) }}</span>
-                                </td>
-                                <td>
-                                    <span class="fw-semibold">{{ $miembro->fecha_ingreso->format('d/m/Y') }}</span>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-soft-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                            <i class="ri-more-fill"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item" href="{{ route('miembros.profile', $miembro->id) }}">
-                                                <i class="ri-user-line me-2"></i> Ver Perfil
-                                            </a></li>
-                                            <li><a class="dropdown-item" href="{{ route('carnet.selector', $miembro->id) }}">
-                                                <i class="ri-qr-code-line me-2"></i> Carnet Digital
-                                            </a></li>
-                                            <li><a class="dropdown-item" href="mailto:{{ $miembro->email }}">
-                                                <i class="ri-mail-line me-2"></i> Enviar Email
-                                            </a></li>
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li><a class="dropdown-item" href="{{ route('miembros.edit', $miembro->id) }}">
-                                                <i class="ri-edit-line me-2"></i> Editar
-                                            </a></li>
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li><a class="dropdown-item text-danger" href="#" onclick="deleteMember({{ $miembro->id }}, '{{ $miembro->nombre_completo }}')">
-                                                <i class="ri-delete-bin-line me-2"></i> Eliminar
-                                            </a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="7" class="text-center text-muted">
-                                    <div class="py-4">
-                                        <i class="ri-user-line fs-48 text-muted mb-3 d-block"></i>
-                                        <h5>No se encontraron miembros</h5>
-                                        <p class="text-muted">Intenta ajustar los filtros de búsqueda</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                <x-miembros.miembros-table :miembros="$miembros" />
 
 
                 <!-- Paginación Mejorada CLDCI -->
@@ -1240,49 +926,48 @@
 </div>
 
 <!-- Modal del Carnet Digital -->
-@include('miembros.partials.carnet-modal')
+@include('components.miembros.carnet-modal')
 @endsection
 
 @section('js')
-<script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar Select2
-    $('#organizacion_id').select2({
-        placeholder: 'Seleccionar organización',
-        allowClear: true
-    });
+    // Verificar si jQuery está disponible antes de usar
+    if (typeof $ !== 'undefined') {
+        // Los filtros funcionan sin Select2
+        // Auto-submit form on filter change
+        $('#tipo_membresia, #estado_membresia').on('change', function() {
+            $('#filtros-form').submit();
+        });
 
-    // Auto-submit form on filter change
-    $('#tipo_membresia, #estado_membresia').on('change', function() {
-        $('#filtros-form').submit();
-    });
+        // Efectos de carga para botón buscar
+        $('#filtros-form').on('submit', function() {
+            const btnBuscar = $('.btn-buscar');
+            btnBuscar.addClass('loading');
+            btnBuscar.html('<i class="ri-loader-4-line me-1"></i> Buscando...');
+        });
 
-    // Efectos de carga para botón buscar
-    $('#filtros-form').on('submit', function() {
-        const btnBuscar = $('.btn-buscar');
-        btnBuscar.addClass('loading');
-        btnBuscar.html('<i class="ri-loader-4-line me-1"></i> Buscando...');
-    });
+        // Efectos hover mejorados
+        $('.btn-buscar').hover(
+            function() {
+                $(this).addClass('shadow-lg');
+            },
+            function() {
+                $(this).removeClass('shadow-lg');
+            }
+        );
 
-    // Efectos hover mejorados
-    $('.btn-buscar').hover(
-        function() {
-            $(this).addClass('shadow-lg');
-        },
-        function() {
-            $(this).removeClass('shadow-lg');
-        }
-    );
-
-    $('.btn-limpiar').hover(
-        function() {
-            $(this).addClass('shadow-lg');
-        },
-        function() {
-            $(this).removeClass('shadow-lg');
-        }
-    );
+        $('.btn-limpiar').hover(
+            function() {
+                $(this).addClass('shadow-lg');
+            },
+            function() {
+                $(this).removeClass('shadow-lg');
+            }
+        );
+    } else {
+        console.log('jQuery o Select2 no están disponibles, usando funcionalidad básica');
+    }
 });
 
 // Funciones para manejo de selección de miembros
@@ -1300,29 +985,31 @@ function toggleSelectAll() {
 function updateSelectAllState() {
     const memberCheckboxes = document.querySelectorAll('.member-checkbox');
     const selectAllCheckbox = document.getElementById('selectAll');
-    const selectedCount = document.querySelectorAll('.member-checkbox:checked').length;
-    const totalCount = memberCheckboxes.length;
+    const selectedCount = document.getElementById('selectedCount');
     const bulkActionsDropdown = document.getElementById('bulkActionsDropdown');
-    const selectedCountBadge = document.getElementById('selectedCount');
+    
+    const checkedBoxes = document.querySelectorAll('.member-checkbox:checked');
+    const totalBoxes = memberCheckboxes.length;
+    
+    // Actualizar contador
+    selectedCount.textContent = checkedBoxes.length;
+    
+    // Mostrar/ocultar dropdown de acciones masivas
+    if (checkedBoxes.length > 0) {
+        bulkActionsDropdown.style.display = 'block';
+    } else {
+        bulkActionsDropdown.style.display = 'none';
+    }
     
     // Actualizar estado del checkbox "Seleccionar todo"
-    if (selectedCount === 0) {
+    if (checkedBoxes.length === 0) {
         selectAllCheckbox.indeterminate = false;
         selectAllCheckbox.checked = false;
-    } else if (selectedCount === totalCount) {
+    } else if (checkedBoxes.length === totalBoxes) {
         selectAllCheckbox.indeterminate = false;
         selectAllCheckbox.checked = true;
     } else {
         selectAllCheckbox.indeterminate = true;
-        selectAllCheckbox.checked = false;
-    }
-    
-    // Mostrar/ocultar dropdown de acciones masivas
-    if (selectedCount > 0) {
-        bulkActionsDropdown.style.display = 'block';
-        selectedCountBadge.textContent = selectedCount;
-    } else {
-        bulkActionsDropdown.style.display = 'none';
     }
 }
 
@@ -1402,66 +1089,52 @@ function changeStatusOfSelected(selectedIds) {
 }
 
 function deleteSelectedMembers(selectedIds) {
-    if (confirm(`¿Está seguro de eliminar ${selectedIds.length} miembros seleccionados? Esta acción no se puede deshacer.`)) {
-        // Crear formulario para eliminar múltiples miembros
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '{{ route("miembros.bulk-delete") }}';
-        
-        // Agregar token CSRF
-        const csrfToken = document.createElement('input');
-        csrfToken.type = 'hidden';
-        csrfToken.name = '_token';
-        csrfToken.value = '{{ csrf_token() }}';
-        form.appendChild(csrfToken);
-        
-        // Agregar método DELETE
-        const methodInput = document.createElement('input');
-        methodInput.type = 'hidden';
-        methodInput.name = '_method';
-        methodInput.value = 'DELETE';
-        form.appendChild(methodInput);
-        
-        // Agregar IDs seleccionados
-        selectedIds.forEach(id => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'selected_ids[]';
-            input.value = id;
-            form.appendChild(input);
-        });
-        
-        document.body.appendChild(form);
-        form.submit();
-        document.body.removeChild(form);
-    }
-}
-
-function deleteMember(memberId, memberName) {
-    if (confirm(`¿Está seguro de eliminar al miembro "${memberName}"? Esta acción no se puede deshacer.`)) {
-        // Crear formulario para eliminar un miembro
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `{{ url('miembros') }}/${memberId}`;
-        
-        // Agregar token CSRF
-        const csrfToken = document.createElement('input');
-        csrfToken.type = 'hidden';
-        csrfToken.name = '_token';
-        csrfToken.value = '{{ csrf_token() }}';
-        form.appendChild(csrfToken);
-        
-        // Agregar método DELETE
-        const methodInput = document.createElement('input');
-        methodInput.type = 'hidden';
-        methodInput.name = '_method';
-        methodInput.value = 'DELETE';
-        form.appendChild(methodInput);
-        
-        document.body.appendChild(form);
-        form.submit();
-        document.body.removeChild(form);
-    }
+    showDeleteConfirmation({
+        title: `${selectedIds.length} miembros seleccionados`,
+        message: `Se eliminarán ${selectedIds.length} miembros seleccionados permanentemente.`,
+        type: 'múltiples miembros',
+        onConfirm: () => {
+            // Mostrar toast de carga
+            showInfoToast(`Eliminando ${selectedIds.length} miembros...`, 'Procesando');
+            
+            // Preparar datos para envío
+            const formData = new FormData();
+            formData.append('_token', '{{ csrf_token() }}');
+            formData.append('_method', 'DELETE');
+            
+            // Agregar IDs seleccionados
+            selectedIds.forEach(id => {
+                formData.append('selected_ids[]', id);
+            });
+            
+            // Realizar eliminación por AJAX
+            fetch('{{ route("miembros.bulk-delete") }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Mostrar toast de éxito
+                    showSuccessToast(`${selectedIds.length} miembros eliminados exitosamente`);
+                    
+                    // Recargar la página después de un breve delay
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    throw new Error('Error al eliminar los miembros');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showErrorToast('Error al eliminar los miembros seleccionados');
+            });
+        }
+    });
 }
 
 // Funciones para sorting y paginación
@@ -1514,6 +1187,12 @@ function imprimirLista() {
 function cambiarPagina(pagina) {
     if (pagina < 1 || pagina > {{ $miembros->lastPage() }}) return;
     
+    // Limpiar spinner anterior si existe
+    const existingSpinner = document.querySelector('.pagination-spinner');
+    if (existingSpinner) {
+        existingSpinner.remove();
+    }
+    
     // Mostrar indicador de carga
     const paginationContainer = document.querySelector('.cldci-pagination-container');
     if (paginationContainer) {
@@ -1554,16 +1233,10 @@ function cambiarPagina(pagina) {
         paginationContainer.appendChild(spinner);
     }
     
-    // Simular delay para mejor UX (opcional)
-    setTimeout(() => {
-        const form = document.getElementById('filtros-form');
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'page';
-        input.value = pagina;
-        form.appendChild(input);
-        form.submit();
-    }, 150);
+    // Navegar directamente sin delay
+    const url = new URL(window.location);
+    url.searchParams.set('page', pagina);
+    window.location.href = url.toString();
 }
 
 // Funciones del Modal del Carnet
@@ -1770,6 +1443,16 @@ function copiarEnlace() {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
+    // Verificar si hay un mensaje de éxito en la sesión (solo una vez)
+    @if(session('success'))
+        // Mostrar toast de éxito inmediatamente
+        if (typeof window.showSuccessToast === 'function') {
+            window.showSuccessToast('{{ session('success') }}');
+        } else {
+            console.log('Toast de éxito:', '{{ session('success') }}');
+        }
+    @endif
+
     // Event listener para enlaces del carnet
     document.addEventListener('click', function(e) {
         if (e.target.closest('.carnet-link')) {
@@ -1788,15 +1471,294 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Cerrar modal al hacer clic fuera
-    const modal = document.getElementById('carnetModal');
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                cerrarCarnetModal();
-            }
+    // Inicializar tooltips para los iconos de acción
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar tooltips de Bootstrap
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
         });
-    }
+    });
 });
+
+// Función para mostrar modal de confirmación de eliminación
+function showDeleteConfirmation(memberId, memberName) {
+    // Actualizar el texto del modal
+    document.getElementById('deleteConfirmationText').textContent = 
+        `¿Está seguro de eliminar al miembro "${memberName}"? Esta acción no se puede deshacer.`;
+    
+    // Mostrar el modal usando Bootstrap
+    const modalElement = document.getElementById('deleteConfirmationModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+    
+    // Configurar el botón de confirmación
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    confirmBtn.onclick = function() {
+        performDelete(memberId);
+        modal.hide();
+    };
+}
+
+// Función global para eliminar miembro
+function deleteMember(memberId, memberName) {
+    // Mostrar modal de confirmación
+    showDeleteConfirmation(memberId, memberName);
+}
+
+// Función para realizar la eliminación real
+function performDelete(memberId) {
+    // Mostrar toast de carga
+    if (typeof showInfoToast === 'function') {
+        showInfoToast('Eliminando miembro...', 'Procesando');
+    }
+    
+    // Realizar eliminación por AJAX
+    fetch(`{{ url('miembros') }}/${memberId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Mostrar toast de éxito
+            if (typeof showSuccessToast === 'function') {
+                showSuccessToast('Miembro eliminado exitosamente');
+            }
+            
+            // Recargar la página después de un breve delay
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            throw new Error('Error al eliminar el miembro');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error al eliminar el miembro');
+        }
+    });
+}
+
+// Función para abrir el modal de subida de documentos
+function openDocumentUpload(memberId, memberName) {
+    // Crear modal dinámico para subir documentos
+    const modalHtml = `
+        <div class="modal fade" id="documentUploadModal" tabindex="-1" aria-labelledby="documentUploadModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="documentUploadModalLabel">
+                            <i class="ri-upload-line me-2"></i>
+                            Subir Documentos - ${memberName}
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <i class="ri-information-line me-2"></i>
+                                    <strong>Información:</strong> Los documentos se subirán al perfil del miembro y estarán disponibles en la sección de Documentación.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Área de subida de archivos -->
+                        <div class="upload-area" id="uploadArea" style="border: 2px dashed #dee2e6; border-radius: 8px; padding: 2rem; text-align: center; background: #f8f9fa;">
+                            <div class="upload-content">
+                                <i class="ri-upload-cloud-2-line" style="font-size: 3rem; color: #6c757d; margin-bottom: 1rem;"></i>
+                                <h6>Arrastra archivos aquí o haz clic para seleccionar</h6>
+                                <p class="text-muted mb-3">Formatos permitidos: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX, PPT, PPTX</p>
+                                <button type="button" class="btn btn-success" onclick="document.getElementById('fileInput').click()">
+                                    <i class="ri-file-upload-line me-2"></i>
+                                    Seleccionar Archivos
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.ppt,.pptx" style="display: none;">
+                        
+                        <!-- Lista de archivos seleccionados -->
+                        <div id="selectedFiles" class="mt-3" style="display: none;">
+                            <h6>Archivos seleccionados:</h6>
+                            <div id="filesList"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-success" id="uploadBtn" onclick="uploadDocuments(${memberId})" disabled>
+                            <i class="ri-upload-line me-2"></i>
+                            Subir Documentos
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Remover modal anterior si existe
+    const existingModal = document.getElementById('documentUploadModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    // Agregar modal al DOM
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    
+    // Mostrar modal
+    const modal = new bootstrap.Modal(document.getElementById('documentUploadModal'));
+    modal.show();
+    
+    // Configurar eventos
+    setupDocumentUploadEvents();
+}
+
+// Función para configurar eventos del modal de documentos
+function setupDocumentUploadEvents() {
+    const fileInput = document.getElementById('fileInput');
+    const uploadArea = document.getElementById('uploadArea');
+    const selectedFiles = document.getElementById('selectedFiles');
+    const filesList = document.getElementById('filesList');
+    const uploadBtn = document.getElementById('uploadBtn');
+    
+    // Evento de selección de archivos
+    fileInput.addEventListener('change', function(e) {
+        handleFileSelection(e.target.files);
+    });
+    
+    // Eventos de drag and drop
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.style.borderColor = '#28a745';
+        uploadArea.style.backgroundColor = '#d4edda';
+    });
+    
+    uploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadArea.style.borderColor = '#dee2e6';
+        uploadArea.style.backgroundColor = '#f8f9fa';
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.style.borderColor = '#dee2e6';
+        uploadArea.style.backgroundColor = '#f8f9fa';
+        handleFileSelection(e.dataTransfer.files);
+    });
+    
+    // Función para manejar archivos seleccionados
+    function handleFileSelection(files) {
+        if (files.length > 0) {
+            filesList.innerHTML = '';
+            
+            Array.from(files).forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'd-flex align-items-center justify-content-between p-2 border rounded mb-2';
+                fileItem.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="ri-file-line me-2 text-primary"></i>
+                        <span>${file.name}</span>
+                        <small class="text-muted ms-2">(${(file.size / 1024 / 1024).toFixed(2)} MB)</small>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFile(${index})">
+                        <i class="ri-close-line"></i>
+                    </button>
+                `;
+                filesList.appendChild(fileItem);
+            });
+            
+            selectedFiles.style.display = 'block';
+            uploadBtn.disabled = false;
+        }
+    }
+}
+
+// Función para remover archivo de la lista
+function removeFile(index) {
+    const filesList = document.getElementById('filesList');
+    const fileItem = filesList.children[index];
+    if (fileItem) {
+        fileItem.remove();
+        
+        // Verificar si quedan archivos
+        if (filesList.children.length === 0) {
+            document.getElementById('selectedFiles').style.display = 'none';
+            document.getElementById('uploadBtn').disabled = true;
+        }
+    }
+}
+
+// Función para subir documentos
+function uploadDocuments(memberId) {
+    const fileInput = document.getElementById('fileInput');
+    const files = fileInput.files;
+    
+    if (files.length === 0) {
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Por favor selecciona al menos un archivo');
+        }
+        return;
+    }
+    
+    // Mostrar loading
+    const uploadBtn = document.getElementById('uploadBtn');
+    const originalText = uploadBtn.innerHTML;
+    uploadBtn.innerHTML = '<i class="ri-loader-4-line me-2 ri-spin"></i>Subiendo...';
+    uploadBtn.disabled = true;
+    
+    // Crear FormData
+    const formData = new FormData();
+    formData.append('_token', '{{ csrf_token() }}');
+    
+    Array.from(files).forEach(file => {
+        formData.append('file', file);
+    });
+    
+    // Subir archivos
+    fetch(`/miembros/${memberId}/documentation/upload`, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (typeof showSuccessToast === 'function') {
+                showSuccessToast(`${data.uploaded_count} documento(s) subido(s) exitosamente`);
+            }
+            
+            // Cerrar modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('documentUploadModal'));
+            modal.hide();
+            
+            // Limpiar formulario
+            document.getElementById('fileInput').value = '';
+            document.getElementById('selectedFiles').style.display = 'none';
+            uploadBtn.disabled = true;
+        } else {
+            throw new Error(data.message || 'Error al subir documentos');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error al subir los documentos');
+        }
+    })
+    .finally(() => {
+        // Restaurar botón
+        uploadBtn.innerHTML = originalText;
+        uploadBtn.disabled = false;
+    });
+}
 </script>
+
+{{-- Modal de Confirmación de Eliminación --}}
+@include('components.modals.delete-confirmation')
+
 @endsection
