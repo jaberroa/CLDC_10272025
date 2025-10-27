@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y \
     postgresql-client \
     libpq-dev \
     supervisor \
+    nodejs \
+    npm \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Configure and install PHP extensions
@@ -35,6 +37,9 @@ COPY . .
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Install Node.js dependencies and build assets
+RUN npm install && npm run build
 
 # Create necessary directories and set permissions
 RUN mkdir -p storage/logs \
