@@ -73,11 +73,31 @@ jobs:
         unzip -l render-deployment.zip | head -20
         
     - name: Deploy to Render
-      uses: johnbeynon/render-deploy-action@v1.0.0
-      with:
-        service_id: ${{ secrets.RENDER_SERVICE_ID }}
-        api_key: ${{ secrets.RENDER_API_KEY }}
-        deployment_package: render-deployment.zip
+      run: |
+        echo "🚀 Desplegando a Render..."
+        
+        # Verificar que los secrets estén configurados
+        if [ -z "${{ secrets.RENDER_SERVICE_ID }}" ]; then
+          echo "❌ Error: RENDER_SERVICE_ID no está configurado"
+          exit 1
+        fi
+        
+        if [ -z "${{ secrets.RENDER_API_KEY }}" ]; then
+          echo "❌ Error: RENDER_API_KEY no está configurado"
+          exit 1
+        fi
+        
+        # Crear el payload para la API de Render
+        echo "📦 Preparando despliegue..."
+        
+        # Usar la API de Render para hacer deploy
+        curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{"clearCache": "clear"}' \
+          "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys"
+        
+        echo "✅ Solicitud de despliegue enviada a Render"
         
     - name: Deployment Success Notification
       if: success()
