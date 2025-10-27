@@ -2,7 +2,7 @@ services:
   - type: web
     name: app-cldc
     env: docker
-    dockerfilePath: ./Dockerfile.render
+    dockerfilePath: ./Dockerfile
     buildCommand: |
       echo "Build process handled by Dockerfile"
     startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
@@ -11,8 +11,20 @@ services:
         value: production
       - key: APP_DEBUG
         value: false
+      - key: APP_KEY
+        value: base64:rRndXzwA9CalgmcCg7aFarcIIHlMjklEqgXS08aM3sU=
       - key: DB_CONNECTION
         value: pgsql
+      - key: DB_HOST
+        value: localhost
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: cldc_production
+      - key: DB_USERNAME
+        value: postgres
+      - key: DB_PASSWORD
+        value: your-db-password
       - key: CACHE_DRIVER
         value: file
       - key: SESSION_DRIVER
