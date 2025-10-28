@@ -105,6 +105,9 @@ if [ $? -eq 0 ]; then\n\
   php artisan migrate --force --no-interaction -v\n\
   if [ $? -eq 0 ]; then\n\
     echo "✅ Migraciones completadas exitosamente"\n\
+    echo "👤 Creando usuario administrador..."\n\
+    php artisan tinker --execute="\App\Models\User::create([\"name\" => \"Administrador\", \"email\" => \"admin@cldci.org\", \"password\" => bcrypt(\"admin123\"), \"email_verified_at\" => now()]);"\n\
+    echo "✅ Usuario administrador creado: admin@cldci.org / admin123"\n\
   else\n\
     echo "❌ Migraciones fallaron, pero continuando..."\n\
   fi\n\
@@ -113,6 +116,9 @@ else\n\
   php artisan migrate --force --no-interaction -v\n\
   if [ $? -eq 0 ]; then\n\
     echo "✅ Migraciones completadas exitosamente (sin verificación previa)"\n\
+    echo "👤 Creando usuario administrador..."\n\
+    php artisan tinker --execute="\App\Models\User::create([\"name\" => \"Administrador\", \"email\" => \"admin@cldci.org\", \"password\" => bcrypt(\"admin123\"), \"email_verified_at\" => now()]);"\n\
+    echo "✅ Usuario administrador creado: admin@cldci.org / admin123"\n\
   else\n\
     echo "❌ Migraciones fallaron completamente"\n\
   fi\n\
