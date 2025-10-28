@@ -37,6 +37,9 @@ COPY docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
 # Copy application code
 COPY . .
 
+# Create .env file from environment variables for Render
+RUN cp .env.example .env
+
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
