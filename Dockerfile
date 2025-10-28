@@ -46,8 +46,8 @@ COPY . .
 # Copiar assets buildados desde node-builder
 COPY --from=node-builder /app/public/build ./public/build
 
-# Instalar dependencias PHP (solo producción)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+    # Instalar dependencias PHP (solo producción)
+    RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --ignore-platform-req=ext-pdo_pgsql --ignore-platform-req=ext-zip --ignore-platform-req=ext-gd
 
 # Configurar permisos
 RUN chown -R www-data:www-data /var/www/html \
