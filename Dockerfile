@@ -58,38 +58,12 @@ RUN chown -R www-data:www-data /var/www/html \
 # Crear directorios necesarios
 RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache /var/log/supervisor
 
-# Crear archivo .env con configuración básica
-RUN echo 'APP_NAME="CLDC"' > .env && \
-    echo 'APP_ENV=production' >> .env && \
-    echo 'APP_KEY=' >> .env && \
-    echo 'APP_DEBUG=false' >> .env && \
-    echo 'APP_URL=https://cldc.onrender.com' >> .env && \
-    echo 'LOG_CHANNEL=stack' >> .env && \
-    echo 'LOG_LEVEL=error' >> .env && \
-    echo 'DB_CONNECTION=pgsql' >> .env && \
-    echo 'DB_HOST=' >> .env && \
-    echo 'DB_PORT=5432' >> .env && \
-    echo 'DB_DATABASE=' >> .env && \
-    echo 'DB_USERNAME=' >> .env && \
-    echo 'DB_PASSWORD=' >> .env && \
-    echo 'CACHE_DRIVER=database' >> .env && \
-    echo 'SESSION_DRIVER=database' >> .env && \
-    echo 'QUEUE_CONNECTION=sync' >> .env && \
-    echo 'MAIL_MAILER=log' >> .env && \
-    echo 'BROADCAST_DRIVER=log' >> .env && \
-    echo 'FILESYSTEM_DISK=local' >> .env
+# Render crea automáticamente el archivo .env con las variables definidas en render.yaml
 
 # Script de inicio optimizado
 RUN echo '#!/bin/sh' > /start.sh && \
     echo 'export PORT=${PORT:-8000}' >> /start.sh && \
     echo 'sed -i "s/\${PORT:-8000}/$PORT/g" /etc/nginx/sites-available/default' >> /start.sh && \
-    echo '' >> /start.sh && \
-    echo '# Actualizar .env con variables de entorno de Render' >> /start.sh && \
-    echo 'if [ ! -z "$DB_HOST" ]; then sed -i "s/DB_HOST=/DB_HOST=$DB_HOST/" .env; fi' >> /start.sh && \
-    echo 'if [ ! -z "$DB_DATABASE" ]; then sed -i "s/DB_DATABASE=/DB_DATABASE=$DB_DATABASE/" .env; fi' >> /start.sh && \
-    echo 'if [ ! -z "$DB_USERNAME" ]; then sed -i "s/DB_USERNAME=/DB_USERNAME=$DB_USERNAME/" .env; fi' >> /start.sh && \
-    echo 'if [ ! -z "$DB_PASSWORD" ]; then sed -i "s/DB_PASSWORD=/DB_PASSWORD=$DB_PASSWORD/" .env; fi' >> /start.sh && \
-    echo 'if [ ! -z "$APP_KEY" ]; then sed -i "s/APP_KEY=/APP_KEY=$APP_KEY/" .env; fi' >> /start.sh && \
     echo '' >> /start.sh && \
     echo 'exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf' >> /start.sh && \
     chmod +x /start.sh
