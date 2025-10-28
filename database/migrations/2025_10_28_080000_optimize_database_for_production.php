@@ -31,13 +31,8 @@ return new class extends Migration
             });
         }
 
-        if (Schema::hasTable('directivas')) {
-            Schema::table('directivas', function (Blueprint $table) {
-                $table->index('estado');
-                $table->index('fecha_inicio');
-                $table->index(['estado', 'fecha_inicio']);
-            });
-        }
+        // Los índices de la tabla directivas ya se crean en la migración create_directivas_table
+        // para evitar errores de índices duplicados
 
         // Optimizar tabla de cache
         if (Schema::hasTable('cache')) {
