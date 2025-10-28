@@ -47,3 +47,5 @@ services:
         value: stack
       - key: LOG_LEVEL
         value: error
+      - key: FORCE_DB_CONNECTION
+        value: true
