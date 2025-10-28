@@ -20,14 +20,8 @@ return new class extends Migration
             });
         }
 
-        if (Schema::hasTable('miembros')) {
-            Schema::table('miembros', function (Blueprint $table) {
-                $table->index('email');
-                $table->index('estado');
-                $table->index('created_at');
-                $table->index(['estado', 'created_at']);
-            });
-        }
+        // Los índices de la tabla miembros se crean en la migración fix_pgsql_miembros_estado
+        // para evitar errores de columnas inexistentes
 
         if (Schema::hasTable('asambleas')) {
             Schema::table('asambleas', function (Blueprint $table) {

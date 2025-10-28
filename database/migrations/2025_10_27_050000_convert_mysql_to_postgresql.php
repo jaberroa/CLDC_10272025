@@ -74,7 +74,7 @@ return new class extends Migration
             'cuotas_membresia' => ['tipo_cuota', 'estado'],
             'directivas' => ['tipo', 'nivel'],
             'cargos_directiva' => ['nivel'],
-            'miembros' => ['estado'],
+            // 'miembros' => ['estado'], // Removido: la columna estado se agregará en otra migración
             'asambleas' => ['tipo', 'modalidad', 'estado'],
             'cronogramas_directiva' => ['tipo', 'estado'],
             'elecciones' => ['estado'],
