@@ -145,25 +145,37 @@ RUN echo '#!/bin/bash\n\
 export PORT=${PORT:-80}\n\
 # Replace PORT placeholder in nginx config\n\
 sed -i "s/\${PORT:-80}/$PORT/g" /etc/nginx/sites-available/default\n\
-# Wait for database to be ready\n\
-echo "Waiting for database connection..."\n\
-until php artisan migrate:status > /dev/null 2>&1; do\n\
-  echo "Database not ready, waiting..."\n\
-  sleep 2\n\
-done\n\
-# Run migrations with verbose output\n\
-echo "Running migrations..."\n\
-php artisan migrate --force --no-interaction -v\n\
-# Check if migrations were successful\n\
-if [ $? -eq 0 ]; then\n\
-  echo "Migrations completed successfully"\n\
-else\n\
-  echo "Migrations failed, but continuing..."\n\
-fi\n\
-# Start PHP-FPM in background\n\
+# Start PHP-FPM in background first\n\
 php-fpm -D\n\
-# Start Nginx in foreground\n\
-nginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
+# Start Nginx in background\n\
+nginx\n\
+# Wait for database to be ready (with timeout)\n\
+echo "Waiting for database connection..."\n\
+timeout=60\n\
+counter=0\n\
+until php artisan migrate:status > /dev/null 2>&1; do\n\
+  echo "Database not ready, waiting... ($counter/$timeout)"\n\
+  sleep 2\n\
+  counter=$((counter + 2))\n\
+  if [ $counter -ge $timeout ]; then\n\
+    echo "Database timeout reached, starting without migrations"\n\
+    break\n\
+  fi\n\
+done\n\
+# Run migrations with verbose output (if DB is ready)\n\
+if php artisan migrate:status > /dev/null 2>&1; then\n\
+  echo "Running migrations..."\n\
+  php artisan migrate --force --no-interaction -v\n\
+  if [ $? -eq 0 ]; then\n\
+    echo "Migrations completed successfully"\n\
+  else\n\
+    echo "Migrations failed, but continuing..."\n\
+  fi\n\
+else\n\
+  echo "Skipping migrations - database not available"\n\
+fi\n\
+# Keep the container running\n\
+tail -f /var/log/nginx/access.log' > /start.sh && chmod +x /start.sh
 
 # Start Nginx + PHP-FPM
 CMD /start.sh
