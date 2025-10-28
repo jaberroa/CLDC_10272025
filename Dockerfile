@@ -76,4 +76,4 @@ RUN php artisan route:clear || true
 EXPOSE $PORT
 
 # Start PHP built-in server with proper configuration
-CMD php artisan migrate --force --no-interaction && php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan migrate --force --no-interaction && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
