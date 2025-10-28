@@ -86,30 +86,30 @@ sed -i "s/\${PORT:-80}/$PORT/g" /etc/nginx/sites-available/default\n\
 php-fpm -D\n\
 # Iniciar Nginx en background\n\
 nginx\n\
-# Esperar a que la base de datos esté lista (con timeout)\n\
+# Esperar a que la base de datos esté lista usando psql (más rápido y confiable)\n\
 echo "Esperando conexión con la base de datos..."\n\
-timeout=60\n\
+timeout=120\n\
 counter=0\n\
-until php artisan migrate:status > /dev/null 2>&1; do\n\
+until PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USERNAME -d $DB_DATABASE -c "\\q" > /dev/null 2>&1; do\n\
   echo "Base de datos no lista, esperando... ($counter/$timeout)"\n\
-  sleep 2\n\
-  counter=$((counter + 2))\n\
+  sleep 3\n\
+  counter=$((counter + 3))\n\
   if [ $counter -ge $timeout ]; then\n\
     echo "Timeout de base de datos alcanzado, iniciando sin migraciones"\n\
     break\n\
   fi\n\
 done\n\
 # Ejecutar migraciones con output verbose (si DB está lista)\n\
-if php artisan migrate:status > /dev/null 2>&1; then\n\
-  echo "Ejecutando migraciones..."\n\
+if PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USERNAME -d $DB_DATABASE -c "\\q" > /dev/null 2>&1; then\n\
+  echo "Base de datos lista, ejecutando migraciones..."\n\
   php artisan migrate --force --no-interaction -v\n\
   if [ $? -eq 0 ]; then\n\
-    echo "Migraciones completadas exitosamente"\n\
+    echo "✅ Migraciones completadas exitosamente"\n\
   else\n\
-    echo "Migraciones fallaron, pero continuando..."\n\
+    echo "❌ Migraciones fallaron, pero continuando..."\n\
   fi\n\
 else\n\
-  echo "Saltando migraciones - base de datos no disponible"\n\
+  echo "⚠️ Saltando migraciones - base de datos no disponible"\n\
 fi\n\
 # Mantener el contenedor ejecutándose\n\
 tail -f /var/log/nginx/access.log' > /start.sh && chmod +x /start.sh
