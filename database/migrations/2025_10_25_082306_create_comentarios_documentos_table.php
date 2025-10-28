@@ -23,12 +23,12 @@ return new class extends Migration
             
             // Contenido
             $table->text('contenido');
-            $table->json('menciones')->nullable()->comment('IDs de usuarios mencionados');
-            $table->json('archivos_adjuntos')->nullable();
+            $table->jsonb('menciones')->nullable()->comment('IDs de usuarios mencionados');
+            $table->jsonb('archivos_adjuntos')->nullable();
             
             // Posición en el documento (para comentarios contextuales)
             $table->integer('pagina')->nullable();
-            $table->json('coordenadas')->nullable();
+            $table->jsonb('coordenadas')->nullable();
             
             // Estado
             $table->boolean('resuelto')->default(false);

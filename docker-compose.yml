@@ -32,31 +32,29 @@ services:
       - app
 
   db:
-    image: mysql:8.0
-    container_name: cldc_mysql
+    image: postgres:15
+    container_name: cldc_postgres
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: cldc_database
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_USER: cldc_user
-      MYSQL_PASSWORD: cldc_password
+      POSTGRES_DB: cldc_database
+      POSTGRES_USER: cldc_user
+      POSTGRES_PASSWORD: cldc_password
+      POSTGRES_ROOT_PASSWORD: root_password
     volumes:
-      - db_data:/var/lib/mysql
-      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - postgres_data:/var/lib/postgresql/data
     ports:
-      - "3306:3306"
+      - "5432:5432"
     networks:
       - cldc_network
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: cldc_phpmyadmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: cldc_pgadmin
     restart: unless-stopped
     environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: root_password
+      PGADMIN_DEFAULT_EMAIL: admin@cldc.com
+      PGADMIN_DEFAULT_PASSWORD: admin_password
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
       - "8080:80"
     networks:
@@ -65,7 +63,7 @@ services:
       - db
 
 volumes:
-  db_data:
+  postgres_data:
     driver: local
 
 networks:

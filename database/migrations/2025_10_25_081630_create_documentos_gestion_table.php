@@ -35,7 +35,7 @@ return new class extends Migration
             $table->boolean('es_version_actual')->default(true);
             
             // Estado y seguridad
-            $table->enum('estado', ['borrador', 'revision', 'aprobado', 'archivado', 'obsoleto'])->default('borrador');
+            $table->string('estado', ['borrador', 'revision', 'aprobado', 'archivado', 'obsoleto'])->default('borrador');
             $table->boolean('requiere_firma')->default(false);
             $table->boolean('firmado')->default(false);
             $table->boolean('confidencial')->default(false);
@@ -48,7 +48,7 @@ return new class extends Migration
             
             // Relaciones CRM
             $table->string('entidad_tipo')->nullable()->comment('miembro, organizacion, proyecto, contrato, etc.');
-            $table->unsignedBigInteger('entidad_id')->nullable();
+            $table->bigInteger('entidad_id')->nullable();
             
             // Fechas importantes
             $table->date('fecha_documento')->nullable()->comment('Fecha del documento (no de subida)');

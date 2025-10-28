@@ -23,14 +23,14 @@ return new class extends Migration
             $table->boolean('visible_menu')->default(true);
             
             // Permisos por defecto
-            $table->json('permisos_defecto')->nullable()->comment('Permisos por defecto para esta sección');
+            $table->jsonb('permisos_defecto')->nullable()->comment('Permisos por defecto para esta sección');
             
             // Configuración
             $table->boolean('requiere_aprobacion')->default(false);
             $table->boolean('permite_versionado')->default(true);
             $table->boolean('permite_compartir_externo')->default(false);
             $table->integer('max_tamano_archivo_mb')->default(50);
-            $table->json('formatos_permitidos')->nullable();
+            $table->jsonb('formatos_permitidos')->nullable();
             
             // Auditoría
             $table->foreignId('creado_por')->nullable()->constrained('users')->onDelete('set null');

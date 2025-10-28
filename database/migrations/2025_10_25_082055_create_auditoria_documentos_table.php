@@ -27,13 +27,13 @@ return new class extends Migration
             // Acción realizada
             $table->string('accion', 100)->comment('crear, ver, editar, eliminar, descargar, compartir, mover, aprobar, firmar, etc.');
             $table->string('entidad_tipo', 50)->comment('documento, carpeta, seccion, comparticion, etc.');
-            $table->unsignedBigInteger('entidad_id')->nullable();
+            $table->bigInteger('entidad_id')->nullable();
             
             // Detalles de la acción
             $table->text('descripcion')->nullable();
-            $table->json('datos_anteriores')->nullable();
-            $table->json('datos_nuevos')->nullable();
-            $table->json('metadatos')->nullable()->comment('Información adicional contextual');
+            $table->jsonb('datos_anteriores')->nullable();
+            $table->jsonb('datos_nuevos')->nullable();
+            $table->jsonb('metadatos')->nullable()->comment('Información adicional contextual');
             
             // Información de la sesión
             $table->string('ip', 45);
@@ -43,11 +43,11 @@ return new class extends Migration
             $table->string('navegador')->nullable();
             
             // Resultado
-            $table->enum('resultado', ['exito', 'error', 'bloqueado'])->default('exito');
+            $table->string('resultado', ['exito', 'error', 'bloqueado'])->default('exito');
             $table->text('mensaje_error')->nullable();
             
             // Clasificación
-            $table->enum('nivel', ['info', 'warning', 'critical'])->default('info');
+            $table->string('nivel', ['info', 'warning', 'critical'])->default('info');
             $table->boolean('sospechosa')->default(false)->comment('Actividad potencialmente sospechosa');
             
             $table->timestamp('fecha_accion')->useCurrent();

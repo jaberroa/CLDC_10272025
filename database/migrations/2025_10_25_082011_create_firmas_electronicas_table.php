@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('documento_id')->constrained('documentos_gestion')->onDelete('cascade');
             $table->string('titulo', 500);
             $table->text('mensaje')->nullable();
-            $table->enum('tipo', ['simple', 'secuencial', 'paralelo'])->default('simple');
-            $table->enum('estado', ['pendiente', 'en_proceso', 'completado', 'rechazado', 'cancelado'])->default('pendiente');
+            $table->string('tipo', ['simple', 'secuencial', 'paralelo'])->default('simple');
+            $table->string('estado', ['pendiente', 'en_proceso', 'completado', 'rechazado', 'cancelado'])->default('pendiente');
             $table->date('fecha_limite')->nullable();
             $table->boolean('requiere_orden')->default(false);
             $table->boolean('permite_rechazar')->default(true);
@@ -50,7 +50,7 @@ return new class extends Migration
             $table->integer('orden')->default(0);
             
             // Estado de la firma
-            $table->enum('estado', ['pendiente', 'enviado', 'visto', 'firmado', 'rechazado'])->default('pendiente');
+            $table->string('estado', ['pendiente', 'enviado', 'visto', 'firmado', 'rechazado'])->default('pendiente');
             $table->text('razon_rechazo')->nullable();
             
             // Token para acceso externo

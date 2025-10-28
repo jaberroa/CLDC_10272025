@@ -32,7 +32,7 @@ return new class extends Migration
             
             // Configuración heredada o personalizada
             $table->boolean('hereda_permisos')->default(true);
-            $table->json('permisos_personalizados')->nullable();
+            $table->jsonb('permisos_personalizados')->nullable();
             
             // Estadísticas
             $table->integer('total_documentos')->default(0);
@@ -40,7 +40,7 @@ return new class extends Migration
             
             // Metadatos CRM
             $table->string('entidad_tipo')->nullable()->comment('miembro, organizacion, proyecto, etc.');
-            $table->unsignedBigInteger('entidad_id')->nullable()->comment('ID de la entidad relacionada');
+            $table->bigInteger('entidad_id')->nullable()->comment('ID de la entidad relacionada');
             
             // Auditoría
             $table->foreignId('creado_por')->nullable()->constrained('users')->onDelete('set null');

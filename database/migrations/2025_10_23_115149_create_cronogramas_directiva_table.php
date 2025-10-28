@@ -25,8 +25,8 @@ return new class extends Migration
             $table->foreignId('organo_id')->nullable()->constrained('organos')->onDelete('set null');
             $table->foreignId('responsable_id')->nullable()->constrained('miembros')->onDelete('set null');
             $table->text('observaciones')->nullable();
-            $table->json('participantes')->nullable(); // IDs de miembros participantes
-            $table->json('agenda')->nullable(); // Agenda detallada del evento
+            $table->jsonb('participantes')->nullable(); // IDs de miembros participantes
+            $table->jsonb('agenda')->nullable(); // Agenda detallada del evento
             $table->boolean('requiere_confirmacion')->default(false);
             $table->integer('cupo_maximo')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');

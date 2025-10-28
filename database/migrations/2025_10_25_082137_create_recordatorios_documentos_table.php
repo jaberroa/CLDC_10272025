@@ -16,17 +16,17 @@ return new class extends Migration
             $table->foreignId('documento_id')->constrained('documentos_gestion')->onDelete('cascade');
             
             // Tipo de recordatorio
-            $table->enum('tipo', ['revision', 'vencimiento', 'renovacion', 'aprobacion', 'firma', 'personalizado'])->default('revision');
+            $table->string('tipo', ['revision', 'vencimiento', 'renovacion', 'aprobacion', 'firma', 'personalizado'])->default('revision');
             $table->string('titulo', 500);
             $table->text('mensaje')->nullable();
             
             // Destinatarios
-            $table->json('usuarios_ids')->nullable()->comment('Array de IDs de usuarios');
-            $table->json('emails_externos')->nullable();
+            $table->jsonb('usuarios_ids')->nullable()->comment('Array de IDs de usuarios');
+            $table->jsonb('emails_externos')->nullable();
             
             // Configuración de frecuencia
             $table->date('fecha_recordatorio');
-            $table->enum('frecuencia', ['una_vez', 'diaria', 'semanal', 'mensual', 'anual'])->default('una_vez');
+            $table->string('frecuencia', ['una_vez', 'diaria', 'semanal', 'mensual', 'anual'])->default('una_vez');
             $table->integer('dias_anticipacion')->default(0)->comment('Días antes del vencimiento');
             $table->integer('max_repeticiones')->nullable();
             $table->integer('repeticiones_enviadas')->default(0);
@@ -34,19 +34,19 @@ return new class extends Migration
             // Escalación
             $table->boolean('escalar_sin_respuesta')->default(false);
             $table->integer('dias_escalacion')->nullable();
-            $table->json('usuarios_escalacion')->nullable();
+            $table->jsonb('usuarios_escalacion')->nullable();
             $table->boolean('escalado')->default(false);
             $table->timestamp('fecha_escalacion')->nullable();
             
             // Estado
             $table->boolean('activo')->default(true);
-            $table->enum('estado', ['pendiente', 'enviado', 'completado', 'cancelado'])->default('pendiente');
+            $table->string('estado', ['pendiente', 'enviado', 'completado', 'cancelado'])->default('pendiente');
             $table->timestamp('ultimo_envio')->nullable();
             $table->timestamp('proximo_envio')->nullable();
             $table->timestamp('completado_en')->nullable();
             
             // Prioridad
-            $table->enum('prioridad', ['baja', 'normal', 'alta', 'urgente'])->default('normal');
+            $table->string('prioridad', ['baja', 'normal', 'alta', 'urgente'])->default('normal');
             
             $table->foreignId('creado_por')->constrained('users')->onDelete('cascade');
             $table->timestamps();
@@ -66,7 +66,7 @@ return new class extends Migration
             $table->foreignId('recordatorio_id')->constrained('recordatorios_documentos')->onDelete('cascade');
             $table->string('destinatario_email');
             $table->string('destinatario_nombre')->nullable();
-            $table->enum('estado', ['enviado', 'entregado', 'rebotado', 'error'])->default('enviado');
+            $table->string('estado', ['enviado', 'entregado', 'rebotado', 'error'])->default('enviado');
             $table->text('mensaje_error')->nullable();
             $table->timestamp('fecha_envio')->useCurrent();
             $table->timestamp('fecha_apertura')->nullable();

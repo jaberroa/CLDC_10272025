@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nombre', 100);
             $table->string('slug', 100)->unique();
             $table->text('descripcion')->nullable();
-            $table->json('permisos')->comment('Array de permisos: ver, crear, editar, eliminar, compartir, aprobar, firmar, etc.');
+            $table->jsonb('permisos')->comment('Array de permisos: ver, crear, editar, eliminar, compartir, aprobar, firmar, etc.');
             $table->integer('nivel_acceso')->default(1)->comment('1=básico, 2=medio, 3=alto, 4=admin');
             $table->boolean('es_sistema')->default(false)->comment('No se puede eliminar');
             $table->boolean('activo')->default(true);
@@ -42,7 +42,7 @@ return new class extends Migration
             $table->foreignId('documento_id')->nullable()->constrained('documentos_gestion')->onDelete('cascade');
             
             // Permisos específicos (si no usa rol)
-            $table->json('permisos_personalizados')->nullable();
+            $table->jsonb('permisos_personalizados')->nullable();
             
             // Vigencia
             $table->date('fecha_inicio')->nullable();

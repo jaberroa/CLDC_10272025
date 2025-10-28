@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('voting_tokens', function (Blueprint $table) {
             $table->id();
             $table->string('token', 64)->unique(); // Token único para el link
-            $table->unsignedBigInteger('eleccion_id');
+            $table->bigInteger('eleccion_id');
             $table->string('tipo', 20); // 'publico' o 'privado'
             $table->string('cedula_votante', 20)->nullable(); // Para bloquear por usuario
             $table->string('ip_address', 45)->nullable(); // Para bloquear por IP

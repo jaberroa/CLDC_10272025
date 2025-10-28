@@ -18,9 +18,9 @@ return new class extends Migration
                 ->comment('Si es null, aplica a todas las secciones');
             $table->string('nombre', 100);
             $table->string('etiqueta', 200);
-            $table->enum('tipo', ['texto', 'numero', 'fecha', 'desplegable', 'checkbox', 'textarea', 'email', 'url', 'telefono']);
+            $table->string('tipo', ['texto', 'numero', 'fecha', 'desplegable', 'checkbox', 'textarea', 'email', 'url', 'telefono']);
             $table->text('descripcion')->nullable();
-            $table->json('opciones')->nullable()->comment('Para tipo desplegable');
+            $table->jsonb('opciones')->nullable()->comment('Para tipo desplegable');
             $table->boolean('requerido')->default(false);
             $table->boolean('multiple')->default(false)->comment('Para desplegables múltiples');
             $table->string('valor_defecto')->nullable();

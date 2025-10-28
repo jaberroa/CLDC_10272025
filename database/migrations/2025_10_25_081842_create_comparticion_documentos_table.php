@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('documento_id')->constrained('documentos_gestion')->onDelete('cascade');
             
             // Tipo de compartición
-            $table->enum('tipo', ['interno', 'externo', 'publico'])->default('interno');
+            $table->string('tipo', ['interno', 'externo', 'publico'])->default('interno');
             
             // Compartido con (usuario interno)
             $table->foreignId('usuario_id')->nullable()->constrained('users')->onDelete('cascade');
