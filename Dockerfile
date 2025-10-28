@@ -22,12 +22,13 @@ RUN apk add --no-cache --virtual .build-deps \
     freetype-dev \
     libzip-dev \
     postgresql-dev \
-    nginx \
-    supervisor \
     oniguruma-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip \
     && apk del .build-deps
+
+# Instalar nginx y supervisor por separado
+RUN apk add --no-cache nginx supervisor
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
