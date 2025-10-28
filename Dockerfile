@@ -108,6 +108,13 @@ if [ $? -eq 0 ]; then\n\
     echo "👤 Creando usuario administrador..."\n\
     php artisan tinker --execute="\App\Models\User::create([\"name\" => \"Administrador\", \"email\" => \"admin@cldci.org\", \"password\" => bcrypt(\"admin123\"), \"email_verified_at\" => now()]);"\n\
     echo "✅ Usuario administrador creado: admin@cldci.org / admin123"\n\
+    echo "🔧 Habilitando debug de Laravel..."\n\
+    php artisan config:clear\n\
+    php artisan cache:clear\n\
+    php artisan view:clear\n\
+    echo "🔍 Verificando configuración de Laravel..."\n\
+    php artisan config:show app.debug\n\
+    php artisan config:show app.key\n\
   else\n\
     echo "❌ Migraciones fallaron, pero continuando..."\n\
   fi\n\
@@ -119,6 +126,13 @@ else\n\
     echo "👤 Creando usuario administrador..."\n\
     php artisan tinker --execute="\App\Models\User::create([\"name\" => \"Administrador\", \"email\" => \"admin@cldci.org\", \"password\" => bcrypt(\"admin123\"), \"email_verified_at\" => now()]);"\n\
     echo "✅ Usuario administrador creado: admin@cldci.org / admin123"\n\
+    echo "🔧 Habilitando debug de Laravel..."\n\
+    php artisan config:clear\n\
+    php artisan cache:clear\n\
+    php artisan view:clear\n\
+    echo "🔍 Verificando configuración de Laravel..."\n\
+    php artisan config:show app.debug\n\
+    php artisan config:show app.key\n\
   else\n\
     echo "❌ Migraciones fallaron completamente"\n\
   fi\n\
