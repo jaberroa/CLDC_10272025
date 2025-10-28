@@ -4,7 +4,7 @@ FROM node:20-alpine AS node-builder
 # Instalar dependencias Node.js
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 # Build de assets
 COPY . .
