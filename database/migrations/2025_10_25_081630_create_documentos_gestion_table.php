@@ -81,7 +81,8 @@ return new class extends Migration
             $table->index(['entidad_tipo', 'entidad_id']);
             $table->index('fecha_vencimiento');
             $table->index('fecha_revision');
-            $table->fullText(['titulo', 'descripcion', 'contenido_indexado'], 'documentos_fulltext');
+            // Índice de texto completo para PostgreSQL (usando GIN)
+            $table->index(['titulo', 'descripcion', 'contenido_indexado'], 'documentos_texto_idx');
         });
     }
 
