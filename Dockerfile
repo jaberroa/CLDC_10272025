@@ -1,6 +1,6 @@
 FROM php:8.3-fpm
 
-# Install system dependencies including Node.js
+# Install system dependencies including Node.js and Nginx
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     libgd-dev \
     postgresql-client \
     libpq-dev \
+    nginx \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js 20.x (required for Vite 7.x)
@@ -33,6 +34,9 @@ WORKDIR /var/www/html
 
 # Copy PHP-FPM configuration
 COPY docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
+
+# Copy Nginx configuration
+COPY docker/nginx/default.conf /etc/nginx/sites-available/default
 
 # Copy application code
 COPY . .
@@ -75,5 +79,18 @@ RUN php artisan route:clear || true
 # Expose port (Render uses $PORT environment variable)
 EXPOSE $PORT
 
-# Start PHP built-in server with proper configuration
-CMD php artisan migrate --force --no-interaction && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
+# Create startup script
+RUN echo '#!/bin/bash\n\
+# Set PORT environment variable\n\
+export PORT=${PORT:-80}\n\
+# Replace PORT placeholder in nginx config\n\
+sed -i "s/\${PORT:-80}/$PORT/g" /etc/nginx/sites-available/default\n\
+# Run migrations\n\
+php artisan migrate --force --no-interaction\n\
+# Start PHP-FPM in background\n\
+php-fpm -D\n\
+# Start Nginx in foreground\n\
+nginx -g "daemon off;"' > /start.sh && chmod +x /start.sh
+
+# Start Nginx + PHP-FPM
+CMD /start.sh
