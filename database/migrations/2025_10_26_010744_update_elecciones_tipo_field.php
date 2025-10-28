@@ -9,17 +9,24 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Cambiar el tipo de ENUM a VARCHAR para más flexibilidad (PostgreSQL)
-        DB::statement("ALTER TABLE elecciones ALTER COLUMN tipo TYPE VARCHAR(50)");
-        DB::statement("ALTER TABLE elecciones ALTER COLUMN tipo SET DEFAULT 'junta_directiva'");
-        DB::statement("ALTER TABLE elecciones ALTER COLUMN tipo SET NOT NULL");
+        // Verificar si la tabla existe antes de modificarla
+        if (Schema::hasTable('elecciones')) {
+            // Usar Schema Builder para compatibilidad con múltiples bases de datos
+            Schema::table('elecciones', function (Blueprint $table) {
+                // Cambiar el tipo de columna usando Schema Builder
+                $table->string('tipo', 50)->default('junta_directiva')->change();
+            });
+        }
     }
 
     public function down(): void
     {
-        // Revertir a los valores originales del ENUM (PostgreSQL)
-        DB::statement("ALTER TABLE elecciones ALTER COLUMN tipo TYPE VARCHAR(50)");
-        DB::statement("ALTER TABLE elecciones ALTER COLUMN tipo SET DEFAULT 'directiva'");
-        DB::statement("ALTER TABLE elecciones ALTER COLUMN tipo SET NOT NULL");
+        // Verificar si la tabla existe antes de modificarla
+        if (Schema::hasTable('elecciones')) {
+            Schema::table('elecciones', function (Blueprint $table) {
+                // Revertir a los valores originales
+                $table->string('tipo', 50)->default('directiva')->change();
+            });
+        }
     }
 };
