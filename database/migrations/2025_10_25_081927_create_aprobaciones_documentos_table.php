@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('seccion_id')->nullable()->constrained('secciones_documentales')->onDelete('cascade');
             $table->string('nombre', 200);
             $table->text('descripcion')->nullable();
-            $table->string('tipo', ['secuencial', 'paralelo', 'cualquiera'])->default('secuencial');
+            $table->string('tipo')->default('secuencial');
             $table->integer('min_aprobadores')->default(1);
             $table->boolean('requiere_todos')->default(false);
             $table->boolean('permite_delegar')->default(false);
@@ -55,7 +55,7 @@ return new class extends Migration
             $table->integer('orden_aprobacion')->default(0);
             
             // Estado
-            $table->string('estado', ['pendiente', 'aprobado', 'rechazado', 'delegado', 'escalado'])->default('pendiente');
+            $table->string('estado')->default('pendiente');
             $table->text('comentarios')->nullable();
             $table->text('razon_rechazo')->nullable();
             

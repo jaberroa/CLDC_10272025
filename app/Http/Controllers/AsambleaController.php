@@ -174,18 +174,28 @@ class AsambleaController extends Controller
 
         $organos = Organo::all();
 
+        // Estadísticas básicas que siempre se necesitan
+        $estadisticas = [
+            'total_asambleas' => Asamblea::count(),
+            'asistencia_confirmada' => 0,
+            'quorum_requerido' => 0,
+            'dias_restantes' => 0,
+            'porcentaje_asistencia' => 0
+        ];
+
         if (!$proximaAsamblea) {
-            return view('asambleas.proxima', compact('proximaAsamblea', 'organos'))
+            return view('asambleas.proxima', compact('proximaAsamblea', 'organos', 'estadisticas'))
                 ->with('message', 'No hay asambleas programadas próximamente.');
         }
 
+        // Actualizar estadísticas específicas de la próxima asamblea
         $estadisticas = [
             'total_asambleas' => Asamblea::count(),
-            'asistencia_confirmada' => $proximaAsamblea->asistentes_count,
-            'quorum_requerido' => $proximaAsamblea->quorum_minimo,
+            'asistencia_confirmada' => $proximaAsamblea->asistentes_count ?? 0,
+            'quorum_requerido' => $proximaAsamblea->quorum_minimo ?? 0,
             'dias_restantes' => Carbon::now()->diffInDays($proximaAsamblea->fecha_asamblea, false),
-            'porcentaje_asistencia' => $proximaAsamblea->quorum_minimo > 0 
-                ? round(($proximaAsamblea->asistentes_count / $proximaAsamblea->quorum_minimo) * 100, 1)
+            'porcentaje_asistencia' => ($proximaAsamblea->quorum_minimo ?? 0) > 0 
+                ? round((($proximaAsamblea->asistentes_count ?? 0) / $proximaAsamblea->quorum_minimo) * 100, 1)
                 : 0
         ];
 

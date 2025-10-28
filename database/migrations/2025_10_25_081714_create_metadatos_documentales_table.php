@@ -18,7 +18,7 @@ return new class extends Migration
                 ->comment('Si es null, aplica a todas las secciones');
             $table->string('nombre', 100);
             $table->string('etiqueta', 200);
-            $table->string('tipo', ['texto', 'numero', 'fecha', 'desplegable', 'checkbox', 'textarea', 'email', 'url', 'telefono']);
+            $table->string('tipo');
             $table->text('descripcion')->nullable();
             $table->jsonb('opciones')->nullable()->comment('Para tipo desplegable');
             $table->boolean('requerido')->default(false);

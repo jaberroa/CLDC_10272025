@@ -43,11 +43,11 @@ return new class extends Migration
             $table->string('navegador')->nullable();
             
             // Resultado
-            $table->string('resultado', ['exito', 'error', 'bloqueado'])->default('exito');
+            $table->string('resultado')->default('exito');
             $table->text('mensaje_error')->nullable();
             
             // Clasificación
-            $table->string('nivel', ['info', 'warning', 'critical'])->default('info');
+            $table->string('nivel')->default('info');
             $table->boolean('sospechosa')->default(false)->comment('Actividad potencialmente sospechosa');
             
             $table->timestamp('fecha_accion')->useCurrent();

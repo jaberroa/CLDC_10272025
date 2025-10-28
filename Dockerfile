@@ -31,6 +31,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
+# Copy PHP-FPM configuration
+COPY docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
+
 # Copy application code
 COPY . .
 
@@ -70,4 +73,4 @@ RUN php artisan route:clear || true
 EXPOSE $PORT
 
 # Start PHP built-in server with proper configuration
-CMD php artisan migrate --force --no-interaction && php artisan serve --host=0.0.0.0 --port=${PORT:-8000} --env=production
+CMD php artisan migrate --force --no-interaction && php artisan serve --host=0.0.0.0 --port=8000

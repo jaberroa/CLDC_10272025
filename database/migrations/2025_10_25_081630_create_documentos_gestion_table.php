@@ -35,7 +35,7 @@ return new class extends Migration
             $table->boolean('es_version_actual')->default(true);
             
             // Estado y seguridad
-            $table->string('estado', ['borrador', 'revision', 'aprobado', 'archivado', 'obsoleto'])->default('borrador');
+            $table->string('estado')->default('borrador');
             $table->boolean('requiere_firma')->default(false);
             $table->boolean('firmado')->default(false);
             $table->boolean('confidencial')->default(false);

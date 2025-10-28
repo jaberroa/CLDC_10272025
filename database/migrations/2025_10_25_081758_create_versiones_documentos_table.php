@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('tamano_bytes');
             $table->string('hash_archivo', 64)->nullable();
             $table->text('comentario_version')->nullable();
-            $table->string('tipo_cambio', ['menor', 'mayor', 'critico'])->default('menor');
+            $table->string('tipo_cambio')->default('menor');
             $table->jsonb('cambios')->nullable()->comment('Descripción detallada de cambios');
             
             // Estado

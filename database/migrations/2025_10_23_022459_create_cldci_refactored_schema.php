@@ -111,11 +111,11 @@ return new class extends Migration
         Schema::create('cuotas_membresia', function (Blueprint $table) {
             $table->id();
             $table->foreignId('miembro_id')->constrained('miembros')->onDelete('cascade');
-            $table->string('tipo_cuota', ['mensual', 'trimestral', 'anual']);
+            $table->string('tipo_cuota');
             $table->decimal('monto', 10, 2);
             $table->date('fecha_vencimiento');
             $table->date('fecha_pago')->nullable();
-            $table->string('estado', ['pendiente', 'pagada', 'vencida', 'cancelada'])->default('pendiente');
+            $table->string('estado')->default('pendiente');
             $table->text('observaciones')->nullable();
             $table->timestamps();
             
@@ -131,8 +131,8 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->text('descripcion')->nullable();
-            $table->string('tipo', ['directiva', 'comision', 'comite'])->default('directiva');
-            $table->string('nivel', ['nacional', 'seccional', 'regional'])->default('nacional');
+            $table->string('tipo')->default('directiva');
+            $table->string('nivel')->default('nacional');
             $table->boolean('activo')->default(true);
             $table->timestamps();
             
@@ -143,7 +143,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->text('descripcion')->nullable();
-            $table->string('nivel', ['nacional', 'seccional', 'regional'])->default('nacional');
+            $table->string('nivel')->default('nacional');
             $table->boolean('activo')->default(true);
             $table->timestamps();
             
@@ -157,7 +157,7 @@ return new class extends Migration
             $table->foreignId('cargo_id')->constrained('cargos')->onDelete('cascade');
             $table->date('fecha_inicio');
             $table->date('fecha_fin')->nullable();
-            $table->string('estado', ['activo', 'inactivo', 'suspendido'])->default('activo');
+            $table->string('estado')->default('activo');
             $table->boolean('es_presidente')->default(false);
             $table->text('observaciones')->nullable();
             $table->timestamps();
@@ -178,13 +178,13 @@ return new class extends Migration
             $table->timestamp('fecha_convocatoria');
             $table->timestamp('fecha_asamblea');
             $table->string('lugar')->nullable();
-            $table->string('tipo', ['ordinaria', 'extraordinaria', 'especial'])->default('ordinaria');
-            $table->string('modalidad', ['presencial', 'virtual', 'hibrida'])->default('presencial');
+            $table->string('tipo')->default('ordinaria');
+            $table->string('modalidad')->default('presencial');
             $table->string('enlace_virtual')->nullable();
             $table->integer('quorum_minimo');
             $table->string('convocatoria_url')->nullable();
             $table->string('acta_url')->nullable();
-            $table->string('estado', ['convocada', 'en_proceso', 'finalizada', 'cancelada'])->default('convocada');
+            $table->string('estado')->default('convocada');
             $table->integer('asistentes_count')->default(0);
             $table->boolean('quorum_alcanzado')->default(false);
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
@@ -218,8 +218,8 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->timestamp('fecha_inicio');
             $table->timestamp('fecha_fin');
-            $table->string('tipo', ['directiva', 'comision', 'especial'])->default('directiva');
-            $table->string('estado', ['programada', 'en_proceso', 'finalizada', 'cancelada'])->default('programada');
+            $table->string('tipo')->default('directiva');
+            $table->string('estado')->default('programada');
             $table->integer('quorum_requerido');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
@@ -234,7 +234,7 @@ return new class extends Migration
             $table->foreignId('miembro_id')->constrained('miembros')->onDelete('cascade');
             $table->foreignId('cargo_id')->constrained('cargos')->onDelete('cascade');
             $table->text('propuesta')->nullable();
-            $table->string('estado', ['activo', 'retirado', 'descalificado'])->default('activo');
+            $table->string('estado')->default('activo');
             $table->integer('votos_recibidos')->default(0);
             $table->timestamps();
             
@@ -282,7 +282,7 @@ return new class extends Migration
             $table->foreignId('miembro_id')->constrained('miembros')->onDelete('cascade');
             $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade');
             $table->date('fecha_inscripcion');
-            $table->string('estado', ['inscrito', 'completado', 'cancelado'])->default('inscrito');
+            $table->string('estado')->default('inscrito');
             $table->decimal('calificacion', 5, 2)->nullable();
             $table->string('certificado_url')->nullable();
             $table->text('observaciones')->nullable();
@@ -300,8 +300,8 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->text('contenido');
-            $table->string('tipo', ['asamblea', 'comunicado', 'capacitacion', 'eleccion', 'transaccion'])->default('comunicado');
-            $table->string('estado', ['borrador', 'publicada', 'archivada'])->default('borrador');
+            $table->string('tipo')->default('comunicado');
+            $table->string('estado')->default('borrador');
             $table->timestamp('fecha_publicacion')->nullable();
             $table->foreignId('autor_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
@@ -341,11 +341,11 @@ return new class extends Migration
         Schema::create('transacciones_financieras', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organizacion_id')->constrained('organizaciones')->onDelete('cascade');
-            $table->string('tipo', ['ingreso', 'egreso'])->default('ingreso');
+            $table->string('tipo')->default('ingreso');
             $table->string('concepto');
             $table->decimal('monto', 12, 2);
             $table->date('fecha');
-            $table->string('estado', ['pendiente', 'confirmada', 'cancelada'])->default('pendiente');
+            $table->string('estado')->default('pendiente');
             $table->string('referencia')->nullable();
             $table->text('observaciones')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
@@ -374,12 +374,12 @@ return new class extends Migration
         Schema::create('documentos_legales', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organizacion_id')->constrained('organizaciones')->onDelete('cascade');
-            $table->string('tipo', ['acta', 'estatuto', 'reglamento', 'resolucion', 'otro'])->default('acta');
+            $table->string('tipo')->default('acta');
             $table->string('titulo');
             $table->text('descripcion')->nullable();
             $table->string('archivo_url');
             $table->date('fecha_documento');
-            $table->string('estado', ['borrador', 'aprobado', 'archivado'])->default('borrador');
+            $table->string('estado')->default('borrador');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
             
