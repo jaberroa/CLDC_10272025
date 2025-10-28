@@ -49,9 +49,12 @@
     # ✅ Instalar dependencias PHP de producción
     RUN composer install --no-dev --optimize-autoloader --no-interaction
     
-    # Permisos Laravel
+    
+    # Permisos Laravel + crear carpeta de logs de supervisor
     RUN chown -R www-data:www-data /var/www/html \
-        && chmod -R 755 storage bootstrap/cache
+    && chmod -R 755 storage bootstrap/cache \
+    && mkdir -p /var/log/supervisor
+
     
     # -----------------------
     # ✅ Configuración de servicios
