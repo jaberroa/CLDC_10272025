@@ -14,7 +14,7 @@ RUN npm run build
 FROM php:8.3-fpm-alpine
 
 # Instalar dependencias del sistema de forma optimizada
-RUN apk add --no-cache \
+RUN apk add --no-cache --virtual .build-deps \
     git \
     curl \
     libpng-dev \
@@ -27,7 +27,7 @@ RUN apk add --no-cache \
     oniguruma-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip \
-    && apk del build-dependencies
+    && apk del .build-deps
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
