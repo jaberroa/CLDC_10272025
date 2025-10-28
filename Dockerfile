@@ -145,8 +145,21 @@ RUN echo '#!/bin/bash\n\
 export PORT=${PORT:-80}\n\
 # Replace PORT placeholder in nginx config\n\
 sed -i "s/\${PORT:-80}/$PORT/g" /etc/nginx/sites-available/default\n\
-# Run migrations\n\
-php artisan migrate --force --no-interaction\n\
+# Wait for database to be ready\n\
+echo "Waiting for database connection..."\n\
+until php artisan migrate:status > /dev/null 2>&1; do\n\
+  echo "Database not ready, waiting..."\n\
+  sleep 2\n\
+done\n\
+# Run migrations with verbose output\n\
+echo "Running migrations..."\n\
+php artisan migrate --force --no-interaction -v\n\
+# Check if migrations were successful\n\
+if [ $? -eq 0 ]; then\n\
+  echo "Migrations completed successfully"\n\
+else\n\
+  echo "Migrations failed, but continuing..."\n\
+fi\n\
 # Start PHP-FPM in background\n\
 php-fpm -D\n\
 # Start Nginx in foreground\n\
