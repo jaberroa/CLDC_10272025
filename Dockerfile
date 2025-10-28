@@ -58,13 +58,12 @@ RUN chown -R www-data:www-data /var/www/html \
 RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
 
 # Script de inicio optimizado
-RUN echo '#!/bin/sh\n\
-# Configurar puerto dinámico\n\
-export PORT=${PORT:-8000}\n\
-sed -i "s/\${PORT:-8000}/$PORT/g" /etc/nginx/sites-available/default\n\
-\n\
-# Iniciar servicios con supervisor\n\
-exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf' > /start.sh && chmod +x /start.sh
+RUN echo '#!/bin/sh' > /start.sh && \
+    echo 'export PORT=${PORT:-8000}' >> /start.sh && \
+    echo 'sed -i "s/\${PORT:-8000}/$PORT/g" /etc/nginx/sites-available/default' >> /start.sh && \
+    echo '' >> /start.sh && \
+    echo 'exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf' >> /start.sh && \
+    chmod +x /start.sh
 
 # Exponer puerto
 EXPOSE $PORT
