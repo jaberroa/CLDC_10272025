@@ -59,7 +59,7 @@
     # -----------------------
     # ✅ Configuración de servicios
     # -----------------------
-    COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+    COPY docker/nginx/default.conf /etc/nginx/sites-enabled/defaultconf
     COPY docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
     COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
     
