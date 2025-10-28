@@ -86,22 +86,22 @@ sed -i "s/\${PORT:-80}/$PORT/g" /etc/nginx/sites-available/default\n\
 php-fpm -D\n\
 # Iniciar Nginx en background\n\
 nginx\n\
-# Esperar a que la base de datos esté lista usando psql (más rápido y confiable)\n\
-echo "Esperando conexión con la base de datos..."\n\
-timeout=120\n\
-counter=0\n\
-until PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USERNAME -d $DB_DATABASE -c "\\q" > /dev/null 2>&1; do\n\
-  echo "Base de datos no lista, esperando... ($counter/$timeout)"\n\
-  sleep 3\n\
-  counter=$((counter + 3))\n\
-  if [ $counter -ge $timeout ]; then\n\
-    echo "Timeout de base de datos alcanzado, iniciando sin migraciones"\n\
-    break\n\
-  fi\n\
-done\n\
-# Ejecutar migraciones con output verbose (si DB está lista)\n\
-if PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USERNAME -d $DB_DATABASE -c "\\q" > /dev/null 2>&1; then\n\
-  echo "Base de datos lista, ejecutando migraciones..."\n\
+# Debug: Mostrar variables de entorno de base de datos\n\
+echo "🔍 Variables de entorno de DB:"\n\
+echo "DB_HOST: $DB_HOST"\n\
+echo "DB_PORT: $DB_PORT"\n\
+echo "DB_DATABASE: $DB_DATABASE"\n\
+echo "DB_USERNAME: $DB_USERNAME"\n\
+echo "DB_PASSWORD: [HIDDEN]"\n\
+# Esperar un poco para que los servicios se estabilicen\n\
+echo "⏳ Esperando 10 segundos para estabilización..."\n\
+sleep 10\n\
+# Intentar conectar con psql y mostrar errores detallados\n\
+echo "🔌 Probando conexión con psql..."\n\
+PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USERNAME -d $DB_DATABASE -c "\\q" 2>&1\n\
+if [ $? -eq 0 ]; then\n\
+  echo "✅ Conexión a base de datos exitosa"\n\
+  echo "🚀 Ejecutando migraciones..."\n\
   php artisan migrate --force --no-interaction -v\n\
   if [ $? -eq 0 ]; then\n\
     echo "✅ Migraciones completadas exitosamente"\n\
@@ -109,7 +109,13 @@ if PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USERNAME -d $DB_D
     echo "❌ Migraciones fallaron, pero continuando..."\n\
   fi\n\
 else\n\
-  echo "⚠️ Saltando migraciones - base de datos no disponible"\n\
+  echo "⚠️ No se pudo conectar a la base de datos, pero intentando migraciones de todas formas..."\n\
+  php artisan migrate --force --no-interaction -v\n\
+  if [ $? -eq 0 ]; then\n\
+    echo "✅ Migraciones completadas exitosamente (sin verificación previa)"\n\
+  else\n\
+    echo "❌ Migraciones fallaron completamente"\n\
+  fi\n\
 fi\n\
 # Mantener el contenedor ejecutándose\n\
 tail -f /var/log/nginx/access.log' > /start.sh && chmod +x /start.sh
