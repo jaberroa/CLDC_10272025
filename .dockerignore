@@ -1,20 +1,61 @@
-node_modules
-npm-debug.log
+# Git
 .git
 .gitignore
 README.md
+
+# Environment files
 .env
 .env.local
 .env.production
 .env.testing
-storage/logs/*
+
+# Dependencies
+node_modules
+vendor
+
+# Build artifacts
+public/build
+public/hot
+public/storage
+
+# Logs
+*.log
+storage/logs/*.log
+
+# Cache
 storage/framework/cache/*
 storage/framework/sessions/*
 storage/framework/views/*
-bootstrap/cache/*
-vendor
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
 .DS_Store
 Thumbs.db
-*.log
-coverage
+
+# Testing
+tests
+phpunit.xml
 .phpunit.result.cache
+
+# Documentation
+docs
+*.md
+
+# Scripts
+*.sh
+deploy-*.sh
+setup-*.sh
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Temporary files
+tmp
+temp

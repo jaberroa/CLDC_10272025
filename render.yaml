@@ -5,7 +5,9 @@ services:
     dockerfilePath: ./Dockerfile
     buildCommand: |
       echo "Build process handled by Dockerfile"
-    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    startCommand: /start.sh
+    plan: starter
+    region: oregon
     database:
       name: cldc-database
     envVars:
@@ -38,14 +40,40 @@ services:
           name: cldc-database
           property: password
       - key: CACHE_DRIVER
-        value: file
+        value: database
       - key: SESSION_DRIVER
-        value: file
+        value: database
       - key: QUEUE_CONNECTION
         value: sync
       - key: LOG_CHANNEL
         value: stack
       - key: LOG_LEVEL
         value: error
-      - key: FORCE_DB_CONNECTION
-        value: true
+      - key: MAIL_MAILER
+        value: log
+      - key: BROADCAST_DRIVER
+        value: log
+      - key: FILESYSTEM_DISK
+        value: local
+      - key: VITE_APP_NAME
+        value: "${APP_NAME}"
+      - key: VITE_APP_ENV
+        value: "${APP_ENV}"
+      - key: VITE_APP_URL
+        value: "${APP_URL}"
+
+  - type: pserv
+    name: cldc-database
+    plan: starter
+    region: oregon
+    env: docker
+    dockerfilePath: ./Dockerfile.postgres
+    envVars:
+      - key: POSTGRES_DB
+        value: cldc_database
+      - key: POSTGRES_USER
+        value: cldc_user
+      - key: POSTGRES_PASSWORD
+        value: cldc_password
+      - key: PGDATA
+        value: /var/lib/postgresql/data/pgdata
