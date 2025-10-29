@@ -1,0 +1,101 @@
+{
+  "_vendor-CHzDFH9V.js": {
+    "file": "assets/js/vendor-CHzDFH9V.js",
+    "name": "vendor",
+    "isDynamicEntry": true
+  },
+  "_vendor-utils-Bo3JNC9L.js": {
+    "file": "assets/js/vendor-utils-Bo3JNC9L.js",
+    "name": "vendor-utils",
+    "imports": [
+      "_vendor-CHzDFH9V.js"
+    ],
+    "dynamicImports": [
+      "_vendor-CHzDFH9V.js",
+      "_vendor-CHzDFH9V.js"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/css/app-D99Vz485.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/carnet/app.css": {
+    "file": "assets/js/app-14Wn3e08.js",
+    "name": "app",
+    "src": "resources/css/carnet/app.css",
+    "isEntry": true,
+    "imports": [
+      "_vendor-utils-Bo3JNC9L.js",
+      "_vendor-CHzDFH9V.js"
+    ],
+    "css": [
+      "assets/css/app-CTo-EuPK.css"
+    ]
+  },
+  "resources/css/global/app.css": {
+    "file": "assets/css/app-LrGM5Hwk.css",
+    "src": "resources/css/global/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/miembros/app.css": {
+    "file": "assets/css/app-CayKHOOo.css",
+    "src": "resources/css/miembros/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/js/app-C3XGrWNW.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor-CHzDFH9V.js"
+    ]
+  },
+  "resources/js/carnet/app.js": {
+    "file": "assets/js/app-B2VUPOXr.js",
+    "name": "app",
+    "src": "resources/js/carnet/app.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor-utils-Bo3JNC9L.js",
+      "resources/css/carnet/app.css",
+      "_vendor-CHzDFH9V.js"
+    ]
+  },
+  "resources/js/carnet/carnet-editor.js": {
+    "file": "assets/js/carnet-editor-WrFUG8rH.js",
+    "name": "carnet-editor",
+    "src": "resources/js/carnet/carnet-editor.js",
+    "isEntry": true,
+    "imports": [
+      "resources/css/carnet/app.css",
+      "_vendor-utils-Bo3JNC9L.js",
+      "_vendor-CHzDFH9V.js"
+    ]
+  },
+  "resources/js/delete-confirmation.js": {
+    "file": "assets/js/delete-confirmation-fxNjhttr.js",
+    "name": "delete-confirmation",
+    "src": "resources/js/delete-confirmation.js",
+    "isEntry": true
+  },
+  "resources/js/toast-simple.js": {
+    "file": "assets/js/toast-simple-Bg8wkp9X.js",
+    "name": "toast-simple",
+    "src": "resources/js/toast-simple.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/delete-confirmation.js"
+    ]
+  }
+}
