@@ -37,6 +37,7 @@
                 <x-miembros.form
                     :organizaciones="$organizaciones"
                     :estados-membresia="$estadosMembresia"
+                    :tipos-membresia="$tiposMembresia"
                     submit-label="Guardar Miembro"
                     submit-icon="ri-save-line"
                     submit-class="btn btn-primary"

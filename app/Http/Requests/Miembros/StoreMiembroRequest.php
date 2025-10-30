@@ -28,9 +28,9 @@ class StoreMiembroRequest extends FormRequest
             'cedula' => ['required', 'string', 'max:255', 'unique:pgsql.miembros,cedula'],
             'telefono' => ['nullable', 'string', 'max:20'],
             'profesion' => ['nullable', 'string', 'max:255'],
-            // Forzar conexión pgsql en exists
-            'estado_membresia_id' => ['required', 'exists:pgsql.estados_membresia,id'],
-            'tipo_membresia' => ['required', 'string', 'in:fundador,activo,pasivo,honorifico,estudiante,diaspora'],
+            // Forzar conexión pgsql en exists y tipo entero
+            'estado_membresia_id' => ['required', 'integer', 'exists:pgsql.estados_membresia,id'],
+            'tipo_membresia' => ['required', 'string', 'max:100'],
             'organizacion_id' => ['required', 'exists:pgsql.organizaciones,id'],
             'fecha_ingreso' => ['required', 'date'],
             // 5MB = 5120 KB
@@ -49,6 +49,12 @@ class StoreMiembroRequest extends FormRequest
             'email' => $this->email ? trim($this->email) : $this->email,
             'cedula' => $this->cedula ? trim($this->cedula) : $this->cedula,
         ]);
+
+        // Si llega un valor temporal ("temp_...") desde el UI, anular para que falle validación amigable
+        $estado = (string) ($this->input('estado_membresia_id'));
+        if (str_starts_with($estado, 'temp_')) {
+            $this->merge(['estado_membresia_id' => null]);
+        }
     }
 
     /**

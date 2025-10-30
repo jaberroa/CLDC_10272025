@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Services\Miembros\MiembroQueryService;
 use App\Services\Miembros\MiembroExportService;
+use App\Models\EstadoMembresia;
+use App\Models\TipoMembresia;
 
 class MiembrosController extends Controller
 {
@@ -50,9 +52,10 @@ class MiembrosController extends Controller
     public function create()
     {
         $organizaciones = Organizacion::activas()->get();
-        $estadosMembresia = \App\Models\EstadoMembresia::all();
+        $estadosMembresia = EstadoMembresia::all();
+        $tiposMembresia = TipoMembresia::orderBy('nombre')->get();
 
-        return view('miembros.create', compact('organizaciones', 'estadosMembresia'));
+        return view('miembros.create', compact('organizaciones', 'estadosMembresia', 'tiposMembresia'));
     }
 
     /**
@@ -103,9 +106,10 @@ class MiembrosController extends Controller
     {
         $miembro = Miembro::findOrFail($id);
         $organizaciones = Organizacion::activas()->get();
-        $estadosMembresia = \App\Models\EstadoMembresia::all();
+        $estadosMembresia = EstadoMembresia::all();
+        $tiposMembresia = TipoMembresia::orderBy('nombre')->get();
 
-        return view('miembros.edit', compact('miembro', 'organizaciones', 'estadosMembresia'));
+        return view('miembros.edit', compact('miembro', 'organizaciones', 'estadosMembresia', 'tiposMembresia'));
     }
 
     /**
@@ -397,6 +401,28 @@ class MiembrosController extends Controller
         return response()->json(
             $this->miembroQueryService->search($termino)
         );
+    }
+
+    /**
+     * Crear nuevo estado de membresía (AJAX)
+     */
+    public function storeEstadoMembresia(Request $request)
+    {
+        $data = $request->validate([
+            'nombre' => 'required|string|max:100|unique:estados_membresia,nombre',
+            'descripcion' => 'nullable|string|max:255'
+        ]);
+
+        $estado = EstadoMembresia::create([
+            'nombre' => strtolower(trim($data['nombre'])),
+            'descripcion' => $data['descripcion'] ?? null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'estado' => $estado,
+            'message' => 'Estado de membresía creado correctamente'
+        ]);
     }
 
     /**

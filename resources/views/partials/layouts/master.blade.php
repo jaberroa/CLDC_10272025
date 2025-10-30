@@ -47,7 +47,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- Toast Global JavaScript --}}
-    <script src="{{ vite_asset('resources/js/toast-simple.js') }}"></script>
+    <script src="{{ asset('assets/js/toast-simple.js') }}" type="text/javascript"></script>
 
     {{-- Disparadores globales de toast basados en la sesión --}}
     @if(session('success') || session('error') || session('warning') || session('info'))
@@ -97,6 +97,9 @@
             document.body.classList.add('sidebar-loaded');
         });
     </script>
+
+    {{-- Bootstrap 5 JS para funcionalidad completa de modales --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
     @yield('js')
 
