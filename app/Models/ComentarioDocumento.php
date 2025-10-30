@@ -11,6 +11,7 @@ class ComentarioDocumento extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'comentarios_documentos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'documento_id', 'comentario_padre_id', 'usuario_id', 'email_externo',

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class VotingToken extends Model
 {
     protected $table = 'voting_tokens';
+    protected $connection = 'pgsql';
     protected $primaryKey = 'jti';
     public $incrementing = false;
     protected $keyType = 'string';

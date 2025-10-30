@@ -12,6 +12,7 @@ class CronogramaDirectiva extends Model
     use HasFactory;
 
     protected $table = 'cronogramas_directiva';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'titulo',

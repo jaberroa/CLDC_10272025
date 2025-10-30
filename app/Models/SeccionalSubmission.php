@@ -12,6 +12,7 @@ class SeccionalSubmission extends Model
     use HasFactory;
 
     protected $table = 'seccional_submissions';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'organizacion_id',

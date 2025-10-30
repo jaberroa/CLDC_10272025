@@ -14,6 +14,7 @@ class Miembro extends Model
     use HasFactory;
 
     protected $table = 'miembros';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'user_id',

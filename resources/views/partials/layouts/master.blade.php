@@ -43,8 +43,52 @@
 
     @include('partials.vendor-scripts')
 
+    {{-- SweetAlert2 (para fallback de toasts) --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     {{-- Toast Global JavaScript --}}
     <script src="{{ vite_asset('resources/js/toast-simple.js') }}"></script>
+
+    {{-- Disparadores globales de toast basados en la sesión --}}
+    @if(session('success') || session('error') || session('warning') || session('info'))
+    <script>
+        // Cargar SweetAlert2 como respaldo si no existen las funciones globales
+        if (typeof window.Swal === 'undefined') {
+            const s = document.createElement('script');
+            s.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+            document.head.appendChild(s);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const show = (type, msg) => {
+                const doShow = () => {
+                    if (typeof window.showToast === 'function') {
+                        const map = { success: 'success', error: 'error', warning: 'warning', info: 'info' };
+                        window.showToast(msg, map[type] || 'success');
+                    } else if (typeof Swal !== 'undefined') {
+                        Swal.fire({ toast: true, position: 'top-end', icon: type, title: msg, showConfirmButton: false, timer: 3000, timerProgressBar: true });
+                    } else {
+                        setTimeout(doShow, 100); // reintentar hasta que cargue
+                    }
+                };
+                doShow();
+            };
+
+            @if(session('success'))
+                show('success', @json(session('success')));
+            @endif
+            @if(session('error'))
+                show('error', @json(session('error')));
+            @endif
+            @if(session('warning'))
+                show('warning', @json(session('warning')));
+            @endif
+            @if(session('info'))
+                show('info', @json(session('info')));
+            @endif
+        });
+    </script>
+    @endif
 
     {{-- Prevenir flash del sidebar --}}
     <script>

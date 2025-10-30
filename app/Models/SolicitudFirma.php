@@ -11,6 +11,7 @@ class SolicitudFirma extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'solicitudes_firma';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'documento_id', 'titulo', 'mensaje', 'tipo', 'estado', 'fecha_limite',

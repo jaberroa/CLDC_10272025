@@ -12,6 +12,7 @@ class InscripcionCapacitacion extends Model
     use HasFactory;
 
     protected $table = 'inscripciones_capacitacion';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'capacitacion_id',

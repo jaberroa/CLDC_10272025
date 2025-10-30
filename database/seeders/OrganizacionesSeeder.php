@@ -22,15 +22,11 @@ class OrganizacionesSeeder extends Seeder
                 'nombre' => 'Círculo de Locutores Dominicanos Colegiados, Inc.',
                 'codigo' => 'CLDCI-001',
                 'tipo' => 'nacional',
-                'pais' => 'República Dominicana',
-                'provincia' => 'Distrito Nacional',
-                'ciudad' => 'Santo Domingo',
+                'estado' => 'activa',
+                'descripcion' => 'Organización Nacional del CLDCI',
                 'direccion' => 'Ave. 27 de Febrero #1405, Plaza de la Cultura, Santo Domingo',
                 'telefono' => '(809) 686-2583',
                 'email' => 'info@cldci.org.do',
-                'estado_adecuacion' => 'aprobada',
-                'miembros_minimos' => 100,
-                'fecha_fundacion' => '1990-03-15',
             ]);
         }
         
@@ -56,11 +52,9 @@ class OrganizacionesSeeder extends Seeder
                 [
                     'nombre' => 'CLDCI Seccional ' . $provincia,
                     'tipo' => 'seccional',
-                    'pais' => 'República Dominicana',
-                    'provincia' => $provincia,
-                    'estado_adecuacion' => 'pendiente',
-                    'miembros_minimos' => 15,
-                    'organizacion_padre_id' => $organizacionPrincipal->id,
+                    'estado' => 'activa',
+                    'descripcion' => 'Seccional Provincial de ' . $provincia,
+                    'direccion' => 'Provincia de ' . $provincia,
                 ]
             );
         }
@@ -79,10 +73,9 @@ class OrganizacionesSeeder extends Seeder
                 [
                     'nombre' => 'CLDCI Seccional ' . $pais,
                     'tipo' => 'seccional_internacional',
-                    'pais' => $pais,
-                    'estado_adecuacion' => 'pendiente',
-                    'miembros_minimos' => 10,
-                    'organizacion_padre_id' => $organizacionPrincipal->id,
+                    'estado' => 'activa',
+                    'descripcion' => 'Seccional Internacional en ' . $pais,
+                    'direccion' => $pais,
                 ]
             );
         }

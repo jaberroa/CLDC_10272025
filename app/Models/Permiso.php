@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Permiso extends Model
 {
     protected $table = 'permisos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',

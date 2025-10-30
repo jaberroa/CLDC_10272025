@@ -13,6 +13,7 @@ class DocumentoGestion extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'documentos_gestion';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'seccion_id',

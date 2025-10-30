@@ -10,6 +10,7 @@ class HistorialRecordatorio extends Model
     use HasFactory;
 
     protected $table = 'historial_recordatorios';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'recordatorio_id', 'destinatario_email', 'destinatario_nombre', 'estado',

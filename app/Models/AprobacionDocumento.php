@@ -10,6 +10,7 @@ class AprobacionDocumento extends Model
     use HasFactory;
 
     protected $table = 'aprobaciones_documentos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'documento_id', 'flujo_id', 'aprobador_id', 'orden_aprobacion',

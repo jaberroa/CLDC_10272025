@@ -69,9 +69,9 @@
 
                             <div class="col-md-6">
                                 <label for="monto" class="form-label">Monto (RD$) <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control @error('monto') is-invalid @enderror" 
-                                       id="monto" name="monto" step="0.01" min="0" 
-                                       value="{{ old('monto', $cuota->monto) }}" placeholder="0.00" required>
+                                <input type="text" class="form-control @error('monto') is-invalid @enderror" 
+                                       id="monto" name="monto" inputmode="decimal" pattern="[0-9.,]*" autocomplete="off"
+                                       value="{{ old('monto', number_format($cuota->monto, 2)) }}" placeholder="0.00" required>
                                 @error('monto')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -193,6 +193,35 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializar estado basado en el valor actual
     toggleRecurrenceFields();
+    // Formato amigable: sanea durante escritura, formatea en blur
+    const montoInput = document.getElementById('monto');
+    if (montoInput) {
+        const nfDisplay = new Intl.NumberFormat('es-DO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        function sanitizeTyping(v) {
+            v = (v || '').replace(/,/g, '');
+            let out = '', dot = false;
+            for (const ch of v) {
+                if (ch >= '0' && ch <= '9') out += ch;
+                else if (ch === '.' && !dot) { out += ch; dot = true; }
+            }
+            return out;
+        }
+        function toNumber(v){ const n = parseFloat(v); return isNaN(n) ? 0 : n; }
+        montoInput.addEventListener('input', function(e){
+            const pos = e.target.selectionStart;
+            e.target.value = sanitizeTyping(e.target.value);
+            try { e.target.setSelectionRange(pos, pos); } catch(_){}
+        });
+        montoInput.addEventListener('focus', function(e){ e.target.value = sanitizeTyping(e.target.value); });
+        montoInput.addEventListener('blur', function(e){ e.target.value = nfDisplay.format(toNumber(sanitizeTyping(e.target.value))); });
+        const form = montoInput.closest('form');
+        if (form) {
+            form.addEventListener('submit', function(){
+                const num = toNumber(sanitizeTyping(montoInput.value));
+                montoInput.value = num.toFixed(2);
+            });
+        }
+    }
 });
 </script>
 @endsection

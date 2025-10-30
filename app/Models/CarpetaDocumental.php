@@ -12,6 +12,7 @@ class CarpetaDocumental extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'carpetas_documentales';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'seccion_id',

@@ -10,6 +10,7 @@ class AprobadorFlujo extends Model
     use HasFactory;
 
     protected $table = 'aprobadores_flujo';
+    protected $connection = 'pgsql';
 
     protected $fillable = ['flujo_id', 'usuario_id', 'orden', 'obligatorio'];
 

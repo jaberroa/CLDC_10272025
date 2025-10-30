@@ -13,6 +13,7 @@ class Directiva extends Model
     use HasFactory;
 
     protected $table = 'directivas';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'miembro_id',

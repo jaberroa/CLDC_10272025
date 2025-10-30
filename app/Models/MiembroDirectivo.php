@@ -12,6 +12,7 @@ class MiembroDirectivo extends Model
     use HasFactory;
 
     protected $table = 'miembro_directivos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'miembro_id',

@@ -11,6 +11,7 @@ class RecordatorioDocumento extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'recordatorios_documentos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'documento_id', 'tipo', 'titulo', 'mensaje', 'usuarios_ids', 'emails_externos',

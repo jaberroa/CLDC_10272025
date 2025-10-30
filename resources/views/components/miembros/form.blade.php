@@ -17,6 +17,17 @@
     $isEdit = $miembro !== null;
     $formAction = $action ?? ($isEdit ? route('miembros.update', $miembro->id) : route('miembros.store'));
     $formMethod = $isEdit ? 'PUT' : 'POST';
+    // Derivar nombre y apellido desde nombre_completo cuando editemos y no existan campos separados
+    $derivedNombre = '';
+    $derivedApellido = '';
+    if ($isEdit && empty($miembro->nombre) && empty($miembro->apellido)) {
+        $full = trim($miembro->nombre_completo ?? '');
+        if ($full !== '') {
+            $parts = preg_split('/\s+/', $full);
+            $derivedNombre = array_shift($parts) ?? '';
+            $derivedApellido = implode(' ', $parts);
+        }
+    }
 @endphp
 
 <form action="{{ $formAction }}" method="POST" enctype="multipart/form-data" id="miembro-form">
@@ -41,7 +52,7 @@
         <div class="col-md-6">
             <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
             <input type="text" class="form-control @error('nombre') is-invalid @enderror" 
-                   id="nombre" name="nombre" value="{{ old('nombre', $miembro->nombre ?? '') }}" required>
+                   id="nombre" name="nombre" value="{{ old('nombre', $miembro->nombre ?? $derivedNombre) }}" required>
             @error('nombre')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -49,7 +60,7 @@
         <div class="col-md-6">
             <label for="apellido" class="form-label">Apellido <span class="text-danger">*</span></label>
             <input type="text" class="form-control @error('apellido') is-invalid @enderror" 
-                   id="apellido" name="apellido" value="{{ old('apellido', $miembro->apellido ?? '') }}" required>
+                   id="apellido" name="apellido" value="{{ old('apellido', $miembro->apellido ?? $derivedApellido) }}" required>
             @error('apellido')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -182,7 +193,7 @@
                    id="foto" name="foto" accept="image/*">
             <div class="form-text">
                 <i class="ri-information-line me-1"></i>
-                Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 1MB
+                Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB
             </div>
             @error('foto')
                 <div class="invalid-feedback">{{ $message }}</div>

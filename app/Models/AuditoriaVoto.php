@@ -11,6 +11,7 @@ class AuditoriaVoto extends Model
     use HasFactory;
 
     protected $table = 'auditoria_votos';
+    protected $connection = 'pgsql';
 
     public $timestamps = false;
 

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Seccional extends Model
+
+    protected $connection = 'pgsql';
 {
     use HasFactory;
 

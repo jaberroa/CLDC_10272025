@@ -29,21 +29,23 @@ class UpdateMiembroRequest extends FormRequest
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('miembros', 'email')->ignore($miembroId),
+                // unique:connection.table,column,except,idColumn
+                'unique:pgsql.miembros,email,' . $miembroId . ',id',
             ],
             'cedula' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('miembros', 'cedula')->ignore($miembroId),
+                'unique:pgsql.miembros,cedula,' . $miembroId . ',id',
             ],
             'telefono' => ['nullable', 'string', 'max:20'],
             'profesion' => ['nullable', 'string', 'max:255'],
-            'estado_membresia_id' => ['required', 'exists:estados_membresia,id'],
+            'estado_membresia_id' => ['required', 'exists:pgsql.estados_membresia,id'],
             'tipo_membresia' => ['required', 'string', 'in:fundador,activo,pasivo,honorifico,estudiante,diaspora'],
-            'organizacion_id' => ['required', 'exists:organizaciones,id'],
+            'organizacion_id' => ['required', 'exists:pgsql.organizaciones,id'],
             'fecha_ingreso' => ['required', 'date'],
-            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            // 5MB = 5120 KB
+            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:5120'],
         ];
     }
 

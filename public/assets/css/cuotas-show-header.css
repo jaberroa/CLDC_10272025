@@ -1,0 +1,18 @@
+.cuotas-header-actions{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.cuotas-header-actions .btn{height:36px;padding:.35rem .75rem;border-radius:.5rem}
+@media (max-width: 768px){
+    .cuotas-header-actions{width:100%;justify-content:flex-start;margin-top:.75rem}
+}
+.btn-header-primary{background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.25)}
+.btn-header-primary:hover{background:rgba(255,255,255,.25);color:#fff}
+.miembros-index-header .card-title{display:flex;align-items:center;gap:.5rem;margin:0}
+.miembros-index-header .header-row{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+
+/* Consistencia del botón Volver con el header de Miembros (create) */
+.miembros-index-header .btn-volver{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:.6rem 1.2rem;border-radius:8px;font-weight:500;font-size:.9rem;transition:all .3s ease;backdrop-filter:blur(10px);box-shadow:0 4px 15px rgba(0,0,0,.1);white-space:nowrap}
+.miembros-index-header .btn-volver:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.5);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.miembros-index-header .btn-volver:focus{box-shadow:0 0 0 3px rgba(255,255,255,.3);color:#fff}
+.miembros-index-header .btn-volver i{margin-right:.5rem;transition:transform .3s ease}
+.miembros-index-header .btn-volver:hover i{transform:translateX(-3px)}
+
+

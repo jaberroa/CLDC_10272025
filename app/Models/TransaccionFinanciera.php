@@ -11,6 +11,7 @@ class TransaccionFinanciera extends Model
     use HasFactory;
 
     protected $table = 'transacciones_financieras';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'organizacion_id',

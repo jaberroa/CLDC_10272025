@@ -10,6 +10,7 @@ class ValorMetadato extends Model
     use HasFactory;
 
     protected $table = 'valores_metadatos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'documento_id',

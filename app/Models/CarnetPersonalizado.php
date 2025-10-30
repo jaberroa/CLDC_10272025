@@ -11,6 +11,7 @@ class CarnetPersonalizado extends Model
     use HasFactory;
 
     protected $table = 'carnet_personalizados';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'miembro_id',

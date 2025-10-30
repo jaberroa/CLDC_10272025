@@ -11,6 +11,7 @@ class Noticia extends Model
     use HasFactory;
 
     protected $table = 'noticias';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'titulo',

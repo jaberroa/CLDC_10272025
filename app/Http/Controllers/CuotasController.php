@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use App\Models\TransaccionFinanciera;
+use App\Models\CuotaHistorial;
 
 class CuotasController extends Controller
 {
@@ -83,6 +85,60 @@ class CuotasController extends Controller
     }
 
     /**
+     * Reporte de cuotas con filtros y métricas
+     */
+    public function reportes(Request $request): View
+    {
+        $filtros = $request->only(['estado', 'tipo_cuota', 'miembro_id', 'fecha_desde', 'fecha_hasta']);
+
+        $query = CuotaMembresia::with('miembro');
+        if (!empty($filtros['estado'])) {
+            $query->where('estado', $filtros['estado']);
+        }
+        if (!empty($filtros['tipo_cuota'])) {
+            $query->where('tipo_cuota', $filtros['tipo_cuota']);
+        }
+        if (!empty($filtros['miembro_id'])) {
+            $query->where('miembro_id', $filtros['miembro_id']);
+        }
+        if (!empty($filtros['fecha_desde'])) {
+            $query->whereDate('fecha_vencimiento', '>=', $filtros['fecha_desde']);
+        }
+        if (!empty($filtros['fecha_hasta'])) {
+            $query->whereDate('fecha_vencimiento', '<=', $filtros['fecha_hasta']);
+        }
+
+        $cuotas = $query->orderBy('fecha_vencimiento', 'desc')->paginate(25);
+
+        // KPIs
+        $base = CuotaMembresia::query();
+        if (!empty($filtros['fecha_desde'])) $base->whereDate('fecha_vencimiento', '>=', $filtros['fecha_desde']);
+        if (!empty($filtros['fecha_hasta'])) $base->whereDate('fecha_vencimiento', '<=', $filtros['fecha_hasta']);
+
+        $kpis = [
+            'total' => (clone $base)->count(),
+            'pendientes' => (clone $base)->where('estado', 'pendiente')->count(),
+            'pagadas' => (clone $base)->where('estado', 'pagada')->count(),
+            'vencidas' => (clone $base)->where('estado', 'vencida')->count(),
+            'monto_total' => (clone $base)->sum('monto'),
+            'monto_pendiente' => (clone $base)->where('estado', 'pendiente')->sum('monto'),
+            'monto_pagado' => (clone $base)->where('estado', 'pagada')->sum('monto'),
+        ];
+
+        // Series por mes (últimos 6 meses)
+        $desdeMes = now()->startOfMonth()->subMonths(5);
+        $series = CuotaMembresia::selectRaw("to_char(fecha_vencimiento, 'YYYY-MM') as ym, estado, sum(monto) as total")
+            ->whereDate('fecha_vencimiento', '>=', $desdeMes)
+            ->groupBy('ym', 'estado')
+            ->orderBy('ym')
+            ->get();
+
+        $miembros = Miembro::select('id', 'nombre_completo')->orderBy('nombre_completo')->get();
+
+        return view('cuotas.reportes', compact('cuotas', 'kpis', 'series', 'miembros', 'filtros'));
+    }
+
+    /**
      * Mostrar formulario para crear cuota
      */
     public function create(): View
@@ -98,8 +154,13 @@ class CuotasController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Normalizar monto (viene con posibles separadores visuales)
+        $request->merge([
+            'monto' => preg_replace('/[^\d.]/', '', (string) $request->monto),
+        ]);
         $request->validate([
-            'miembro_id' => 'required|exists:miembros,id',
+            // Forzar conexión pgsql en exists
+            'miembro_id' => 'required|exists:pgsql.miembros,id',
             'tipo_cuota' => 'required|in:mensual,trimestral,anual',
             'monto' => 'required|numeric|min:0',
             'fecha_vencimiento' => 'required|date|after:today',
@@ -151,8 +212,12 @@ class CuotasController extends Controller
      */
     public function update(Request $request, CuotaMembresia $cuota): RedirectResponse
     {
+        // Normalizar monto antes de validar
+        $request->merge([
+            'monto' => preg_replace('/[^\d.]/', '', (string) $request->monto),
+        ]);
         $request->validate([
-            'miembro_id' => 'required|exists:miembros,id',
+            'miembro_id' => 'required|exists:pgsql.miembros,id',
             'tipo_cuota' => 'required|in:mensual,trimestral,anual',
             'monto' => 'required|numeric|min:0',
             'fecha_vencimiento' => 'required|date',
@@ -188,15 +253,41 @@ class CuotasController extends Controller
             'observaciones' => 'nullable|string|max:500'
         ]);
 
-        $cuota->marcarComoPagada(now());
-
-        // Actualizar observaciones si se proporcionan
-        if ($request->observaciones) {
-            $cuota->update(['observaciones' => $request->observaciones]);
+        if ($cuota->estado === 'pagada') {
+            return redirect()->back()->with('success', 'La cuota ya estaba marcada como pagada.');
         }
 
-        return redirect()->back()
-            ->with('success', 'Cuota marcada como pagada exitosamente.');
+        DB::transaction(function () use ($request, $cuota) {
+            $estadoAnterior = $cuota->estado;
+
+            // Marcar como pagada
+            $cuota->marcarComoPagada(now());
+            if ($request->observaciones) {
+                $cuota->update(['observaciones' => $request->observaciones]);
+            }
+
+            // Registrar historial
+            CuotaHistorial::create([
+                'cuota_id' => $cuota->id,
+                'estado_anterior' => $estadoAnterior,
+                'estado_nuevo' => 'pagada',
+                'user_id' => auth()->id(),
+                'motivo' => $request->observaciones,
+            ]);
+
+            // Crear transacción financiera (evitar duplicados por constraint único)
+            TransaccionFinanciera::firstOrCreate(
+                ['cuota_id' => $cuota->id],
+                [
+                    'tipo' => 'ingreso',
+                    'monto' => $cuota->monto,
+                    'descripcion' => 'Pago de cuota #'.$cuota->id.' - Miembro '.$cuota->miembro_id,
+                    'fecha' => now(),
+                ]
+            );
+        });
+
+        return redirect()->back()->with('success', 'Cuota marcada como pagada exitosamente.');
     }
 
     /**

@@ -11,6 +11,7 @@ class TipoOrganizacion extends Model
     use HasFactory;
 
     protected $table = 'tipos_organizacion';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',

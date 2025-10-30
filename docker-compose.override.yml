@@ -12,9 +12,9 @@ services:
 
   db:
     environment:
-      - MYSQL_ROOT_PASSWORD=cldc_password
-      - MYSQL_DATABASE=cldc_database
-      - MYSQL_USER=cldc_user
-      - MYSQL_PASSWORD=cldc_password
+      - POSTGRES_DB=cldc_database
+      - POSTGRES_USER=cldc_user
+      - POSTGRES_PASSWORD=cldc_password
+      - POSTGRES_ROOT_PASSWORD=root_password
 
 

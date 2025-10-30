@@ -7,6 +7,7 @@
 @section('css')
 <link rel="stylesheet" href="{{ asset('assets/css/miembros-index-header.css') }}">
 <link rel="stylesheet" href="{{ vite_asset('resources/css/miembros/app.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/cuotas-show-header.css') }}">
 @endsection
 
 @section('content')
@@ -14,7 +15,7 @@
     <div class="col-xxl-8">
         <div class="card shadow-sm">
             <div class="card-header miembros-index-header">
-                <div class="d-flex align-items-center">
+                <div class="header-row">
                     <div class="flex-shrink-0 me-3">
                         <a href="{{ route('cuotas.index') }}" class="btn btn-volver">
                             <i class="ri-arrow-left-line"></i>
@@ -30,21 +31,19 @@
                             Información completa de la cuota de {{ $cuota->miembro->nombre_completo }}
                         </p>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end mt-3">
-                    <div class="d-flex align-items-center gap-2">
-                        <a href="{{ route('miembros.profile', $cuota->miembro) }}" class="btn btn-outline-light btn-sm">
+                    <div class="cuotas-header-actions">
+                        <a href="{{ route('miembros.profile', $cuota->miembro) }}" class="btn btn-header-primary">
                             <i class="ri-user-line me-1"></i> Ver Miembro
                         </a>
-                        <a href="{{ route('cuotas.edit', $cuota) }}" class="btn btn-outline-light btn-sm">
+                        <a href="{{ route('cuotas.edit', $cuota) }}" class="btn btn-header-primary">
                             <i class="ri-edit-line me-1"></i> Editar
                         </a>
                         @if($cuota->estado === 'pendiente')
-                            <button type="button" class="btn btn-outline-light btn-sm" onclick="marcarComoPagada({{ $cuota->id }})">
-                                <i class="ri-check-line me-1"></i> Marcar Pagada
-                            </button>
+                        <button type="button" class="btn btn-header-primary" onclick="marcarComoPagada({{ $cuota->id }})">
+                            <i class="ri-check-line me-1"></i> Marcar Pagada
+                        </button>
                         @endif
-                        <button type="button" class="btn btn-outline-light btn-sm" onclick="deleteCuota({{ $cuota->id }}, '{{ $cuota->miembro->nombre_completo }}')">
+                        <button type="button" class="btn btn-header-primary" onclick="deleteCuota({{ $cuota->id }}, '{{ $cuota->miembro->nombre_completo }}')">
                             <i class="ri-delete-bin-line me-1"></i> Eliminar
                         </button>
                     </div>

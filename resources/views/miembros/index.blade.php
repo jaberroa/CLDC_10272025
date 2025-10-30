@@ -931,6 +931,13 @@
 
 @section('js')
 <script>
+// Cargar SweetAlert2 si no está disponible (para toasts de fallback)
+if (typeof window.Swal === 'undefined') {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+    document.head.appendChild(s);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar si jQuery está disponible antes de usar
     if (typeof $ !== 'undefined') {
@@ -1094,8 +1101,8 @@ function deleteSelectedMembers(selectedIds) {
         message: `Se eliminarán ${selectedIds.length} miembros seleccionados permanentemente.`,
         type: 'múltiples miembros',
         onConfirm: () => {
-            // Mostrar toast de carga
-            showInfoToast(`Eliminando ${selectedIds.length} miembros...`, 'Procesando');
+            // Asegurar que un toast previo no bloquee el de éxito
+            if (typeof resetToastFlag === 'function') resetToastFlag();
             
             // Preparar datos para envío
             const formData = new FormData();
@@ -1112,26 +1119,36 @@ function deleteSelectedMembers(selectedIds) {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
                 body: formData
             })
             .then(response => {
                 if (response.ok) {
                     // Mostrar toast de éxito
-                    showSuccessToast(`${selectedIds.length} miembros eliminados exitosamente`);
+                    if (typeof resetToastFlag === 'function') resetToastFlag();
+                    if (typeof showSuccessToast === 'function') {
+                        showSuccessToast(`${selectedIds.length} miembros eliminados exitosamente`);
+                    } else if (typeof Swal !== 'undefined') {
+                        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `${selectedIds.length} miembros eliminados exitosamente`, showConfirmButton: false, timer: 3000, timerProgressBar: true });
+                    }
                     
                     // Recargar la página después de un breve delay
                     setTimeout(() => {
                         window.location.reload();
                     }, 2000);
                 } else {
-                    throw new Error('Error al eliminar los miembros');
+                    return response.text().then(t => { throw new Error(t || 'Error al eliminar los miembros'); });
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                showErrorToast('Error al eliminar los miembros seleccionados');
+                if (typeof showErrorToast === 'function') {
+                    showErrorToast('Error al eliminar los miembros seleccionados');
+                } else if (typeof Swal !== 'undefined') {
+                    Swal.fire({ toast: true, position: 'top-end', icon: 'error', title: 'Error al eliminar los miembros seleccionados', showConfirmButton: false, timer: 3000, timerProgressBar: true });
+                }
             });
         }
     });
@@ -1448,8 +1465,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Mostrar toast de éxito inmediatamente
         if (typeof window.showSuccessToast === 'function') {
             window.showSuccessToast('{{ session('success') }}');
-        } else {
-            console.log('Toast de éxito:', '{{ session('success') }}');
+        } else if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
         }
     @endif
 
@@ -1508,41 +1533,11 @@ function deleteMember(memberId, memberName) {
 
 // Función para realizar la eliminación real
 function performDelete(memberId) {
-    // Mostrar toast de carga
-    if (typeof showInfoToast === 'function') {
-        showInfoToast('Eliminando miembro...', 'Procesando');
+    // Enviar formulario clásico (server redirect + session toast)
+    const form = document.getElementById(`delete-form-${memberId}`);
+    if (form) {
+        form.submit();
     }
-    
-    // Realizar eliminación por AJAX
-    fetch(`{{ url('miembros') }}/${memberId}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            // Mostrar toast de éxito
-            if (typeof showSuccessToast === 'function') {
-                showSuccessToast('Miembro eliminado exitosamente');
-            }
-            
-            // Recargar la página después de un breve delay
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-        } else {
-            throw new Error('Error al eliminar el miembro');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        if (typeof showErrorToast === 'function') {
-            showErrorToast('Error al eliminar el miembro');
-        }
-    });
 }
 
 // Función para abrir el modal de subida de documentos

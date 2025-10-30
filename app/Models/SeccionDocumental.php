@@ -12,6 +12,7 @@ class SeccionDocumental extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'secciones_documentales';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',

@@ -13,6 +13,7 @@ class PeriodoDirectiva extends Model
     use HasFactory;
 
     protected $table = 'periodos_directiva';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'organizacion_id',

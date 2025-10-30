@@ -10,6 +10,7 @@ class PermisoUsuarioDocumento extends Model
     use HasFactory;
 
     protected $table = 'permisos_usuarios_documentos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'usuario_id', 'rol_id', 'ambito', 'seccion_id', 'carpeta_id', 'documento_id',

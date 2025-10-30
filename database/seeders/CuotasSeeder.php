@@ -40,27 +40,21 @@ class CuotasSeeder extends Seeder
 
                 // Crear cuota pendiente
                 CuotaMembresia::create([
-                    'id' => Str::uuid(),
                     'miembro_id' => $miembro->id,
                     'tipo_cuota' => $tipo,
                     'monto' => $montos[$tipo],
                     'fecha_vencimiento' => $fechaVencimiento,
                     'estado' => 'pendiente',
-                    'created_by' => '1', // Usuario admin
                 ]);
 
                 // Crear cuota pagada (historial)
                 CuotaMembresia::create([
-                    'id' => Str::uuid(),
                     'miembro_id' => $miembro->id,
                     'tipo_cuota' => $tipo,
                     'monto' => $montos[$tipo],
                     'fecha_vencimiento' => Carbon::now()->subMonth(),
                     'estado' => 'pagada',
                     'fecha_pago' => Carbon::now()->subMonth()->addDays(5),
-                    'metodo_pago' => 'transferencia',
-                    'comprobante_url' => 'https://example.com/comprobante.pdf',
-                    'created_by' => '1',
                 ]);
             }
         }

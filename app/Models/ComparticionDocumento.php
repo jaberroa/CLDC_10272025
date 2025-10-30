@@ -12,6 +12,7 @@ class ComparticionDocumento extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'comparticion_documentos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'documento_id',

@@ -12,6 +12,7 @@ class AsistenciaAsamblea extends Model
     use HasFactory;
 
     protected $table = 'asistencia_asambleas';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'asamblea_id',

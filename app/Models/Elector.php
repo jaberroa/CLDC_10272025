@@ -13,6 +13,7 @@ class Elector extends Model
     use HasFactory;
 
     protected $table = 'electores';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'padron_id',

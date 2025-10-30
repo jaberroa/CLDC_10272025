@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Rol extends Model
 {
     protected $table = 'roles';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',

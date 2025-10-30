@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\MiembrosApiController;
+use App\Http\Controllers\Api\OrganizacionesApiController;
 use App\Http\Controllers\Api\DashboardApiController;
 use App\Http\Controllers\CarnetController;
 
@@ -46,6 +47,22 @@ Route::prefix('miembros')->group(function () {
     Route::get('/search/search', [MiembrosApiController::class, 'search']);
     Route::get('/filtros/organizaciones', [MiembrosApiController::class, 'organizaciones']);
     Route::get('/filtros/estados-membresia', [MiembrosApiController::class, 'estadosMembresia']);
+});
+
+// Organizaciones API Routes
+Route::prefix('organizaciones')->group(function () {
+    Route::get('/', [OrganizacionesApiController::class, 'index']);
+    Route::get('/{id}', [OrganizacionesApiController::class, 'show']);
+    Route::get('/estadisticas/estadisticas', [OrganizacionesApiController::class, 'estadisticas']);
+    Route::get('/search/search', [OrganizacionesApiController::class, 'search']);
+    Route::get('/tipo/{tipo}', [OrganizacionesApiController::class, 'porTipo']);
+    Route::get('/estado/{estado}', [OrganizacionesApiController::class, 'porEstado']);
+    Route::get('/mas-miembros/con-mas-miembros', [OrganizacionesApiController::class, 'conMasMiembros']);
+    Route::get('/sin-miembros/sin-miembros', [OrganizacionesApiController::class, 'sinMiembros']);
+    Route::get('/rango-fechas/creadas-en-rango', [OrganizacionesApiController::class, 'creadasEnRango']);
+    Route::get('/eventos-proximos/con-eventos-proximos', [OrganizacionesApiController::class, 'conEventosProximos']);
+    Route::get('/{id}/metricas/metricas-rendimiento', [OrganizacionesApiController::class, 'metricasRendimiento']);
+    Route::get('/{id}/miembros/miembros', [OrganizacionesApiController::class, 'miembros']);
 });
 
 // Carnet API Routes

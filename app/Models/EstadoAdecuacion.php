@@ -10,6 +10,7 @@ class EstadoAdecuacion extends Model
     use HasFactory;
 
     protected $table = 'estados_adecuacion';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',

@@ -10,6 +10,7 @@ class AuditoriaDocumento extends Model
     use HasFactory;
 
     protected $table = 'auditoria_documentos';
+    protected $connection = 'pgsql';
     public $timestamps = false;
 
     protected $fillable = [

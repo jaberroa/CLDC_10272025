@@ -11,6 +11,7 @@ class TipoEleccion extends Model
     use HasFactory;
 
     protected $table = 'tipos_elecciones';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',

@@ -13,6 +13,7 @@ class Eleccion extends Model
     use HasFactory;
 
     protected $table = 'elecciones';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'organizacion_id',

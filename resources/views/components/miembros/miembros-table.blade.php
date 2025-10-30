@@ -112,13 +112,17 @@
                             </a>
                             
                             <!-- Eliminar -->
-                            <button type="button" 
-                                    class="btn btn-soft-danger btn-sm" 
-                                    title="Eliminar"
-                                    data-bs-toggle="tooltip"
-                                    onclick="deleteMember({{ $miembro->id }}, '{{ $miembro->nombre_completo }}')">
-                                <i class="ri-delete-bin-line"></i>
-                            </button>
+                            <form id="delete-form-{{ $miembro->id }}" action="{{ route('miembros.destroy', $miembro->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" 
+                                        class="btn btn-soft-danger btn-sm" 
+                                        title="Eliminar"
+                                        data-bs-toggle="tooltip"
+                                        onclick="deleteMember({{ $miembro->id }}, '{{ $miembro->nombre_completo }}')">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </td>

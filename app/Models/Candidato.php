@@ -12,6 +12,7 @@ class Candidato extends Model
     use HasFactory;
 
     protected $table = 'candidatos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'eleccion_id',

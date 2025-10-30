@@ -79,11 +79,11 @@ function showToast(message, type = 'success', title = null) {
 function displayToast(toastElement) {
     console.log('displayToast llamado, elemento:', toastElement);
     
-    // Ocultar cualquier toast anterior
-    const existingToast = bootstrap.Toast.getInstance(toastElement);
-    if (existingToast) {
-        existingToast.hide();
-    }
+    // Ocultar cualquier toast anterior (siempre dentro de try/catch)
+    try {
+        const existingToast = bootstrap.Toast.getInstance(toastElement);
+        if (existingToast) existingToast.hide();
+    } catch (e) {}
     
     // Verificar que Bootstrap esté disponible
     if (typeof bootstrap !== 'undefined' && bootstrap.Toast) {
@@ -128,6 +128,17 @@ function displayToast(toastElement) {
                 }, 3000);
             }, 3000);
     }
+}
+
+// Permite reiniciar manualmente el estado para mostrar un nuevo toast inmediatamente
+function resetToastFlag() {
+    try {
+        const el = document.getElementById('globalToast');
+        if (!el) { toastShown = false; return; }
+        const existing = (typeof bootstrap !== 'undefined' && bootstrap.Toast) ? bootstrap.Toast.getInstance(el) : null;
+        if (existing) existing.hide();
+    } catch(e) {}
+    toastShown = false;
 }
 
 // Función para obtener configuración del toast
@@ -244,6 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.showErrorToast = showErrorToast;
     window.showToast = showToast;
     window.showDeleteConfirmation = showDeleteConfirmation;
+    window.resetToastFlag = resetToastFlag;
     
     console.log('Funciones disponibles:', {
         showSuccessToast: typeof window.showSuccessToast,

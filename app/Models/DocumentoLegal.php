@@ -12,6 +12,7 @@ class DocumentoLegal extends Model
     use HasFactory;
 
     protected $table = 'documentos_legales';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'organizacion_id',

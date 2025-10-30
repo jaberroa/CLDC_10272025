@@ -1,0 +1,262 @@
+/* ========================================
+   MÓDULO ORGANIZACIONES - ESTILOS CSS
+   ======================================== */
+
+/* Header del índice */
+.organizaciones-index-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 2rem;
+}
+
+.organizaciones-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* Header de creación */
+.organizaciones-create-header {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    padding: 2rem;
+}
+
+/* Header de edición */
+.organizaciones-edit-header {
+    background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%);
+    color: white;
+    border: none;
+    padding: 2rem;
+}
+
+/* Botón volver */
+.btn-volver {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    transform: translateX(-2px);
+}
+
+/* Tabla de organizaciones */
+.organizaciones-table {
+    font-size: 0.9rem;
+}
+
+.organizaciones-table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    color: #495057;
+    padding: 1rem 0.75rem;
+}
+
+.organizaciones-table td {
+    padding: 1rem 0.75rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.organizaciones-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Avatar de organización */
+.avatar-sm {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.avatar-xl {
+    width: 4rem;
+    height: 4rem;
+}
+
+/* Badges personalizados */
+.badge.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+/* Cards de estadísticas */
+.card-body.bg-primary-subtle {
+    background-color: rgba(13, 110, 253, 0.1) !important;
+}
+
+.card-body.bg-success-subtle {
+    background-color: rgba(25, 135, 84, 0.1) !important;
+}
+
+.card-body.bg-info-subtle {
+    background-color: rgba(13, 202, 240, 0.1) !important;
+}
+
+.card-body.bg-warning-subtle {
+    background-color: rgba(255, 193, 7, 0.1) !important;
+}
+
+/* Iconos de escuela */
+.school-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    color: white;
+}
+
+/* Formulario */
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Preview de logo */
+.logo-preview {
+    border: 2px dashed #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.logo-preview:hover {
+    border-color: #667eea;
+    background-color: rgba(102, 126, 234, 0.05);
+}
+
+/* Dropdown personalizado */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+/* Botones de acción */
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .organizaciones-index-header,
+    .organizaciones-create-header,
+    .organizaciones-edit-header {
+        padding: 1rem;
+    }
+    
+    .organizaciones-table {
+        font-size: 0.8rem;
+    }
+    
+    .organizaciones-table th,
+    .organizaciones-table td {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Estados de carga */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mejoras de accesibilidad */
+.btn:focus {
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.form-control:focus,
+.form-select:focus {
+    outline: none;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .organizaciones-table th {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+    
+    .organizaciones-table tbody tr:hover {
+        background-color: #495057;
+    }
+    
+    .card-body.bg-light {
+        background-color: #343a40 !important;
+        color: #f8f9fa;
+    }
+}
+

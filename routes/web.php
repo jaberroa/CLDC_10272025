@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MiembrosController;
+use App\Http\Controllers\OrganizacionesController;
 use App\Http\Controllers\DirectivaController;
 use App\Http\Controllers\CarnetController;
 use App\Http\Controllers\CronogramaDirectivaController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\CapacitacionController;
 
 // Cargar rutas de autenticación
 require_once __DIR__ . '/auth.php';
+
 
 // Cargar rutas de gestión documental
 require_once __DIR__ . '/gestion-documental.php';
@@ -66,9 +68,27 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+
+
 // Votación pública con token (SIN AUTH - acceso público)
 Route::get('/vote', [App\Http\Controllers\VotingLinkController::class, 'mostrarVotacion'])->name('voting.mostrar');
 Route::post('/vote/submit', [App\Http\Controllers\VotingLinkController::class, 'registrarVoto'])->name('voting.submit');
+
+// Ruta principal de organizaciones (funcional)
+Route::get('/orgs', [OrganizacionesController::class, 'index'])->name('organizaciones.alt');
+
+// Rutas de organizaciones (sin auth para pruebas)
+Route::get('/organizaciones', [OrganizacionesController::class, 'index'])->name('organizaciones.index');
+Route::get('/organizaciones/create', [OrganizacionesController::class, 'create'])->name('organizaciones.create');
+Route::post('/organizaciones', [OrganizacionesController::class, 'store'])->name('organizaciones.store');
+Route::get('/organizaciones/{id}/profile', [OrganizacionesController::class, 'profile'])->name('organizaciones.profile');
+Route::get('/organizaciones/{id}/edit', [OrganizacionesController::class, 'edit'])->name('organizaciones.edit');
+Route::put('/organizaciones/{id}', [OrganizacionesController::class, 'update'])->name('organizaciones.update');
+Route::delete('/organizaciones/{id}', [OrganizacionesController::class, 'destroy'])->name('organizaciones.destroy');
+Route::post('/organizaciones/{id}/activate', [OrganizacionesController::class, 'activate'])->name('organizaciones.activate');
+Route::post('/organizaciones/{id}/deactivate', [OrganizacionesController::class, 'deactivate'])->name('organizaciones.deactivate');
+Route::get('/organizaciones/exportar', [OrganizacionesController::class, 'exportar'])->name('organizaciones.exportar');
+Route::delete('/organizaciones/bulk-delete', [OrganizacionesController::class, 'bulkDelete'])->name('organizaciones.bulk-delete');
 
 // Ruta de debug para probar el token
 Route::get('/debug-vote', function(Request $request) {
@@ -116,6 +136,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/api/dashboard/stats', [DashboardController::class, 'getStats'])->name('dashboard.stats');
     Route::get('/api/dashboard/graficos', [DashboardController::class, 'datosGraficos'])->name('dashboard.graficos');
     
+    // API para organizaciones
+    Route::get('/api/organizaciones', [OrganizacionesController::class, 'api'])->name('organizaciones.api');
+    Route::get('/api/organizaciones/estadisticas', [OrganizacionesController::class, 'estadisticas'])->name('organizaciones.estadisticas');
+    Route::get('/api/organizaciones/buscar', [OrganizacionesController::class, 'buscar'])->name('organizaciones.buscar');
+    
     // Módulo Miembros
     Route::get('/miembros', [MiembrosController::class, 'index'])->name('miembros.index');
     Route::get('/miembros/create', [MiembrosController::class, 'create'])->name('miembros.create');
@@ -135,8 +160,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/miembros/exportar', [MiembrosController::class, 'exportar'])->name('miembros.exportar');
     Route::delete('/miembros/bulk-delete', [MiembrosController::class, 'bulkDelete'])->name('miembros.bulk-delete');
     
+    // Módulo Organizaciones (temporalmente movido fuera del middleware)
+    
     // Módulo Cuotas
     Route::get('/cuotas', [App\Http\Controllers\CuotasController::class, 'index'])->name('cuotas.index');
+    Route::get('/cuotas/reportes', [App\Http\Controllers\CuotasController::class, 'reportes'])->name('cuotas.reportes');
     Route::get('/cuotas/create', [App\Http\Controllers\CuotasController::class, 'create'])->name('cuotas.create');
     Route::post('/cuotas', [App\Http\Controllers\CuotasController::class, 'store'])->name('cuotas.store');
     Route::get('/cuotas/{cuota}', [App\Http\Controllers\CuotasController::class, 'show'])->name('cuotas.show');
@@ -266,9 +294,6 @@ Route::get('/api/elecciones/{eleccion}/validar-token/{token}', [App\Http\Control
     })->name('documentos.estatutos');
     
     // Módulo Configuración
-    Route::get('/organizaciones', function () {
-        return view('organizaciones.index');
-    })->name('organizaciones.index');
     Route::get('/usuarios', function () {
         return view('usuarios.index');
     })->name('usuarios.index');

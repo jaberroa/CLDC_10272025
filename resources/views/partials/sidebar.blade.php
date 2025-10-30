@@ -68,7 +68,7 @@
                             </a>
                         </li>
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
+                            <a href="{{ route('cuotas.reportes') }}" class="pe-nav-link {{ request()->routeIs('cuotas.reportes') ? 'active' : '' }}">
                                 <i class="ri-bar-chart-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Reportes de Cuotas</span>
                             </a>
@@ -255,28 +255,28 @@
                 <li class="pe-menu-title">Administración</li>
 
                 <li class="pe-slide pe-has-sub">
-                    <a href="#collapseOrganizaciones" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseOrganizaciones">
+                    <a href="#collapseOrganizaciones" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('organizaciones.*') || request()->routeIs('organizaciones.alt') ? 'true' : 'false' }}" aria-controls="collapseOrganizaciones">
                         <i class="ri-building-line pe-nav-icon"></i>
                         <span class="pe-nav-content">Organizaciones</span>
                         <i class="ri-arrow-down-s-line pe-nav-arrow"></i>
                     </a>
-                    <ul class="pe-slide-menu collapse" id="collapseOrganizaciones">
+                    <ul class="pe-slide-menu collapse {{ request()->routeIs('organizaciones.*') || request()->routeIs('organizaciones.alt') ? 'show' : '' }}" id="collapseOrganizaciones">
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
+                            <a href="{{ route('organizaciones.alt') }}" class="pe-nav-link {{ request()->routeIs('organizaciones.alt') ? 'active' : '' }}">
                                 <i class="ri-list-check pe-nav-icon"></i>
                                 <span class="pe-nav-content">Lista de Organizaciones</span>
                             </a>
                         </li>
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
-                                <i class="ri-add-line pe-nav-icon"></i>
+                            <a href="{{ route('organizaciones.create') }}" class="pe-nav-link {{ request()->routeIs('organizaciones.create') ? 'active' : '' }}">
+                                <i class="ri-building-add-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Registrar Nueva</span>
                             </a>
                         </li>
                         <li class="pe-slide-item">
                             <a href="#" class="pe-nav-link">
-                                <i class="ri-file-list-3-line pe-nav-icon"></i>
-                                <span class="pe-nav-content">Documentación</span>
+                                <i class="ri-bar-chart-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Reportes</span>
                             </a>
                         </li>
                     </ul>

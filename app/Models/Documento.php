@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Documento extends Model
+
+    protected $connection = 'pgsql';
 {
     protected $fillable = [
         'miembro_id',

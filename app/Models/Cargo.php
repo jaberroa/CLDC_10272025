@@ -12,6 +12,7 @@ class Cargo extends Model
     use HasFactory;
 
     protected $table = 'cargos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',

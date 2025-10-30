@@ -12,6 +12,7 @@ class Presupuesto extends Model
     use HasFactory;
 
     protected $table = 'presupuestos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'organizacion_id',

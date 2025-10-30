@@ -23,15 +23,18 @@ class StoreMiembroRequest extends FormRequest
         return [
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
-            'email' => ['nullable', 'email', 'max:255', 'unique:miembros,email'],
-            'cedula' => ['required', 'string', 'max:255', 'unique:miembros,cedula'],
+            // Forzar conexión pgsql en las reglas unique
+            'email' => ['nullable', 'email', 'max:255', 'unique:pgsql.miembros,email'],
+            'cedula' => ['required', 'string', 'max:255', 'unique:pgsql.miembros,cedula'],
             'telefono' => ['nullable', 'string', 'max:20'],
             'profesion' => ['nullable', 'string', 'max:255'],
-            'estado_membresia_id' => ['required', 'exists:estados_membresia,id'],
+            // Forzar conexión pgsql en exists
+            'estado_membresia_id' => ['required', 'exists:pgsql.estados_membresia,id'],
             'tipo_membresia' => ['required', 'string', 'in:fundador,activo,pasivo,honorifico,estudiante,diaspora'],
-            'organizacion_id' => ['required', 'exists:organizaciones,id'],
+            'organizacion_id' => ['required', 'exists:pgsql.organizaciones,id'],
             'fecha_ingreso' => ['required', 'date'],
-            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:1024'],
+            // 5MB = 5120 KB
+            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:5120'],
         ];
     }
 

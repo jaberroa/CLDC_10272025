@@ -12,6 +12,7 @@ class Voto extends Model
     use HasFactory;
 
     protected $table = 'votos';
+    protected $connection = 'pgsql';
 
     public $timestamps = false; // Solo usamos created_at
 

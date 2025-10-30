@@ -11,6 +11,7 @@ class Curso extends Model
     use HasFactory;
 
     protected $table = 'cursos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'titulo',

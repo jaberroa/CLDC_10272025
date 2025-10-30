@@ -11,6 +11,7 @@ class Organizacion extends Model
     use HasFactory;
 
     protected $table = 'organizaciones';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',

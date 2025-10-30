@@ -10,6 +10,7 @@ class CampoMetadato extends Model
     use HasFactory;
 
     protected $table = 'campos_metadatos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'seccion_id',

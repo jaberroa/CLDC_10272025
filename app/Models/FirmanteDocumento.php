@@ -11,6 +11,7 @@ class FirmanteDocumento extends Model
     use HasFactory;
 
     protected $table = 'firmantes_documento';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'solicitud_id', 'usuario_id', 'email', 'nombre', 'orden', 'estado',

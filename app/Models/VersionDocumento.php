@@ -12,6 +12,7 @@ class VersionDocumento extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'versiones_documentos';
+    protected $connection = 'pgsql';
 
     public $timestamps = false;
 

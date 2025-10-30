@@ -12,6 +12,7 @@ class CuotaMembresia extends Model
     use HasFactory;
 
     protected $table = 'cuotas_membresia';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'miembro_id',

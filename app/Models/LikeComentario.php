@@ -10,6 +10,7 @@ class LikeComentario extends Model
     use HasFactory;
 
     protected $table = 'likes_comentarios';
+    protected $connection = 'pgsql';
 
     protected $fillable = ['comentario_id', 'usuario_id'];
 

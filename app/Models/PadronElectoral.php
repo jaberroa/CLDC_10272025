@@ -13,6 +13,7 @@ class PadronElectoral extends Model
     use HasFactory;
 
     protected $table = 'padrones_electorales';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'organizacion_id',

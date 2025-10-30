@@ -11,6 +11,7 @@ class RolDocumental extends Model
     use HasFactory;
 
     protected $table = 'roles_documentales';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre', 'slug', 'descripcion', 'permisos', 'nivel_acceso',

@@ -11,6 +11,7 @@ class EstadoMembresia extends Model
     use HasFactory;
 
     protected $table = 'estados_membresia';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',

@@ -13,6 +13,7 @@ class Asamblea extends Model
     use HasFactory;
 
     protected $table = 'asambleas';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'organizacion_id',

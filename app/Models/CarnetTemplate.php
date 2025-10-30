@@ -11,6 +11,7 @@ class CarnetTemplate extends Model
     use HasFactory;
 
     protected $table = 'carnet_templates';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',

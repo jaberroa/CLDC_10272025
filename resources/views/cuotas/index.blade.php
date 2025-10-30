@@ -1008,6 +1008,60 @@
 
 @section('js')
 <script>
+// Mostrar toast de éxito desde sesión (por si la eliminación no fue AJAX)
+document.addEventListener('DOMContentLoaded', function() {
+    @if(session('success'))
+        if (typeof window.showSuccessToast === 'function') {
+            window.showSuccessToast('{{ session('success') }}');
+        }
+    @endif
+    // Toast persistente tras reload (vía sessionStorage)
+    try {
+        const t = sessionStorage.getItem('cuotas_toast_success');
+        if (t) {
+            const show = () => {
+                if (typeof window.showSuccessToast === 'function') {
+                    window.showSuccessToast(t);
+                    sessionStorage.removeItem('cuotas_toast_success');
+                } else if (typeof Swal !== 'undefined') {
+                    Swal.fire({ toast:true, position:'top-end', icon:'success', title:t, showConfirmButton:false, timer:3000, timerProgressBar:true });
+                    sessionStorage.removeItem('cuotas_toast_success');
+                } else {
+                    setTimeout(show, 150);
+                }
+            };
+            setTimeout(show, 200);
+        }
+    } catch(_) {}
+});
+// Fallback: definir showDeleteConfirmation con el modal global si no existe
+if (typeof window.showDeleteConfirmation === 'undefined') {
+    window.showDeleteConfirmation = function(options) {
+        const modalEl = document.getElementById('deleteConfirmationModal');
+        const textEl = document.getElementById('deleteConfirmationText');
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+        if (!modalEl || !textEl || !confirmBtn) {
+            // Si por alguna razón no existe el modal, usamos confirm nativo
+            if (confirm(options?.title ? `¿Eliminar ${options.title}?` : '¿Eliminar?')) {
+                if (typeof options.onConfirm === 'function') options.onConfirm();
+            }
+            return;
+        }
+        // Mensaje
+        textEl.textContent = options?.title ? `¿Está seguro de eliminar "${options.title}"?` : '¿Está seguro de eliminar?';
+        // Click de confirmación (limpiar handlers previos)
+        const newHandler = function() {
+            const bsModal = bootstrap.Modal.getInstance(modalEl);
+            if (bsModal) bsModal.hide();
+            if (typeof options.onConfirm === 'function') options.onConfirm();
+            confirmBtn.removeEventListener('click', newHandler);
+        };
+        confirmBtn.addEventListener('click', newHandler);
+        // Mostrar modal
+        const bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static' });
+        bsModal.show();
+    };
+}
 function marcarComoPagada(cuotaId) {
     const form = document.getElementById('marcarPagadaForm');
     form.action = `/cuotas/${cuotaId}/marcar-pagada`;
@@ -1029,40 +1083,41 @@ function imprimirCuotas() {
 }
 
 function deleteCuota(cuotaId, cuotaName) {
-    showDeleteConfirmation({
-        title: cuotaName,
-        type: 'cuota',
-        onConfirm: () => {
-            // Mostrar toast de carga
-            showInfoToast('Eliminando cuota...', 'Procesando');
-            
-            // Realizar eliminación por AJAX
-            fetch(`{{ url('cuotas') }}/${cuotaId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Mostrar toast de éxito
-                    showSuccessToast(`Cuota "${cuotaName}" eliminada exitosamente`);
-                    
-                    // Recargar la página después de un breve delay
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
-                } else {
-                    throw new Error('Error al eliminar la cuota');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showErrorToast('Error al eliminar la cuota');
-            });
+    if (typeof showDeleteConfirmation === 'function') {
+        showDeleteConfirmation({
+            title: cuotaName,
+            type: 'cuota',
+            onConfirm: () => executeCuotaDelete(cuotaId, cuotaName)
+        });
+    } else {
+        if (confirm(`¿Eliminar la cuota de "${cuotaName}"?`)) {
+            executeCuotaDelete(cuotaId, cuotaName);
         }
+    }
+}
+
+function executeCuotaDelete(cuotaId, cuotaName) {
+    // Estrategia: persistir mensaje y recargar rápido para asegurar toast post-reload
+    fetch(`{{ url('cuotas') }}/${cuotaId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            try { sessionStorage.setItem('cuotas_toast_success', `Cuota \"${cuotaName}\" eliminada exitosamente`); } catch(_) {}
+            setTimeout(() => { window.location.reload(); }, 100);
+        } else {
+            return response.text().then(t => { throw new Error(t || 'Error al eliminar la cuota'); });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        if (typeof showErrorToast === 'function') showErrorToast('Error al eliminar la cuota');
     });
 }
 

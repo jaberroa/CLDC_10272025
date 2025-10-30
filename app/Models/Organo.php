@@ -12,6 +12,7 @@ class Organo extends Model
     use HasFactory;
 
     protected $table = 'organos';
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nombre',
