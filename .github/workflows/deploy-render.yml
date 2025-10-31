@@ -43,10 +43,10 @@ jobs:
         
         # Copiar archivos necesarios para Laravel en Render
         echo "📦 Copiando archivos de Laravel para Render..."
-        cp -r app bootstrap config database public resources routes storage vendor composer.json composer.lock artisan Dockerfile.render render-package/
+        cp -r app bootstrap config database public resources routes storage vendor composer.json composer.lock artisan render-package/
         
         # Renombrar Dockerfile para Render
-        mv render-package/Dockerfile.render render-package/Dockerfile
+        # mv render-package/Dockerfile.render render-package/Dockerfile
         
         # Validar archivos críticos
         echo "🔍 Validando archivos críticos..."
