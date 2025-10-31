@@ -12,6 +12,22 @@
 @import './global-filter.css';
 
 /* ==========================================
+   FONT SIZE GLOBAL - Tamaño de fuente global
+   ========================================== */
+html {
+    font-size: 12px !important;
+}
+
+body {
+    font-size: 12px !important;
+}
+
+/* Asegurar que todos los elementos hereden el tamaño base */
+body, body * {
+    font-size: inherit;
+}
+
+/* ==========================================
    LAYOUT GLOBAL - Estructura Base
    ========================================== */
 .app-container {

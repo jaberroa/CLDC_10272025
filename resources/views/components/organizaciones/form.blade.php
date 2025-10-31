@@ -178,7 +178,7 @@
                     <i class="{{ $submitIcon }} me-1"></i>
                     {{ $submitLabel }}
                 </button>
-                <a href="{{ route('organizaciones.alt') }}" class="{{ $cancelClass }}">
+                <a href="{{ route('organizaciones.index') }}" class="{{ $cancelClass }}">
                     <i class="{{ $cancelIcon }} me-1"></i>
                     {{ $cancelLabel }}
                 </a>

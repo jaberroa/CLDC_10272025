@@ -15,7 +15,7 @@ class MiembroQueryService
      */
     public function paginate(array $filters = [], int $perPage = 20): LengthAwarePaginator
     {
-        $query = Miembro::with('organizacion');
+        $query = Miembro::with(['organizacion', 'tipoMembresia', 'estadoMembresia']);
 
         $this->applyFilters($query, $filters);
 

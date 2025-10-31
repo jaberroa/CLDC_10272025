@@ -60,6 +60,11 @@ class Miembro extends Model
         return $this->belongsTo(EstadoMembresia::class, 'estado_membresia_id');
     }
 
+    public function tipoMembresia(): BelongsTo
+    {
+        return $this->belongsTo(TipoMembresia::class, 'tipo_membresia');
+    }
+
     public function cuotas(): HasMany
     {
         return $this->hasMany(CuotaMembresia::class);

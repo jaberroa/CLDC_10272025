@@ -715,12 +715,12 @@
                                 <td>{{ $cuota->fecha_vencimiento->format('d/m/Y') }}</td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <div class="avatar-sm bg-{{ $cuota->estado_color }}-subtle rounded-circle d-flex align-items-center justify-content-center me-2">
-                                            <i class="ri-{{ $cuota->estado === 'pagada' ? 'check' : ($cuota->estado === 'vencida' ? 'close' : 'time') }}-line text-{{ $cuota->estado_color }}"></i>
+                                        <div class="d-flex align-items-center justify-content-center me-2">
+                                            <i class="ri-{{ $cuota->estado === 'pagada' ? 'check' : ($cuota->estado === 'vencida' ? 'close' : 'time') }}-line" style="font-size: 1rem; color: {{ $cuota->estado === 'pagada' ? '#10b981' : ($cuota->estado === 'vencida' ? '#ef4444' : '#f59e0b') }};"></i>
                                         </div>
                                         <div>
-                                            <span class="badge bg-{{ $cuota->estado_color }}-subtle text-{{ $cuota->estado_color }}">
-                                                {{ ucfirst($cuota->estado) }}
+                                            <span style="font-size: 0.875rem; font-weight: 600; color: {{ $cuota->estado === 'pagada' ? '#10b981' : ($cuota->estado === 'vencida' ? '#ef4444' : '#f59e0b') }};">
+                                                {{ ucfirst(strtolower($cuota->estado)) }}
                                             </span>
                                             <div class="text-muted small">
                                                 @if($cuota->estado === 'pendiente')
@@ -730,7 +730,7 @@
                                                 @elseif($cuota->estado === 'vencida')
                                                     Vencida el {{ $cuota->fecha_vencimiento->format('d/m/Y') }}
                                                 @else
-                                                    {{ ucfirst($cuota->estado) }}
+                                                    {{ ucfirst(strtolower($cuota->estado)) }}
                                                 @endif
                                             </div>
                                         </div>
@@ -739,18 +739,20 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         @if($cuota->recurrente)
-                                            <span class="badge bg-success-subtle text-success">
-                                                <i class="ri-refresh-line me-1"></i>Sí
-                                            </span>
+                                            <div class="d-flex align-items-center">
+                                                <i class="ri-refresh-line me-1" style="font-size: 1rem; color: #10b981;"></i>
+                                                <span style="font-size: 0.875rem; font-weight: 600; color: #10b981;">Sí</span>
+                                            </div>
                                             @if($cuota->frecuencia_recurrencia)
                                                 <div class="text-muted small ms-2">
-                                                    {{ ucfirst($cuota->frecuencia_recurrencia) }}
+                                                    {{ ucfirst(strtolower($cuota->frecuencia_recurrencia)) }}
                                                 </div>
                                             @endif
                                         @else
-                                            <span class="badge bg-secondary-subtle text-secondary">
-                                                <i class="ri-close-line me-1"></i>No
-                                            </span>
+                                            <div class="d-flex align-items-center">
+                                                <i class="ri-close-line me-1" style="font-size: 1rem; color: #6c757d;"></i>
+                                                <span style="font-size: 0.875rem; font-weight: 600; color: #6c757d;">No</span>
+                                            </div>
                                         @endif
                                     </div>
                                 </td>

@@ -74,10 +74,12 @@ Route::get('/', function () {
 Route::get('/vote', [App\Http\Controllers\VotingLinkController::class, 'mostrarVotacion'])->name('voting.mostrar');
 Route::post('/vote/submit', [App\Http\Controllers\VotingLinkController::class, 'registrarVoto'])->name('voting.submit');
 
-// Ruta principal de organizaciones (funcional)
-Route::get('/orgs', [OrganizacionesController::class, 'index'])->name('organizaciones.alt');
+// Redirección de /orgs a /organizaciones (mantener compatibilidad)
+Route::get('/orgs', function() {
+    return redirect()->route('organizaciones.index');
+});
 
-// Rutas de organizaciones (sin auth para pruebas)
+// Rutas de organizaciones
 Route::get('/organizaciones', [OrganizacionesController::class, 'index'])->name('organizaciones.index');
 Route::get('/organizaciones/create', [OrganizacionesController::class, 'create'])->name('organizaciones.create');
 Route::post('/organizaciones', [OrganizacionesController::class, 'store'])->name('organizaciones.store');
@@ -305,6 +307,15 @@ Route::get('/api/elecciones/{eleccion}/validar-token/{token}', [App\Http\Control
     Route::resource('roles', \App\Http\Controllers\RolesController::class);
     Route::resource('permisos', \App\Http\Controllers\PermisosController::class);
     
+    // Módulo Soporte - Gestión de Membresías
+    Route::get('/soporte/membresias', [\App\Http\Controllers\Soporte\SoporteMembresiasController::class, 'index'])->name('soporte.membresias.index');
+    Route::post('/soporte/membresias/estado', [\App\Http\Controllers\Soporte\SoporteMembresiasController::class, 'storeEstado'])->name('soporte.membresias.estado.store');
+    Route::put('/soporte/membresias/estado/{id}', [\App\Http\Controllers\Soporte\SoporteMembresiasController::class, 'updateEstado'])->name('soporte.membresias.estado.update');
+    Route::delete('/soporte/membresias/estado/{id}', [\App\Http\Controllers\Soporte\SoporteMembresiasController::class, 'destroyEstado'])->name('soporte.membresias.estado.destroy');
+    Route::post('/soporte/membresias/tipo', [\App\Http\Controllers\Soporte\SoporteMembresiasController::class, 'storeTipo'])->name('soporte.membresias.tipo.store');
+    Route::put('/soporte/membresias/tipo/{id}', [\App\Http\Controllers\Soporte\SoporteMembresiasController::class, 'updateTipo'])->name('soporte.membresias.tipo.update');
+    Route::delete('/soporte/membresias/tipo/{id}', [\App\Http\Controllers\Soporte\SoporteMembresiasController::class, 'destroyTipo'])->name('soporte.membresias.tipo.destroy');
+    
 // Módulo Noticias
 Route::get('/noticias', [App\Http\Controllers\NoticiasController::class, 'index'])->name('noticias.index');
 Route::get('/noticias/create', [App\Http\Controllers\NoticiasController::class, 'create'])->name('noticias.create');
@@ -328,24 +339,26 @@ Route::get('/asambleas', [AsambleaController::class, 'index'])->name('asambleas.
 Route::get('/asambleas/proxima', [AsambleaController::class, 'proxima'])->name('asambleas.proxima');
 Route::get('/asambleas/create', [AsambleaController::class, 'create'])->name('asambleas.create');
 Route::post('/asambleas', [AsambleaController::class, 'store'])->name('asambleas.store');
-Route::get('/asambleas/{asamblea}', [AsambleaController::class, 'show'])->name('asambleas.show');
-Route::get('/asambleas/{asamblea}/edit', [AsambleaController::class, 'edit'])->name('asambleas.edit');
-Route::put('/asambleas/{asamblea}', [AsambleaController::class, 'update'])->name('asambleas.update');
-Route::delete('/asambleas/{asamblea}', [AsambleaController::class, 'destroy'])->name('asambleas.destroy');
 Route::post('/asambleas/confirmar-asistencia', [AsambleaController::class, 'confirmarAsistencia'])->name('asambleas.confirmar-asistencia');
 
-// Módulo Asistencias de Asambleas
+// Módulo Asistencias de Asambleas (DEBE IR ANTES de las rutas con {asamblea} para evitar conflictos)
 Route::get('/asambleas/asistencias', [App\Http\Controllers\AsistenciaAsambleaController::class, 'index'])->name('asambleas.asistencias.index');
 Route::get('/asambleas/asistencias/create', [App\Http\Controllers\AsistenciaAsambleaController::class, 'create'])->name('asambleas.asistencias.create');
 Route::post('/asambleas/asistencias', [App\Http\Controllers\AsistenciaAsambleaController::class, 'store'])->name('asambleas.asistencias.store');
+Route::post('/asambleas/asistencias/confirmar', [App\Http\Controllers\AsistenciaAsambleaController::class, 'confirmarAsistencia'])->name('asambleas.asistencias.confirmar');
 Route::get('/asambleas/asistencias/{asistenciaAsamblea}', [App\Http\Controllers\AsistenciaAsambleaController::class, 'show'])->name('asambleas.asistencias.show');
 Route::get('/asambleas/asistencias/{asistenciaAsamblea}/edit', [App\Http\Controllers\AsistenciaAsambleaController::class, 'edit'])->name('asambleas.asistencias.edit');
 Route::put('/asambleas/asistencias/{asistenciaAsamblea}', [App\Http\Controllers\AsistenciaAsambleaController::class, 'update'])->name('asambleas.asistencias.update');
 Route::delete('/asambleas/asistencias/{asistenciaAsamblea}', [App\Http\Controllers\AsistenciaAsambleaController::class, 'destroy'])->name('asambleas.asistencias.destroy');
-Route::post('/asambleas/asistencias/confirmar', [App\Http\Controllers\AsistenciaAsambleaController::class, 'confirmarAsistencia'])->name('asambleas.asistencias.confirmar');
 Route::post('/asambleas/asistencias/{asistenciaAsamblea}/presente', [App\Http\Controllers\AsistenciaAsambleaController::class, 'marcarPresente'])->name('asambleas.asistencias.presente');
 Route::post('/asambleas/asistencias/{asistenciaAsamblea}/ausente', [App\Http\Controllers\AsistenciaAsambleaController::class, 'marcarAusente'])->name('asambleas.asistencias.ausente');
 Route::post('/asambleas/asistencias/{asistenciaAsamblea}/tardanza', [App\Http\Controllers\AsistenciaAsambleaController::class, 'marcarTardanza'])->name('asambleas.asistencias.tardanza');
+
+// Rutas de Asambleas con parámetro {asamblea} (DEBEN IR DESPUÉS de las rutas específicas)
+Route::get('/asambleas/{asamblea}', [AsambleaController::class, 'show'])->name('asambleas.show');
+Route::get('/asambleas/{asamblea}/edit', [AsambleaController::class, 'edit'])->name('asambleas.edit');
+Route::put('/asambleas/{asamblea}', [AsambleaController::class, 'update'])->name('asambleas.update');
+Route::delete('/asambleas/{asamblea}', [AsambleaController::class, 'destroy'])->name('asambleas.destroy');
 
 // Módulo Capacitaciones
 Route::get('/capacitaciones', [CapacitacionController::class, 'index'])->name('capacitaciones.index');

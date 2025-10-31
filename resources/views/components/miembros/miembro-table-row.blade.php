@@ -20,7 +20,7 @@
     
     <!-- Columna de Tipo de Membresía -->
     <td>
-        <x-miembros.tipo-membresia :tipo="$miembro->tipo_membresia" />
+        <x-miembros.tipo-membresia :tipo="$miembro->tipoMembresia" />
     </td>
     
     <!-- Columna de Estado -->

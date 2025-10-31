@@ -17,8 +17,10 @@ class AsistenciaAsamblea extends Model
     protected $fillable = [
         'asamblea_id',
         'miembro_id',
+        'estado',
         'confirmada',
         'fecha_confirmacion',
+        'fecha_asistencia',
         'hora_llegada',
         'observaciones',
         'created_by',
@@ -28,7 +30,8 @@ class AsistenciaAsamblea extends Model
     protected $casts = [
         'confirmada' => 'boolean',
         'fecha_confirmacion' => 'datetime',
-        'hora_llegada' => 'datetime:H:i'
+        'fecha_asistencia' => 'date',
+        'hora_llegada' => 'string'
     ];
 
     /**

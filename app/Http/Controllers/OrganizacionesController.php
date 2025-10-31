@@ -13,9 +13,11 @@ use App\Services\Organizaciones\OrganizacionExportService;
 
 class OrganizacionesController extends Controller
 {
-    public function __construct()
+    protected OrganizacionQueryService $organizacionQueryService;
+
+    public function __construct(OrganizacionQueryService $organizacionQueryService)
     {
-        // Constructor simplificado para evitar problemas de dependencias
+        $this->organizacionQueryService = $organizacionQueryService;
     }
 
     /**
@@ -23,59 +25,34 @@ class OrganizacionesController extends Controller
      */
     public function index(Request $request)
     {
-        // Datos estáticos para garantizar que funcione
-        $organizaciones = collect([
-            (object)[
-                'id' => 1,
-                'nombre' => 'CLDCI Nacional',
-                'codigo' => 'CLDCI-NAC-001',
-                'tipo' => 'nacional',
-                'estado' => 'activa',
-                'descripcion' => 'Organización Nacional del CLDCI',
-                'direccion' => 'Santo Domingo, República Dominicana',
-                'telefono' => '(809) 123-4567',
-                'email' => 'nacional@cldci.org.do',
-                'logo_url' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            (object)[
-                'id' => 2,
-                'nombre' => 'CLDCI Santiago',
-                'codigo' => 'CLDCI-STG-001',
-                'tipo' => 'seccional',
-                'estado' => 'activa',
-                'descripcion' => 'Seccional Provincial de Santiago',
-                'direccion' => 'Santiago, República Dominicana',
-                'telefono' => '(809) 234-5678',
-                'email' => 'santiago@cldci.org.do',
-                'logo_url' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        // Obtener filtros de la solicitud
+        $filters = $request->only([
+            'buscar',
+            'tipo',
+            'estado',
+            'con_miembros'
         ]);
 
-        // Estadísticas estáticas
-        $estadisticas = [
-            'total' => 2,
-            'activas' => 2,
-            'inactivas' => 0,
-            'suspendidas' => 0,
-            'nacionales' => 1,
-            'seccionales' => 1,
-            'seccionales_internacionales' => 0,
-            'diaspora' => 0,
-            'con_miembros' => 2,
-            'sin_miembros' => 0,
-        ];
+        // Obtener organizaciones paginadas desde la base de datos
+        $perPage = (int) $request->get('per_page', 25);
+        $organizaciones = $this->organizacionQueryService->paginate($filters, $perPage);
+        
+        // Cargar la relación de miembros para evitar consultas N+1
+        $organizaciones->loadCount('miembros');
 
-        // Tipos de organización estáticos
-        $tiposOrganizacion = collect([
-            (object)['id' => 1, 'nombre' => 'nacional', 'descripcion' => 'Organización Nacional'],
-            (object)['id' => 2, 'nombre' => 'seccional', 'descripcion' => 'Seccional Provincial'],
-            (object)['id' => 3, 'nombre' => 'seccional_internacional', 'descripcion' => 'Seccional Internacional'],
-            (object)['id' => 4, 'nombre' => 'diaspora', 'descripcion' => 'Diáspora'],
-        ]);
+        // Obtener estadísticas reales desde la base de datos
+        $estadisticas = $this->organizacionQueryService->getEstadisticas();
+
+        // Obtener tipos de organización desde la base de datos o usar valores por defecto
+        $tiposOrganizacion = TipoOrganizacion::all();
+        if ($tiposOrganizacion->isEmpty()) {
+            $tiposOrganizacion = collect([
+                (object)['id' => 1, 'nombre' => 'nacional', 'descripcion' => 'Organización Nacional'],
+                (object)['id' => 2, 'nombre' => 'seccional', 'descripcion' => 'Seccional Provincial'],
+                (object)['id' => 3, 'nombre' => 'seccional_internacional', 'descripcion' => 'Seccional Internacional'],
+                (object)['id' => 4, 'nombre' => 'diaspora', 'descripcion' => 'Diáspora'],
+            ]);
+        }
 
         return view('organizaciones.index', compact(
             'organizaciones',
@@ -164,7 +141,8 @@ class OrganizacionesController extends Controller
         $data = $request->validated();
         $organizacion = Organizacion::findOrFail($id);
 
-        $organizacion->fill([
+        // Preparar los datos a actualizar
+        $updateData = [
             'nombre' => $data['nombre'],
             'codigo' => $data['codigo'],
             'tipo' => $data['tipo'],
@@ -173,7 +151,7 @@ class OrganizacionesController extends Controller
             'direccion' => $data['direccion'] ?? null,
             'telefono' => $data['telefono'] ?? null,
             'email' => $data['email'] ?? null,
-        ]);
+        ];
 
         // Manejar logo
         if ($request->hasFile('logo')) {
@@ -185,10 +163,11 @@ class OrganizacionesController extends Controller
             $logo = $request->file('logo');
             $nombreArchivo = 'organizacion_' . $organizacion->codigo . '_' . time() . '.' . $logo->getClientOriginalExtension();
             $ruta = $logo->storeAs('organizaciones/logos', $nombreArchivo, 'public');
-            $organizacion->logo_url = $ruta;
+            $updateData['logo_url'] = $ruta;
         }
 
-        $organizacion->save();
+        // Actualizar usando update() directamente para asegurar que todos los campos se actualicen
+        $organizacion->update($updateData);
 
         return redirect()->route('organizaciones.index')
             ->with('success', 'Organización actualizada exitosamente.');

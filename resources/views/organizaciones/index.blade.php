@@ -148,6 +148,269 @@
             text-align: center !important;
         }
     }
+
+    /* ==========================================
+       PAGINACIÓN CLDCI - DISEÑO MEJORADO
+       ========================================== */
+    
+    .cldci-pagination-container {
+        background: #fff;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin-top: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e9ecef;
+    }
+    
+    .pagination-info {
+        display: flex;
+        align-items: center;
+        font-size: 0.875rem;
+    }
+    
+    .pagination-info strong {
+        color: #495057;
+        font-weight: 600;
+    }
+    
+    .cldci-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .pagination-numbers {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin: 0 0.5rem;
+    }
+    
+    .pagination-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        padding: 0.5rem;
+        border: 1px solid #dee2e6;
+        background: #fff;
+        color: #495057;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .pagination-btn:hover:not(:disabled) {
+        background: #f8f9fa;
+        border-color: #adb5bd;
+        color: #212529;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .pagination-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        border-color: #0d6efd;
+    }
+    
+    .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: #f8f9fa;
+        color: #6c757d;
+    }
+    
+    .pagination-btn.active {
+        background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+        border-color: #0d6efd;
+        color: #fff;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
+    }
+    
+    .pagination-btn.active:hover {
+        background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+    }
+    
+    .pagination-btn-nav {
+        min-width: 2.5rem;
+        background: #f8f9fa;
+        border-color: #e9ecef;
+    }
+    
+    .pagination-btn-nav:hover:not(:disabled) {
+        background: #e9ecef;
+        border-color: #dee2e6;
+    }
+    
+    .pagination-btn-nav i {
+        font-size: 1rem;
+    }
+    
+    .pagination-number {
+        min-width: 2.5rem;
+        font-weight: 500;
+    }
+    
+    .pagination-ellipsis {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        color: #6c757d;
+        font-weight: 500;
+        user-select: none;
+    }
+    
+    .pagination-progress {
+        margin-top: 1rem;
+    }
+    
+    .pagination-progress .progress {
+        background: #e9ecef;
+        border-radius: 2px;
+        overflow: hidden;
+    }
+    
+    .pagination-progress .progress-bar {
+        background: linear-gradient(90deg, #0d6efd 0%, #0b5ed7 100%);
+        border-radius: 2px;
+        transition: width 0.3s ease;
+    }
+    
+    /* Animaciones para la paginación */
+    .pagination-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: left 0.5s;
+    }
+    
+    .pagination-btn:hover::before {
+        left: 100%;
+    }
+    
+    /* Spinner de paginación */
+    .pagination-spinner {
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+    
+    .ri-spin {
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive para paginación */
+    @media (max-width: 768px) {
+        .cldci-pagination-container {
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .cldci-pagination {
+            justify-content: center;
+            gap: 0.25rem;
+        }
+        
+        .pagination-numbers {
+            margin: 0 0.25rem;
+            gap: 0.125rem;
+        }
+        
+        .pagination-btn {
+            min-width: 2.25rem;
+            height: 2.25rem;
+            font-size: 0.8rem;
+        }
+        
+        .pagination-btn-nav {
+            min-width: 2.25rem;
+        }
+        
+        .pagination-info {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .pagination-progress {
+            margin-top: 0.75rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .cldci-pagination {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .pagination-numbers {
+            order: -1;
+            margin: 0;
+        }
+        
+        .pagination-btn-nav {
+            min-width: 2rem;
+            height: 2rem;
+        }
+        
+        .pagination-btn {
+            min-width: 2rem;
+            height: 2rem;
+            font-size: 0.75rem;
+        }
+    }
+
+    /* ==========================================
+       TABLA RESPONSIVE - SCROLL HORIZONTAL
+       ========================================== */
+    
+    /* Tabla responsive con scroll horizontal */
+    .table-responsive {
+        overflow-x: auto !important;
+        min-width: 100% !important;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Asegurar que el contenedor de la tabla no limite el ancho */
+    .table-responsive .table {
+        width: 100% !important;
+        margin-bottom: 0;
+    }
+    
+    /* Asegurar que las columnas mantengan su ancho mínimo */
+    .table-responsive .organizaciones-table {
+        white-space: nowrap;
+    }
+    
+    .table-responsive .organizaciones-table th,
+    .table-responsive .organizaciones-table td {
+        white-space: nowrap;
+    }
 </style>
 @endsection
 
@@ -236,7 +499,7 @@
                 </div>
             </div>
             <div class="card-body global-filter-body">
-                <form method="GET" action="{{ route('organizaciones.alt') }}" id="organizaciones-filters-form" class="global-filter-form">
+                <form method="GET" action="{{ route('organizaciones.index') }}" id="organizaciones-filters-form" class="global-filter-form">
                     <div class="global-filter-grid">
                         <div class="global-filter-field col-md-4">
                             <label for="buscar" class="global-filter-label">Buscar</label>
@@ -280,7 +543,7 @@
                                 <i class="ri-search-line"></i>
                                 <span>Buscar</span>
                             </button>
-                            <a href="{{ route('organizaciones.alt') }}" class="global-filter-btn global-filter-btn-secondary">
+                            <a href="{{ route('organizaciones.index') }}" class="global-filter-btn global-filter-btn-secondary">
                                 <i class="ri-refresh-line"></i>
                                 <span>Limpiar</span>
                             </a>
@@ -396,9 +659,6 @@
                                 <th class="sortable" data-sort="estado">
                                     Estado <i class="ri-arrow-up-down-line ms-1"></i>
                                 </th>
-                                <th class="sortable" data-sort="direccion">
-                                    Dirección <i class="ri-arrow-up-down-line ms-1"></i>
-                                </th>
                                 <th class="sortable" data-sort="created_at">
                                     Fecha Registro <i class="ri-arrow-up-down-line ms-1"></i>
                                 </th>
@@ -437,17 +697,59 @@
                                         <div class="flex-grow-1">
                                             <h6 class="mb-0 fw-semibold">{{ $organizacion->nombre }}</h6>
                                             <small class="text-muted">{{ $organizacion->codigo }}</small>
+                                            @if($organizacion->direccion)
+                                                <br><small class="text-muted d-block mt-1">
+                                                    <i class="ri-map-pin-line me-1"></i>{{ Str::limit($organizacion->direccion, 40) }}
+                                                </small>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="badge bg-info">{{ ucfirst($organizacion->tipo) }}</span>
+                                    @php
+                                        $tipoText = '';
+                                        switch(strtolower($organizacion->tipo)) {
+                                            case 'nacional':
+                                                $tipoText = 'Nacional';
+                                                break;
+                                            case 'seccional':
+                                                $tipoText = 'Seccional';
+                                                break;
+                                            case 'seccional_internacional':
+                                                $tipoText = 'Seccional Internacional';
+                                                break;
+                                            case 'diaspora':
+                                                $tipoText = 'Diaspora';
+                                                break;
+                                            default:
+                                                $tipoText = ucfirst($organizacion->tipo);
+                                        }
+                                    @endphp
+                                    <span style="color: #000000; font-weight: 600;">{{ $tipoText }}</span>
                                 </td>
                                 <td>
-                                    <span class="badge bg-success">{{ ucfirst($organizacion->estado) }}</span>
-                                </td>
-                                <td>
-                                    <span class="fw-semibold">{{ Str::limit($organizacion->direccion, 25) }}</span>
+                                    @php
+                                        $estadoText = '';
+                                        $estadoColor = '';
+                                        switch(strtolower($organizacion->estado)) {
+                                            case 'suspendida':
+                                                $estadoText = 'Suspendida';
+                                                $estadoColor = 'rgb(108, 117, 125)';
+                                                break;
+                                            case 'inactiva':
+                                                $estadoText = 'Inactiva';
+                                                $estadoColor = 'rgb(255, 99, 132)';
+                                                break;
+                                            case 'activa':
+                                                $estadoText = 'Activa';
+                                                $estadoColor = 'rgb(40, 167, 69)';
+                                                break;
+                                            default:
+                                                $estadoText = ucfirst($organizacion->estado);
+                                                $estadoColor = '#6c757d';
+                                        }
+                                    @endphp
+                                    <span style="color: {{ $estadoColor }}; font-weight: 600;">{{ $estadoText }}</span>
                                 </td>
                                 <td>
                                     <span class="fw-semibold">{{ $organizacion->created_at->format('d/m/Y') }}</span>
@@ -466,7 +768,8 @@
                                         </a>
                                         <button type="button" 
                                                 class="btn btn-soft-danger btn-sm" 
-                                                title="Eliminar">
+                                                title="Eliminar"
+                                                onclick="deleteOrganizacion({{ $organizacion->id }}, '{{ addslashes($organizacion->nombre) }}')">
                                             <i class="ri-delete-bin-line"></i>
                                         </button>
                                     </div>
@@ -474,7 +777,7 @@
                             </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center py-4">
+                                    <td colspan="6" class="text-center py-4">
                                         <div class="text-muted">
                                             <i class="ri-building-line fs-1 mb-3 d-block"></i>
                                             <h5>No hay organizaciones registradas</h5>
@@ -489,6 +792,125 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Paginación Mejorada CLDCI -->
+                @if($organizaciones->hasPages() || $organizaciones->total() > 0)
+                <div class="cldci-pagination-container">
+                    <div class="row align-items-center">
+                        <!-- Información de resultados -->
+                        <div class="col-md-6">
+                            <div class="pagination-info">
+                                <span class="text-muted">
+                                    Mostrando 
+                                    <strong>{{ $organizaciones->firstItem() ?? 0 }}</strong> 
+                                    a 
+                                    <strong>{{ $organizaciones->lastItem() ?? 0 }}</strong> 
+                                    de 
+                                    <strong>{{ $organizaciones->total() }}</strong> 
+                                    organizaciones
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Controles de paginación -->
+                        <div class="col-md-6">
+                            <div class="cldci-pagination">
+                                <!-- Botón Primera Página -->
+                                <button type="button" 
+                                        class="pagination-btn pagination-btn-nav" 
+                                        onclick="cambiarPaginaOrganizaciones(1)" 
+                                        title="Primera página" 
+                                        {{ $organizaciones->currentPage() <= 1 ? 'disabled' : '' }}>
+                                    <i class="ri-skip-back-line"></i>
+                                </button>
+                                
+                                <!-- Botón Página Anterior -->
+                                <button type="button" 
+                                        class="pagination-btn pagination-btn-nav" 
+                                        onclick="cambiarPaginaOrganizaciones({{ $organizaciones->currentPage() - 1 }})" 
+                                        title="Página anterior" 
+                                        {{ $organizaciones->currentPage() <= 1 ? 'disabled' : '' }}>
+                                    <i class="ri-arrow-left-line"></i>
+                                </button>
+
+                                <!-- Números de página -->
+                                <div class="pagination-numbers">
+                                    @php
+                                        $currentPage = $organizaciones->currentPage();
+                                        $lastPage = $organizaciones->lastPage();
+                                        $startPage = max(1, $currentPage - 2);
+                                        $endPage = min($lastPage, $currentPage + 2);
+                                        
+                                        // Ajustar si estamos cerca del inicio o final
+                                        if ($endPage - $startPage < 4) {
+                                            if ($startPage == 1) {
+                                                $endPage = min($lastPage, $startPage + 4);
+                                            } else {
+                                                $startPage = max(1, $endPage - 4);
+                                            }
+                                        }
+                                    @endphp
+
+                                    @if($startPage > 1)
+                                        <button type="button" class="pagination-btn pagination-number" onclick="cambiarPaginaOrganizaciones(1)">1</button>
+                                        @if($startPage > 2)
+                                            <span class="pagination-ellipsis">...</span>
+                                        @endif
+                                    @endif
+
+                                    @for($i = $startPage; $i <= $endPage; $i++)
+                                        <button type="button" 
+                                                class="pagination-btn pagination-number {{ $i == $currentPage ? 'active' : '' }}" 
+                                                onclick="cambiarPaginaOrganizaciones({{ $i }})">
+                                            {{ $i }}
+                                        </button>
+                                    @endfor
+
+                                    @if($endPage < $lastPage)
+                                        @if($endPage < $lastPage - 1)
+                                            <span class="pagination-ellipsis">...</span>
+                                        @endif
+                                        <button type="button" class="pagination-btn pagination-number" onclick="cambiarPaginaOrganizaciones({{ $lastPage }})">{{ $lastPage }}</button>
+                                    @endif
+                                </div>
+                                
+                                <!-- Botón Página Siguiente -->
+                                <button type="button" 
+                                        class="pagination-btn pagination-btn-nav" 
+                                        onclick="cambiarPaginaOrganizaciones({{ $organizaciones->currentPage() + 1 }})" 
+                                        title="Página siguiente" 
+                                        {{ $organizaciones->currentPage() >= $organizaciones->lastPage() ? 'disabled' : '' }}>
+                                    <i class="ri-arrow-right-line"></i>
+                                </button>
+                                
+                                <!-- Botón Última Página -->
+                                <button type="button" 
+                                        class="pagination-btn pagination-btn-nav" 
+                                        onclick="cambiarPaginaOrganizaciones({{ $organizaciones->lastPage() }})" 
+                                        title="Última página" 
+                                        {{ $organizaciones->currentPage() >= $organizaciones->lastPage() ? 'disabled' : '' }}>
+                                    <i class="ri-skip-forward-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Indicador de progreso -->
+                    <div class="pagination-progress mt-3">
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-primary" 
+                                 style="width: {{ $organizaciones->lastPage() > 0 ? ($organizaciones->currentPage() / $organizaciones->lastPage()) * 100 : 0 }}%"
+                                 role="progressbar">
+                            </div>
+                        </div>
+                        <div class="text-center mt-2">
+                            <small class="text-muted">
+                                Página {{ $organizaciones->currentPage() }} de {{ $organizaciones->lastPage() }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -583,6 +1005,219 @@ function imprimirLista() {
     window.print();
 }
 
+function cambiarPaginaOrganizaciones(pagina) {
+    if (pagina < 1 || pagina > {{ $organizaciones->lastPage() }}) return;
+    
+    // Limpiar spinner anterior si existe
+    const existingSpinner = document.querySelector('.pagination-spinner');
+    if (existingSpinner) {
+        existingSpinner.remove();
+    }
+    
+    // Mostrar indicador de carga
+    const paginationContainer = document.querySelector('.cldci-pagination-container');
+    if (paginationContainer) {
+        paginationContainer.style.opacity = '0.6';
+        paginationContainer.style.pointerEvents = 'none';
+    }
+    
+    // Agregar efecto de loading a los botones
+    const paginationBtns = document.querySelectorAll('.pagination-btn');
+    paginationBtns.forEach(btn => {
+        btn.style.opacity = '0.5';
+        btn.disabled = true;
+    });
+    
+    // Crear y mostrar spinner
+    const spinner = document.createElement('div');
+    spinner.className = 'pagination-spinner';
+    spinner.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> Cargando...';
+    spinner.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        font-size: 0.875rem;
+        color: #495057;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    `;
+    
+    if (paginationContainer) {
+        paginationContainer.style.position = 'relative';
+        paginationContainer.appendChild(spinner);
+    }
+    
+    // Navegar directamente sin delay
+    const url = new URL(window.location);
+    url.searchParams.set('page', pagina);
+    window.location.href = url.toString();
+}
+
+// Funciones para manejo de selección de organizaciones
+function toggleSelectAll() {
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const organizacionCheckboxes = document.querySelectorAll('.organizacion-checkbox');
+    
+    organizacionCheckboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+    
+    updateSelectAllState();
+}
+
+function updateSelectAllState() {
+    const organizacionCheckboxes = document.querySelectorAll('.organizacion-checkbox');
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const selectedCount = document.getElementById('selectedCount');
+    const bulkActionsDropdown = document.getElementById('bulkActionsDropdown');
+    
+    const checkedBoxes = document.querySelectorAll('.organizacion-checkbox:checked');
+    const totalBoxes = organizacionCheckboxes.length;
+    
+    // Actualizar contador
+    selectedCount.textContent = checkedBoxes.length;
+    
+    // Mostrar/ocultar dropdown de acciones masivas
+    if (checkedBoxes.length > 0) {
+        bulkActionsDropdown.style.display = 'block';
+    } else {
+        bulkActionsDropdown.style.display = 'none';
+    }
+    
+    // Actualizar estado del checkbox "Seleccionar todo"
+    if (checkedBoxes.length === 0) {
+        selectAllCheckbox.indeterminate = false;
+        selectAllCheckbox.checked = false;
+    } else if (checkedBoxes.length === totalBoxes) {
+        selectAllCheckbox.indeterminate = false;
+        selectAllCheckbox.checked = true;
+    } else {
+        selectAllCheckbox.indeterminate = true;
+    }
+}
+
+function bulkAction(action) {
+    const selectedCheckboxes = document.querySelectorAll('.organizacion-checkbox:checked');
+    const selectedIds = Array.from(selectedCheckboxes).map(cb => cb.value);
+    
+    if (selectedIds.length === 0) {
+        alert('Por favor seleccione al menos una organización');
+        return;
+    }
+    
+    switch(action) {
+        case 'export':
+            exportSelectedOrganizaciones(selectedIds);
+            break;
+        case 'print':
+            printSelectedOrganizaciones(selectedIds);
+            break;
+        case 'email':
+            sendEmailToSelected(selectedIds);
+            break;
+        case 'status':
+            changeStatusOfSelected(selectedIds);
+            break;
+        case 'delete':
+            deleteSelectedOrganizaciones(selectedIds);
+            break;
+        default:
+            console.log('Acción no reconocida:', action);
+    }
+}
+
+function exportSelectedOrganizaciones(selectedIds) {
+    // Crear formulario temporal para exportar solo las seleccionadas
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ route("organizaciones.exportar") }}';
+    
+    // Agregar CSRF token
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = '_token';
+    csrfInput.value = '{{ csrf_token() }}';
+    form.appendChild(csrfInput);
+    
+    // Agregar IDs seleccionados
+    selectedIds.forEach(id => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'selected_ids[]';
+        input.value = id;
+        form.appendChild(input);
+    });
+    
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+}
+
+function printSelectedOrganizaciones(selectedIds) {
+    console.log('Imprimiendo organizaciones:', selectedIds);
+    // Implementar lógica de impresión
+    alert('Funcionalidad de impresión en desarrollo');
+}
+
+function sendEmailToSelected(selectedIds) {
+    console.log('Enviando email a organizaciones:', selectedIds);
+    // Implementar lógica de envío de email
+    alert('Funcionalidad de email en desarrollo');
+}
+
+function changeStatusOfSelected(selectedIds) {
+    console.log('Cambiando estado de organizaciones:', selectedIds);
+    // Implementar lógica de cambio de estado
+    alert('Funcionalidad de cambio de estado en desarrollo');
+}
+
+function deleteSelectedOrganizaciones(selectedIds) {
+    if (!confirm(`¿Está seguro de eliminar ${selectedIds.length} organización(es) seleccionada(s)? Esta acción no se puede deshacer.`)) {
+        return;
+    }
+    
+    // Realizar eliminación por AJAX
+    fetch('{{ route("organizaciones.bulk-delete") }}', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            selected_ids: selectedIds
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (typeof showSuccessToast === 'function') {
+                showSuccessToast(data.message || 'Organizaciones eliminadas exitosamente');
+            }
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            throw new Error(data.message || 'Error al eliminar las organizaciones');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        if (typeof showErrorToast === 'function') {
+            showErrorToast('Error al eliminar las organizaciones');
+        } else {
+            alert('Error al eliminar las organizaciones');
+        }
+    });
+}
+
 // Función para mostrar modal de confirmación de eliminación
 function showDeleteConfirmation(organizacionId, organizacionName) {
     // Actualizar el texto del modal
@@ -621,28 +1256,82 @@ function performDelete(organizacionId) {
         headers: {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
         }
     })
     .then(response => {
-        if (response.ok) {
-            // Mostrar toast de éxito
-            if (typeof showSuccessToast === 'function') {
-                showSuccessToast('Organización eliminada exitosamente');
-            }
-            
-            // Recargar la página después de un breve delay
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
+        // Verificar si la respuesta es JSON
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            return response.json().then(data => {
+                if (response.ok && data.success) {
+                    // Mostrar toast de éxito
+                    if (typeof showSuccessToast === 'function') {
+                        showSuccessToast(data.message || 'Organización eliminada exitosamente');
+                    } else if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            toast: true,
+                            position: 'top-end',
+                            icon: 'success',
+                            title: data.message || 'Organización eliminada exitosamente',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    }
+                    
+                    // Recargar la página después de un breve delay
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    throw new Error(data.message || 'Error al eliminar la organización');
+                }
+            });
         } else {
-            throw new Error('Error al eliminar la organización');
+            // Si no es JSON, verificar el status
+            if (response.ok) {
+                // Mostrar toast de éxito
+                if (typeof showSuccessToast === 'function') {
+                    showSuccessToast('Organización eliminada exitosamente');
+                } else if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Organización eliminada exitosamente',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                }
+                
+                // Recargar la página después de un breve delay
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                throw new Error('Error al eliminar la organización');
+            }
         }
     })
     .catch(error => {
         console.error('Error:', error);
         if (typeof showErrorToast === 'function') {
-            showErrorToast('Error al eliminar la organización');
+            showErrorToast(error.message || 'Error al eliminar la organización');
+        } else if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: error.message || 'Error al eliminar la organización',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        } else {
+            alert(error.message || 'Error al eliminar la organización');
         }
     });
 }

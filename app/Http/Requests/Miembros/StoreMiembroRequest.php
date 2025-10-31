@@ -30,7 +30,7 @@ class StoreMiembroRequest extends FormRequest
             'profesion' => ['nullable', 'string', 'max:255'],
             // Forzar conexión pgsql en exists
             'estado_membresia_id' => ['required', 'exists:pgsql.estados_membresia,id'],
-            'tipo_membresia' => ['required', 'string', 'in:fundador,activo,pasivo,honorifico,estudiante,diaspora'],
+            'tipo_membresia' => ['required', 'exists:pgsql.tipos_membresia,id'],
             'organizacion_id' => ['required', 'exists:pgsql.organizaciones,id'],
             'fecha_ingreso' => ['required', 'date'],
             // 5MB = 5120 KB

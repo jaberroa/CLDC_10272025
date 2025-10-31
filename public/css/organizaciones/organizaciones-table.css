@@ -321,3 +321,104 @@
     }
 }
 
+/* ==========================================
+   TABLA RESPONSIVE - SCROLL HORIZONTAL
+   ========================================== */
+
+/* Tabla responsive con scroll horizontal */
+.table-responsive {
+    overflow-x: auto !important;
+    min-width: 100% !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Asegurar que el contenedor de la tabla no limite el ancho */
+.table-responsive .table {
+    width: 100% !important;
+    margin-bottom: 0;
+}
+
+/* Asegurar que las columnas mantengan su ancho mínimo y permitan scroll */
+.table-responsive .organizaciones-table {
+    min-width: 100%;
+}
+
+.table-responsive .organizaciones-table th,
+.table-responsive .organizaciones-table td {
+    white-space: nowrap;
+}
+
+/* Anchos mínimos para columnas */
+.table-responsive .organizaciones-table th:first-child,
+.table-responsive .organizaciones-table td:first-child {
+    min-width: 50px;
+    width: 50px;
+}
+
+.table-responsive .organizaciones-table th:nth-child(2),
+.table-responsive .organizaciones-table td:nth-child(2) {
+    min-width: 300px;
+    width: 300px;
+}
+
+.table-responsive .organizaciones-table th:nth-child(3),
+.table-responsive .organizaciones-table td:nth-child(3) {
+    min-width: 120px;
+    width: 120px;
+}
+
+.table-responsive .organizaciones-table th:nth-child(4),
+.table-responsive .organizaciones-table td:nth-child(4) {
+    min-width: 120px;
+    width: 120px;
+}
+
+.table-responsive .organizaciones-table th:nth-child(5),
+.table-responsive .organizaciones-table td:nth-child(5) {
+    min-width: 130px;
+    width: 130px;
+}
+
+.table-responsive .organizaciones-table th:last-child,
+.table-responsive .organizaciones-table td:last-child {
+    min-width: 140px;
+    width: 140px;
+    position: sticky;
+    right: 0;
+    background: white;
+    z-index: 10;
+}
+
+.table-responsive .organizaciones-table thead th:last-child {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.table-responsive .organizaciones-table tbody tr:hover td:last-child {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Responsive para móviles - mantener scroll */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto !important;
+    }
+    
+    .table-responsive .organizaciones-table th:first-child,
+    .table-responsive .organizaciones-table td:first-child {
+        min-width: 40px;
+        width: 40px;
+    }
+    
+    .table-responsive .organizaciones-table th:nth-child(2),
+    .table-responsive .organizaciones-table td:nth-child(2) {
+        min-width: 220px;
+        width: 220px;
+    }
+    
+    .table-responsive .organizaciones-table th:last-child,
+    .table-responsive .organizaciones-table td:last-child {
+        min-width: 120px;
+        width: 120px;
+    }
+}
+

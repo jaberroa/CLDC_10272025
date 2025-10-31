@@ -24,7 +24,7 @@ class StoreOrganizacionRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:255',
-            'codigo' => 'required|string|max:50|unique:organizaciones,codigo',
+            'codigo' => 'required|string|max:50|unique:pgsql.organizaciones,codigo',
             'tipo' => 'required|string|in:nacional,seccional,seccional_internacional,diaspora',
             'estado' => 'nullable|string|in:activa,inactiva,suspendida',
             'descripcion' => 'nullable|string|max:1000',

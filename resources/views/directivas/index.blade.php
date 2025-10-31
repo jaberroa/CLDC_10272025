@@ -136,8 +136,57 @@
     
     /* Asegurar que el contenedor de la tabla no limite el ancho */
     .table-responsive .table {
-        min-width: 1000px !important;
-        width: max-content !important;
+        width: 100% !important;
+        table-layout: auto;
+    }
+    
+    /* Ajustar anchos específicos de columnas */
+    .table-responsive .table th:nth-child(1),
+    .table-responsive .table td:nth-child(1) {
+        width: 50px;
+        min-width: 50px;
+    }
+    
+    .table-responsive .table th:nth-child(2),
+    .table-responsive .table td:nth-child(2) {
+        width: 25%;
+        min-width: 200px;
+    }
+    
+    .table-responsive .table th:nth-child(3),
+    .table-responsive .table td:nth-child(3) {
+        width: 15%;
+        min-width: 120px;
+    }
+    
+    .table-responsive .table th:nth-child(4),
+    .table-responsive .table td:nth-child(4) {
+        width: 12%;
+        min-width: 100px;
+    }
+    
+    .table-responsive .table th:nth-child(5),
+    .table-responsive .table td:nth-child(5) {
+        width: 12%;
+        min-width: 100px;
+    }
+    
+    .table-responsive .table th:nth-child(6),
+    .table-responsive .table td:nth-child(6) {
+        width: 12%;
+        min-width: 100px;
+    }
+    
+    .table-responsive .table th:nth-child(7),
+    .table-responsive .table td:nth-child(7) {
+        width: 12%;
+        min-width: 100px;
+    }
+    
+    .table-responsive .table th:nth-child(8),
+    .table-responsive .table td:nth-child(8) {
+        width: 10%;
+        min-width: 150px;
     }
     
     /* Responsive para móviles */

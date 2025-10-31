@@ -30,7 +30,7 @@ class UpdateOrganizacionRequest extends FormRequest
                 'required',
                 'string',
                 'max:50',
-                Rule::unique('organizaciones', 'codigo')->ignore($organizacionId)
+                Rule::unique('pgsql.organizaciones', 'codigo')->ignore($organizacionId)
             ],
             'tipo' => 'required|string|in:nacional,seccional,seccional_internacional,diaspora',
             'estado' => 'required|string|in:activa,inactiva,suspendida',

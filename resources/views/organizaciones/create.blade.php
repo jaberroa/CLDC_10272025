@@ -17,7 +17,7 @@
             <div class="card-header organizaciones-create-header">
                 <div class="d-flex align-items-center">
                     <div class="flex-shrink-0 me-3">
-                        <a href="{{ route('organizaciones.alt') }}" class="btn btn-volver">
+                        <a href="{{ route('organizaciones.index') }}" class="btn btn-volver">
                             <i class="ri-arrow-left-line"></i>
                             <span>Volver</span>
                         </a>

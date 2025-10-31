@@ -1,6 +1,7 @@
 @props([
     'organizaciones' => [],
     'estadosMembresia' => [],
+    'tiposMembresia' => [],
     'miembro' => null,
     'method' => 'POST',
     'action' => null,
@@ -136,12 +137,11 @@
             <select class="form-select @error('tipo_membresia') is-invalid @enderror" 
                     id="tipo_membresia" name="tipo_membresia" required>
                 <option value="">Seleccionar tipo</option>
-                <option value="fundador" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'fundador' ? 'selected' : '' }}>Fundador</option>
-                <option value="activo" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'activo' ? 'selected' : '' }}>Activo</option>
-                <option value="pasivo" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'pasivo' ? 'selected' : '' }}>Pasivo</option>
-                <option value="honorifico" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'honorifico' ? 'selected' : '' }}>Honorífico</option>
-                <option value="estudiante" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'estudiante' ? 'selected' : '' }}>Estudiante</option>
-                <option value="diaspora" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'diaspora' ? 'selected' : '' }}>Diáspora</option>
+                @foreach($tiposMembresia as $tipo)
+                    <option value="{{ $tipo->id }}" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == $tipo->id ? 'selected' : '' }}>
+                        {{ ucfirst($tipo->nombre) }}
+                    </option>
+                @endforeach
             </select>
             @error('tipo_membresia')
                 <div class="invalid-feedback">{{ $message }}</div>

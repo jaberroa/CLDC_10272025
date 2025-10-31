@@ -124,14 +124,8 @@
                             </a>
                         </li>
                         <li class="pe-slide-item">
-                            <a href="#" class="pe-nav-link">
-                                <i class="ri-history-line pe-nav-icon"></i>
-                                <span class="pe-nav-content">Historial</span>
-                            </a>
-                        </li>
-                        <li class="pe-slide-item">
                             <a href="{{ route('asambleas.asistencias.index') }}" class="pe-nav-link {{ request()->routeIs('asambleas.asistencias.*') ? 'active' : '' }}">
-                                <i class="ri-user-check-line pe-nav-icon"></i>
+                                <i class="ri-file-check-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Asistencia</span>
                             </a>
                         </li>
@@ -141,7 +135,7 @@
                 <li class="pe-slide pe-has-sub">
                     <a href="#collapseDocumental" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('gestion-documental.*') ? 'true' : 'false' }}" aria-controls="collapseDocumental">
                         <i class="ri-folders-line pe-nav-icon"></i>
-                        <span class="pe-nav-content">Gestión Documental</span>
+                        <span class="pe-nav-content">Documentación</span>
                         <i class="ri-arrow-down-s-line pe-nav-arrow"></i>
                     </a>
                     <ul class="pe-slide-menu collapse {{ request()->routeIs('gestion-documental.*') ? 'show' : '' }}" id="collapseDocumental">
@@ -255,21 +249,21 @@
                 <li class="pe-menu-title">Administración</li>
 
                 <li class="pe-slide pe-has-sub">
-                    <a href="#collapseOrganizaciones" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('organizaciones.*') || request()->routeIs('organizaciones.alt') ? 'true' : 'false' }}" aria-controls="collapseOrganizaciones">
+                    <a href="#collapseOrganizaciones" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('organizaciones.*') ? 'true' : 'false' }}" aria-controls="collapseOrganizaciones">
                         <i class="ri-building-line pe-nav-icon"></i>
                         <span class="pe-nav-content">Organizaciones</span>
                         <i class="ri-arrow-down-s-line pe-nav-arrow"></i>
                     </a>
-                    <ul class="pe-slide-menu collapse {{ request()->routeIs('organizaciones.*') || request()->routeIs('organizaciones.alt') ? 'show' : '' }}" id="collapseOrganizaciones">
+                    <ul class="pe-slide-menu collapse {{ request()->routeIs('organizaciones.*') ? 'show' : '' }}" id="collapseOrganizaciones">
                         <li class="pe-slide-item">
-                            <a href="{{ route('organizaciones.alt') }}" class="pe-nav-link {{ request()->routeIs('organizaciones.alt') ? 'active' : '' }}">
+                            <a href="{{ route('organizaciones.index') }}" class="pe-nav-link {{ request()->routeIs('organizaciones.index') ? 'active' : '' }}">
                                 <i class="ri-list-check pe-nav-icon"></i>
-                                <span class="pe-nav-content">Lista de Organizaciones</span>
+                                <span class="pe-nav-content">Organizaciones</span>
                             </a>
                         </li>
                         <li class="pe-slide-item">
                             <a href="{{ route('organizaciones.create') }}" class="pe-nav-link {{ request()->routeIs('organizaciones.create') ? 'active' : '' }}">
-                                <i class="ri-building-add-line pe-nav-icon"></i>
+                                <i class="ri-add-circle-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Registrar Nueva</span>
                             </a>
                         </li>
@@ -391,6 +385,22 @@
                             <a href="#" class="pe-nav-link">
                                 <i class="ri-database-2-line pe-nav-icon"></i>
                                 <span class="pe-nav-content">Base de Datos</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="pe-slide pe-has-sub">
+                    <a href="#collapseSoporte" class="pe-nav-link" data-bs-toggle="collapse" aria-expanded="{{ request()->routeIs('soporte.*') ? 'true' : 'false' }}" aria-controls="collapseSoporte">
+                        <i class="ri-customer-service-line pe-nav-icon"></i>
+                        <span class="pe-nav-content">Soporte</span>
+                        <i class="ri-arrow-down-s-line pe-nav-arrow"></i>
+                    </a>
+                    <ul class="pe-slide-menu collapse {{ request()->routeIs('soporte.*') ? 'show' : '' }}" id="collapseSoporte">
+                        <li class="pe-slide-item">
+                            <a href="{{ route('soporte.membresias.index') }}" class="pe-nav-link {{ request()->routeIs('soporte.membresias.*') ? 'active' : '' }}">
+                                <i class="ri-group-line pe-nav-icon"></i>
+                                <span class="pe-nav-content">Membresías</span>
                             </a>
                         </li>
                     </ul>

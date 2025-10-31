@@ -33,6 +33,15 @@ class OrganizacionQueryService
             $query->where('estado', $filters['estado']);
         }
 
+        // Filtro de "con_miembros"
+        if (isset($filters['con_miembros'])) {
+            if ($filters['con_miembros'] === 'si') {
+                $query->has('miembros');
+            } elseif ($filters['con_miembros'] === 'no') {
+                $query->doesntHave('miembros');
+            }
+        }
+
         // Ordenar por nombre
         $query->orderBy('nombre', 'asc');
 

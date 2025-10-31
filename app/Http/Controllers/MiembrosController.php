@@ -51,8 +51,12 @@ class MiembrosController extends Controller
     {
         $organizaciones = Organizacion::activas()->get();
         $estadosMembresia = \App\Models\EstadoMembresia::all();
+        // Cargar todos los tipos de membresía (ordenados por activo primero, luego por nombre)
+        $tiposMembresia = \App\Models\TipoMembresia::orderByRaw('CASE WHEN activo = true THEN 0 ELSE 1 END')
+            ->orderBy('nombre')
+            ->get();
 
-        return view('miembros.create', compact('organizaciones', 'estadosMembresia'));
+        return view('miembros.create', compact('organizaciones', 'estadosMembresia', 'tiposMembresia'));
     }
 
     /**
@@ -104,8 +108,12 @@ class MiembrosController extends Controller
         $miembro = Miembro::findOrFail($id);
         $organizaciones = Organizacion::activas()->get();
         $estadosMembresia = \App\Models\EstadoMembresia::all();
+        // Cargar todos los tipos de membresía (ordenados por activo primero, luego por nombre)
+        $tiposMembresia = \App\Models\TipoMembresia::orderByRaw('CASE WHEN activo = true THEN 0 ELSE 1 END')
+            ->orderBy('nombre')
+            ->get();
 
-        return view('miembros.edit', compact('miembro', 'organizaciones', 'estadosMembresia'));
+        return view('miembros.edit', compact('miembro', 'organizaciones', 'estadosMembresia', 'tiposMembresia'));
     }
 
     /**
