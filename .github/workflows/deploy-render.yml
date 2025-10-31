@@ -33,80 +33,50 @@ jobs:
       
     - name: Create deployment package for Render
       run: |
-        echo "🚀 Creando paquete de despliegue para Render..."
-        echo "📋 Información del deployment:"
-        echo "  - SHA: ${{ github.sha }}"
-        echo "  - Run Number: ${{ github.run_number }}"
-        echo "  - Branch: ${{ github.ref_name }}"
-        
+        echo "🚀 Creando paquete para Render..."
         mkdir -p render-package
         
-        # Copiar archivos necesarios para Laravel en Render
-        echo "📦 Copiando archivos de Laravel para Render..."
-        cp -r app bootstrap config database public resources routes storage vendor composer.json composer.lock artisan Dockerfile.render render-package/
+        echo "📦 Copiando archivos de Laravel..."
+        cp -r app bootstrap config database public resources routes storage vendor composer.json composer.lock artisan render-package/
         
-        # Renombrar Dockerfile para Render
-        mv render-package/Dockerfile.render render-package/Dockerfile
+        echo "✅ Archivos copiados correctamente"
         
-        # Validar archivos críticos
-        echo "🔍 Validando archivos críticos..."
-        if [ ! -f "render-package/artisan" ]; then
-          echo "❌ Error: artisan no encontrado"
-          exit 1
-        fi
-        if [ ! -f "render-package/composer.json" ]; then
-          echo "❌ Error: composer.json no encontrado"
-          exit 1
-        fi
-        if [ ! -f "render-package/Dockerfile" ]; then
-          echo "❌ Error: Dockerfile no encontrado"
-          exit 1
-        fi
-        echo "✅ Archivos críticos validados correctamente"
-        
-        # Comprimir el paquete
-        echo "📦 Comprimiendo paquete para Render..."
+        echo "📦 Comprimiendo archivo..."
         cd render-package && zip -r ../render-deployment.zip . && cd ..
         
-        echo "✅ Paquete de despliegue para Render creado exitosamente!"
-        echo "📊 Contenido del paquete:"
+        echo "✅ Paquete ZIP listo"
         unzip -l render-deployment.zip | head -20
-        
+
     - name: Deploy to Render
       run: |
         echo "🚀 Desplegando a Render..."
         
-        # Verificar que los secrets estén configurados
         if [ -z "${{ secrets.RENDER_SERVICE_ID }}" ]; then
-          echo "❌ Error: RENDER_SERVICE_ID no está configurado"
+          echo "❌ Error: Falta RENDER_SERVICE_ID"
           exit 1
         fi
         
         if [ -z "${{ secrets.RENDER_API_KEY }}" ]; then
-          echo "❌ Error: RENDER_API_KEY no está configurado"
+          echo "❌ Error: Falta RENDER_API_KEY"
           exit 1
         fi
-        
-        # Crear el payload para la API de Render
-        echo "📦 Preparando despliegue..."
-        
-        # Usar la API de Render para hacer deploy
+
         curl -X POST \
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           -H "Content-Type: application/json" \
           -d '{"clearCache": "clear"}' \
           "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys"
         
-        echo "✅ Solicitud de despliegue enviada a Render"
-        
+        echo "✅ Render deploy request enviada"
+
     - name: Deployment Success Notification
       if: success()
       run: |
-        echo "✅ Deployment to Render completed successfully!"
-        echo "🚀 Application deployed to: https://app-cldc.onrender.com"
-        
+        echo "✅ Deployment Finalizado Correctamente"
+        echo "🌍 Ver en producción: https://cldc.onrender.com"
+
     - name: Deployment Failure Notification
       if: failure()
       run: |
-        echo "❌ Deployment to Render failed!"
-        echo "Please check the logs above for more details."
+        echo "❌ Deployment a Render Falló"
+        echo "Revisar logs arriba 🔍"
