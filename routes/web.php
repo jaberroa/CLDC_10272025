@@ -145,7 +145,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/miembros', [MiembrosController::class, 'index'])->name('miembros.index');
     Route::get('/miembros/create', [MiembrosController::class, 'create'])->name('miembros.create');
     Route::post('/miembros', [MiembrosController::class, 'store'])->name('miembros.store');
-    Route::post('/miembros/estados-membresia', [MiembrosController::class, 'storeEstadoMembresia'])->name('miembros.estados.store');
     Route::get('/miembros/{id}/profile', [MiembrosController::class, 'profile'])->name('miembros.profile');
     Route::get('/miembros/{id}/edit', [MiembrosController::class, 'edit'])->name('miembros.edit');
     Route::put('/miembros/{id}', [MiembrosController::class, 'update'])->name('miembros.update');
@@ -166,12 +165,6 @@ Route::middleware(['auth'])->group(function () {
     // Módulo Cuotas
     Route::get('/cuotas', [App\Http\Controllers\CuotasController::class, 'index'])->name('cuotas.index');
     Route::get('/cuotas/reportes', [App\Http\Controllers\CuotasController::class, 'reportes'])->name('cuotas.reportes');
-    // Admin - eliminar estado de membresía (con contraseña)
-    Route::delete('/admin/estados-membresia/{id}', [App\Http\Controllers\AdminMembershipController::class, 'deleteEstado'])->name('admin.estados-membresia.delete');
-    // Admin - crear estado/tipo (persistencia)
-    Route::post('/admin/estados-membresia', [App\Http\Controllers\AdminMembershipController::class, 'createEstado'])->name('admin.estados-membresia.create');
-    Route::post('/admin/tipos-membresia', [App\Http\Controllers\AdminMembershipController::class, 'createTipo'])->name('admin.tipos-membresia.create');
-    Route::delete('/admin/tipos-membresia/{id}', [App\Http\Controllers\AdminMembershipController::class, 'deleteTipo'])->name('admin.tipos-membresia.delete');
     Route::get('/cuotas/create', [App\Http\Controllers\CuotasController::class, 'create'])->name('cuotas.create');
     Route::post('/cuotas', [App\Http\Controllers\CuotasController::class, 'store'])->name('cuotas.store');
     Route::get('/cuotas/{cuota}', [App\Http\Controllers\CuotasController::class, 'show'])->name('cuotas.show');

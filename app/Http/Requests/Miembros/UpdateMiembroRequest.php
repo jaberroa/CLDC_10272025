@@ -40,8 +40,8 @@ class UpdateMiembroRequest extends FormRequest
             ],
             'telefono' => ['nullable', 'string', 'max:20'],
             'profesion' => ['nullable', 'string', 'max:255'],
-            'estado_membresia_id' => ['required', 'integer', 'exists:pgsql.estados_membresia,id'],
-            'tipo_membresia' => ['required', 'string', 'max:100'],
+            'estado_membresia_id' => ['required', 'exists:pgsql.estados_membresia,id'],
+            'tipo_membresia' => ['required', 'string', 'in:fundador,activo,pasivo,honorifico,estudiante,diaspora'],
             'organizacion_id' => ['required', 'exists:pgsql.organizaciones,id'],
             'fecha_ingreso' => ['required', 'date'],
             // 5MB = 5120 KB
@@ -60,11 +60,6 @@ class UpdateMiembroRequest extends FormRequest
             'email' => $this->email ? trim($this->email) : $this->email,
             'cedula' => $this->cedula ? trim($this->cedula) : $this->cedula,
         ]);
-
-        $estado = (string) ($this->input('estado_membresia_id'));
-        if (str_starts_with($estado, 'temp_')) {
-            $this->merge(['estado_membresia_id' => null]);
-        }
     }
 
     /**

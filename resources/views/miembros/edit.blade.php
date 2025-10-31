@@ -38,7 +38,6 @@
                     :miembro="$miembro"
                     :organizaciones="$organizaciones"
                     :estados-membresia="$estadosMembresia"
-                    :tipos-membresia="$tiposMembresia"
                     submit-label="Guardar Cambios"
                     submit-icon="ri-save-line"
                     submit-class="btn btn-primary"

@@ -1,7 +1,6 @@
 @props([
     'organizaciones' => [],
     'estadosMembresia' => [],
-    'tiposMembresia' => [],
     'miembro' => null,
     'method' => 'POST',
     'action' => null,
@@ -119,58 +118,31 @@
     <div class="row g-3 mb-4">
         <div class="col-md-6">
             <label for="estado_membresia_id" class="form-label">Estado de Membresía <span class="text-danger">*</span></label>
-            <div class="input-group">
-                <select class="form-select @error('estado_membresia_id') is-invalid @enderror" 
-                        id="estado_membresia_id" name="estado_membresia_id" required>
-                    <option value="">Seleccionar estado</option>
-                    @foreach($estadosMembresia as $estado)
-                        <option value="{{ $estado->id }}" {{ old('estado_membresia_id', $miembro->estado_membresia_id ?? '') == $estado->id ? 'selected' : '' }}>
-                            {{ $estado->nombre }}
-                        </option>
-                    @endforeach
-                </select>
-                <button class="btn btn-outline-primary" type="button" id="btnAddEstadoMembresia" title="Agregar Estado">
-                    <i class="ri-add-line"></i>
-                </button>
-                <button class="btn btn-outline-danger" type="button" id="btnDeleteEstadoMembresia" title="Eliminar Estado">
-                    <i class="ri-delete-bin-line"></i>
-                </button>
-            </div>
+            <select class="form-select @error('estado_membresia_id') is-invalid @enderror" 
+                    id="estado_membresia_id" name="estado_membresia_id" required>
+                <option value="">Seleccionar estado</option>
+                @foreach($estadosMembresia as $estado)
+                    <option value="{{ $estado->id }}" {{ old('estado_membresia_id', $miembro->estado_membresia_id ?? '') == $estado->id ? 'selected' : '' }}>
+                        {{ $estado->nombre }}
+                    </option>
+                @endforeach
+            </select>
             @error('estado_membresia_id')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
         <div class="col-md-6">
             <label for="tipo_membresia" class="form-label">Tipo de Membresía <span class="text-danger">*</span></label>
-            <div class="input-group">
-                <select class="form-select @error('tipo_membresia') is-invalid @enderror" 
-                        id="tipo_membresia" name="tipo_membresia" required>
-                    <option value="">Seleccionar tipo</option>
-                    @php
-                        $tipoActual = old('tipo_membresia', $miembro->tipo_membresia ?? '');
-                        $tiposLista = isset($tiposMembresia) ? $tiposMembresia->map(fn($t)=>[$t->slug,$t->nombre])->toArray() : [];
-                        $tiposDefault = [
-                            ['fundador','Fundador'],['activo','Activo'],['pasivo','Pasivo'],['honorifico','Honorífico'],['estudiante','Estudiante'],['diaspora','Diáspora']
-                        ];
-                        // Fusionar por slug evitando duplicados
-                        $slugs = [];
-                        $tipos = [];
-                        foreach (array_merge($tiposLista, $tiposDefault) as $pair) {
-                            [$slug,$nombre] = $pair;
-                            if (!in_array($slug, $slugs)) { $slugs[]=$slug; $tipos[]=['slug'=>$slug,'nombre'=>$nombre]; }
-                        }
-                    @endphp
-                    @foreach($tipos as $t)
-                        <option value="{{ $t['slug'] }}" {{ $tipoActual === $t['slug'] ? 'selected' : '' }}>{{ $t['nombre'] }}</option>
-                    @endforeach
-                </select>
-                <button class="btn btn-outline-primary" type="button" id="btnAddTipoMembresia" title="Agregar Tipo">
-                    <i class="ri-add-line"></i>
-                </button>
-                <button class="btn btn-outline-danger" type="button" id="btnDeleteTipoMembresia" title="Eliminar Tipo">
-                    <i class="ri-delete-bin-line"></i>
-                </button>
-            </div>
+            <select class="form-select @error('tipo_membresia') is-invalid @enderror" 
+                    id="tipo_membresia" name="tipo_membresia" required>
+                <option value="">Seleccionar tipo</option>
+                <option value="fundador" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'fundador' ? 'selected' : '' }}>Fundador</option>
+                <option value="activo" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'activo' ? 'selected' : '' }}>Activo</option>
+                <option value="pasivo" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'pasivo' ? 'selected' : '' }}>Pasivo</option>
+                <option value="honorifico" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'honorifico' ? 'selected' : '' }}>Honorífico</option>
+                <option value="estudiante" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'estudiante' ? 'selected' : '' }}>Estudiante</option>
+                <option value="diaspora" {{ old('tipo_membresia', $miembro->tipo_membresia ?? '') == 'diaspora' ? 'selected' : '' }}>Diáspora</option>
+            </select>
             @error('tipo_membresia')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -257,123 +229,3 @@
         </div>
     </div>
 </form>
-
-<!-- Modal: Eliminar Estado (Admin) -->
-<div class="modal fade" id="modalEliminarEstado" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger-subtle">
-                <h5 class="modal-title"><i class="ri-delete-bin-line me-2"></i>Eliminar Estado de Membresía</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p class="text-muted">Para eliminar el estado seleccione el estado y escriba su nombre exactamente como aparece.</p>
-                <div class="mb-3">
-                    <label class="form-label">Estado</label>
-                    <select class="form-select" id="estado_a_eliminar"></select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Confirme el nombre del estado</label>
-                    <input type="text" class="form-control" id="confirm_nombre_estado" placeholder="Escriba el nombre exacto">
-                    <div class="form-text text-muted">
-                        Para eliminar este estado escriba exactamente: "<span id="estado_confirm_hint">Seleccione un estado</span>"
-                    </div>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="force_delete_estado">
-                    <label class="form-check-label" for="force_delete_estado">
-                        Forzar (poner en null el estado de los miembros afectados)
-                    </label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="btnConfirmEliminarEstado">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal: Eliminar Tipo (Admin) -->
-<div class="modal fade" id="modalEliminarTipo" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger-subtle">
-                <h5 class="modal-title"><i class="ri-delete-bin-line me-2"></i>Eliminar Tipo de Membresía</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p class="text-muted">Para eliminar el tipo seleccione el tipo y escriba su nombre exactamente como aparece.</p>
-                <div class="mb-3">
-                    <label class="form-label">Tipo</label>
-                    <select class="form-select" id="tipo_a_eliminar"></select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Confirme el nombre del tipo</label>
-                    <input type="text" class="form-control" id="confirm_nombre_tipo" placeholder="Escriba el nombre exacto">
-                    <div class="form-text text-muted">
-                        Para eliminar este tipo escriba exactamente: "<span id="tipo_confirm_hint">Seleccione un tipo</span>"
-                    </div>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="force_delete_tipo">
-                    <label class="form-check-label" for="force_delete_tipo">
-                        Forzar (poner en null el tipo de los miembros afectados)
-                    </label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="confirm_delete_tipo">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal: Nuevo Estado de Membresía -->
-<div class="modal fade" id="modalNuevoEstado" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary-subtle">
-                <h5 class="modal-title"><i class="ri-add-line me-2"></i>Nuevo Estado de Membresía</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="estado_nombre" placeholder="Ej: activa" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Descripción (opcional)</label>
-                    <textarea class="form-control" id="estado_descripcion" rows="2" placeholder="Descripción..."></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnGuardarEstado">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal: Nuevo Tipo de Membresía (solo UI) -->
-<div class="modal fade" id="modalNuevoTipoMembresia" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary-subtle">
-                <h5 class="modal-title"><i class="ri-add-line me-2"></i>Nuevo Tipo de Membresía</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="tipo_nombre" placeholder="Ej: vitalicio" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnGuardarTipo">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
